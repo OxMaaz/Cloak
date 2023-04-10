@@ -5,12 +5,12 @@ import Footer from './Footer'
 
 const Container = () => {
   return (
-    <div>
-    <Header/>
-    <Description/>
-    <Footer/>
-      
-    </div>
+    <>
+      <Header />
+      <Description />
+      <Footer />
+
+    </>
   )
 }
 

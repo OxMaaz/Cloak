@@ -1,6 +1,10 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
+import Description from './Description';
 
 const Header = () => {
+
+  const navigate = useNavigate();
   return (
     <div >
 
@@ -8,14 +12,14 @@ const Header = () => {
       <>
 
         {/* logo on the left side */}
-        <img src='' alt="logo" />
+        <h1>Cloak</h1>
         {/* "how it works" on the right side*/}
-        <h2>How it works</h2>
+        <h4 onClick={() => navigate(<Description />)}>How it works?</h4>
 
       </>
-      
+
       {/* at the bottom of the logo */}
-      <button>Launch app</button>
+      <button onClick={() => navigate('/cloak')}>Launch app</button>
 
 
     </div>

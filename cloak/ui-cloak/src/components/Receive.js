@@ -5,6 +5,8 @@ import { CloakContext } from './Cloak';
 import keccak256 from 'keccak256';
 import EllipticCurve from 'elliptic';
 import { AiOutlineCopy } from "react-icons/ai";
+import { GiKangaroo } from "react-icons/gi";
+import { AiOutlineArrowsAlt } from "react-icons/ai";
 // import tronWeb from 'tronweb';
 const ec = new EllipticCurve.ec('secp256k1');
 
@@ -17,10 +19,14 @@ const Receive = () => {
   const [rootspendingkey, setrootspendingkey] = useState('')
   // const [spendingkey, setSpendingkey] = useState('')
   const [privatekey, setprivatekey] = useState('')
+  const [matching, setmatchingkey] = useState(false)
+  const [hide, sethide] = useState(true)
 
 
   const generaterootspendingkey = () => {
-    
+
+    setmatchingkey(true)
+
     var Spendingkey;
     if (rootspendingkey === null) {
       const mystoredspendingkey = localStorage.getItem('myKey');
@@ -53,9 +59,9 @@ const Receive = () => {
 
 
 
-
     })
 
+    setmatchingkey(false)
   }
 
   const copykey = () => {
@@ -71,7 +77,13 @@ const Receive = () => {
         placeholder='Root spending key'
       />
 
-      <button onClick={generaterootspendingkey}>Generate</button>
+      <AiOutlineArrowsAlt onClick={sethide(!hide)} />
+      <p>Match Key</p>
+      <GiKangaroo onClick={generaterootspendingkey} color='red' />
+
+      {matching === true && <p>Running</p>}
+
+      <p>CopyPrivateKey</p>
 
       <AiOutlineCopy onClick={copykey} />
 
