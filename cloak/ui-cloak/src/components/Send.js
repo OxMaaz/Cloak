@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Tokens } from '../helpers/Token'
 // import base58 from 'bs58';
 import { useState } from 'react'
@@ -6,11 +6,6 @@ import { base58, keccak256 } from 'ethers/lib/utils.js';
 import EllipticCurve from 'elliptic';
 import { useContext } from 'react'
 import { CloakContext } from './Cloak';
-
-
-
-
-
 const ec = new EllipticCurve.ec('secp256k1');
 
 // z from eph key
@@ -27,7 +22,15 @@ const Send = () => {
     const [zkey, setzkey] = useState('')
     const [secret, setsecret] = useState('')
     const [error, seterror] = useState('')
-    const [amount, setamount] = useState('0.1')
+    const [amount, setamount] = useState('')
+    
+
+    useEffect(() => {
+        if (StealthmetaAddress.startsWith('#tronCloak-')) {
+            StealthmetaAddress.replace('#tronCloak-', '')
+        }
+
+    }, [StealthmetaAddress])
 
 
 
@@ -103,6 +106,7 @@ const Send = () => {
     return (
         <>
 
+            {/* tokens */}
             <select onChange={(e) => settoken(e.target.value)} >
                 {Tokens.map((t) =>
                     <option value={t.name}>
@@ -111,17 +115,20 @@ const Send = () => {
                     </option>
                 )}
             </select>
-            {console.log('token-address',token,'meta', StealthmetaAddress,'amount' ,amount, 'zkey', zkey)}
+            {console.log('token-address', token, 'meta', StealthmetaAddress, 'amount', amount, 'zkey', zkey ,"registry",data.registry)}
 
+
+            {/* Recepent address */}
             <input style={{ border: '1px solid red' }} type='text' onChange={(e) => setStealthmetaAddress(e.target.value)} placeholder='Receipent address' />
+            {/* Amount       */}
             <input style={{ border: '1px solid red' }} value={amount} type='text' onChange={(e) => setamount(e.target.value)} />
-
+            {/* send button */}
             <button style={{ border: '4px solid red' }} onClick={token === 'TRON' ? sendTrx : sendTrc20}>Send</button>
+            <p>{error}</p>
             {token === 'TRON' ? console.log('tron') : console.log('other')}
 
 
-            {/* //consoling all errors and success */}
-            {/* <p>{error}</p> */}
+
 
 
 

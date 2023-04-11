@@ -5,7 +5,7 @@ import { useState, useEffect, useContext } from 'react'
 import EllipticCurve from 'elliptic';
 import { AiOutlineCopy } from "react-icons/ai";
 import { CloakContext } from './Cloak';
-import { Tokens } from "../helpers/Token";
+// import { Tokens } from "../helpers/Token";
 const ec = new EllipticCurve.ec('secp256k1');
 
 
@@ -17,12 +17,10 @@ const Stealth = () => {
 
     const [stealthmeta, setstealthmeta] = useState('')
     const [storedspendingkey, setstoredspendingkey] = useState('')
-    // const [showaddress, setshowaddress] = useState(false)
+
 
 
     const generatestealthmetaaddress = () => {
-
-        // setshowaddress(true)
 
         try {
 
@@ -42,9 +40,9 @@ const Stealth = () => {
             const addr = new Uint8Array(data.length + 2);
             addr.set(data);
             addr.set(crc, data.length);
-            const StealthstealthmetaAddress = 'T' + base58.encode(addr)
-            console.log(StealthstealthmetaAddress)
-            setstealthmeta(StealthstealthmetaAddress)
+            const M = 'T' + base58.encode(addr)
+            setstealthmeta(M)
+            localStorage.setItem('meta', stealthmeta)
 
         }
 
@@ -77,7 +75,7 @@ const Stealth = () => {
 
         generatestealthmetaaddress()
 
-    },[])
+    }, [])
 
 
 
@@ -87,16 +85,17 @@ const Stealth = () => {
 
             <h1>Cloak Address</h1>
 
-            {/* {Tokens.map((t) => <img src={t.symbol} alt="" height={20} width={20} />)} */}
 
             <div>
-                <h3>{`#tronCloak-${stealthmeta}`}</h3>
+                <h3>{`#tronCloak-${localStorage.getItem('meta')}`}</h3>
+                {/* copy key */}
                 <AiOutlineCopy size={40} onClick={oncopy} color="red" />
-                <button style={{border: '4px solid red'}} onClick={generatestealthmetaaddress}>Generate</button>
+                {/* genetaemetakey */}
+                <button style={{ border: '4px solid red' }} onClick={generatestealthmetaaddress}>Generate</button>
             </div>
 
-            <p>Share this address instead of your wallet address to sender</p>
-            {/* <p>{data.error}</p> */}
+            <p>Share this Cloak address to get funds</p>
+
 
 
         </div>

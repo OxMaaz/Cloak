@@ -15,8 +15,8 @@ const Connect = () => {
 
             {/* rigt side */}
 
-            <p>Balance</p>
-            <p>Address</p>
+            <p>0.17</p>
+            <p>TAMm9ctKzbKtRtBe12trkZhd1iC3EfpY8G</p>
 
 
             <button  style={{border: '1px solid red'}} >Connect Wallet</button>

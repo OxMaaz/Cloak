@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useContext } from 'react'
 import { CloakContext } from './Cloak';
-import keccak256 from 'keccak256';
+import { keccak256 } from 'ethers/lib/utils.js';
 import EllipticCurve from 'elliptic';
 import { AiOutlineCopy } from "react-icons/ai";
 // import tronWeb from 'tronweb';
@@ -17,15 +17,14 @@ const Receive = () => {
 
   const { registry } = useContext(CloakContext);
   const [rootspendingkey, setrootspendingkey] = useState('')
-  // const [spendingkey, setSpendingkey] = useState('')
   const [privatekey, setprivatekey] = useState('')
   const [hide, sethide] = useState(true)
   const [matching, setmatchingkey] = useState(false)
-
   const [err, seterr] = useState(false)
 
 
   const generaterootspendingkey = () => {
+
     setmatchingkey(true)
 
     var Spendingkey;
@@ -53,6 +52,7 @@ const Receive = () => {
         const pk = _key.mod(ec.curve.n);
         console.log('Private key to open wallet', pk.toString(16, 32))
         setprivatekey(privatekey.toString(16, 32))
+        registry.splice(z,1)
         return true
 
       }
@@ -85,11 +85,14 @@ const Receive = () => {
           type='text'
           value={rootspendingkey}
           onChange={(e) => { setrootspendingkey(e.target.value) }}
-          placeholder='Root spending key'
+          placeholder='Rootkey (optional)'
         />
       }
 
+      {/* expand icon (toggle of input button) */}
       <AiOutlineArrowsAlt size={30} onClick={() => sethide(!hide)} />
+
+
       <p>Match Key</p>
       <GiKangaroo size={40} onClick={generaterootspendingkey} color='red' />
 

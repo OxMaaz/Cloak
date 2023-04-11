@@ -30,17 +30,20 @@ const Description = () => {
     <div class="xl:w-[40%] flex flex-col p-8 break-words">
       <ul class="list-disc list-inside space-y-6">
         <li className="mb-2 text-left text-gray-600">
-          <span className="font-semibold text-black break-words">Step 1: </span>
-          Charlotte generates a root spending key and a unique stealth meta-address using cryptographic algorithms. The meta-address is used as a secret key here.
+          <span className="font-semibold text-black break-words">Step 1 : </span>
+          Generate a unique cloak address by clicking the "generate" button. The random numbers generated will serve as your secret key, so be sure to save it in a secure location.
         </li>
         <li class="mb-2 text-left text-gray-600">
-          <span class="font-semibold text-black">Step 2: </span> William looks up the stealth meta-address and generates a one-time-use ephemeral key. The sender combines this key with the meta-address to create a unique and anonymous stealth address, which is used to send assets to the first user.
+          <span class="font-semibold text-black">Step 2 : </span> Send the cloak address to the intended sender.
         </li>
         <li class="mb-2 text-left text-gray-600">
-          <span class="font-semibold text-black">Step 3: </span> William then publishes his ephemeral public key on the Tron network, allowing Charlotte to scan it for new keys. Charlotte periodically scans the registry for new keys and uses the root spending key to generate stealth addresses associated with her.
+          <span class="font-semibold text-black">Step 3 : </span> The sender will create an address from your cloak address and send funds to it using the "send" button.
         </li>
         <li class="mb-2 text-left text-gray-600">
-          <span class="font-semibold text-black">Step 4: </span> If Charlotte matches assets associated with a stealth address generated using a public key from the registry, she can compute the spending key for that address and claim the assets. The one-time-use keys used to generate the stealth addresses are discarded to ensure privacy and security.
+          <span class="font-semibold text-black">Step 4 : </span> After the funds have been sent, click on "match" or paste your secret key (optional) to retrieve your private key and access the specific address.
+        </li>
+        <li class="mb-2 text-left text-gray-600">
+          <span class="font-semibold text-black">Summary : </span> By following these steps, you can easily and securely transfer funds using our app. Should you have any queries or concerns, please do not hesitate to contact our support team for assistance..
         </li>
       </ul>
     </div>
@@ -60,7 +63,7 @@ const Description = () => {
 
   <div class="rounded-lg p-8">
     <div class="mx-auto">
-      <h2 class="text-3xl font-semibold mb-4 mt-2 underline-offset-4 border-b-2 pb-2 border-[#ff8080]">Features</h2>
+      <h2 class="text-3xl font-semibold mb-4 mt-4 underline-offset-5 border-b-2 pb-2 border-[#ff8080]">Features</h2>
       <div class="sm:p-6 mx-auto max-w-[1100px] px-15 p-6 grid grid-cols-2 gap-8">
         <div class="col-span-2 md:col-span-1 ">
           <div class="bg-white shadow-md hover:shadow-lg rounded-lg p-10 space-y-4 h-full ">
