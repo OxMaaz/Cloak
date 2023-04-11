@@ -1,20 +1,15 @@
-import React from 'react'
+import React from 'react';
+import { FaDiscord, FaGithub, FaEnvelope } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-
-    // horizontally
-    <div>
-
-      <ul>
-        <li>Discord</li>
-        <li>Github Repo</li>
-        <li>Contract Address</li>
-        <li>Contact Us</li>
-      </ul>
-
-
-    </div>
+  <div class="p-4">
+    <ul class="flex justify-center space-x-4">
+      <li class="p-2"><a href="/"><FaDiscord className='text-[#5751ff]' /></a></li>
+      <li class="p-2"><a href="/"><FaGithub /></a></li>
+      <li class="p-2"><a href="/"><FaEnvelope className='text-[#fd2e4a]' /></a></li>
+    </ul>
+  </div>
   )
 }
 
