@@ -6,7 +6,7 @@ import keccak256 from 'keccak256';
 import EllipticCurve from 'elliptic';
 import { useContext } from 'react'
 import { CloakContext } from './Cloak';
-import {Buffer}  from 'buffer';
+import { Buffer } from 'buffer';
 
 
 const ec = new EllipticCurve.ec('secp256k1');
@@ -22,7 +22,8 @@ const Send = () => {
     const [token, settoken] = useState('')
     const [StealthmetaAddress, setStealthmetaAddress] = useState('')
     const [receipent, setreceipent] = useState('')
-    // const [ephPublic, setephPublic] = useState('')
+    const [zkey, setzkey] = useState('')
+    // const [tokenaddress,settokenaddress] = useState('')
     // const [ephKey, setephKey] = useState('')
     // const [meta, setmeta] = useState('')
     // const [hashed, sethashed] = useState('')
@@ -73,10 +74,10 @@ const Send = () => {
         var meta;
         // var ephKey;
         var ephPublic;
- 
 
 
-        const  ephKey = ec.genKeyPair();
+
+        const ephKey = ec.genKeyPair();
         ephPublic = ephKey.getPublic();
 
         try {
@@ -121,57 +122,59 @@ const Send = () => {
         catch (e) {
             console.log('error', e)
         }
-  
-
-    const x = ephPublic.getX().toString(16, 64)
-    const y = ephPublic.getY().toString(16, 64)
-    const z = `0x${secret}04${x}${y}`
-
-    data.setRegistry([...data.registry, z])
 
 
+        const x = ephPublic.getX().toString(16, 64)
+        const y = ephPublic.getY().toString(16, 64)
+        const z = `0x${secret}04${x}${y}`
+        setzkey(z)
 
-}
-// const sendTrx = () => {
-//     initializer()
-
-// }
-// const sendTrc20 = () => {
-//     initializer()
-
-// }
-
-
-// const savetron = (t) => {
-//     settoken(t.address)
-//   console.log(token)
-// }
-return (
-    <>
-
-        <select onChange={(e) => settoken(e.target.value)} >
-            {Tokens.map((t) =>
-                <option value={t.address}>
-                    <p >{t.name}</p>
-                    <img src={t.symbol} alt="" height={10} width={10} />
-                </option>
-            )}
-        </select>
-        {console.log(token, StealthmetaAddress, amount)}
-
-        <input type='text' onChange={(e) => setStealthmetaAddress(e.target.value)} placeholder='Receipent address' />
-        <input value={amount} type='text' onChange={(e) => setamount(e.target.value)} />
-
-        <button onClick={initializer}>Send</button>
-
-
-        {/* //comsoling all errors and success */}
-        <p>{error}</p>
+        data.setRegistry([...data.registry, zkey])
 
 
 
-    </>
-)
+    }
+    const sendTrx = () => {
+        initializer()
+
+    }
+    const sendTrc20 = () => {
+        initializer()
+
+    }
+
+
+    // const savetron = (t) => {
+    //     settoken(t.address)
+    //   console.log(token)
+    // }
+    return (
+        <>
+
+            <select onChange={(e) => settoken(e.target.value)} >
+                {Tokens.map((t) =>
+                    <option value={t.name}>
+                        <p >{t.name}</p>
+                        <img src={t.symbol} alt="" height={10} width={10} />
+                    </option>
+                )}
+            </select>
+            {console.log(token, StealthmetaAddress, amount)}
+
+            <input  style={{border: '1px solid red'}}  type='text' onChange={(e) => setStealthmetaAddress(e.target.value)} placeholder='Receipent address' />
+            <input  style={{border: '1px solid red'}} value={amount} type='text' onChange={(e) => setamount(e.target.value)} />
+
+            <button style={{border: '4px solid red'}} onClick={token === 'TRON' ? sendTrx : sendTrc20}>Send</button>
+            {token === 'TRON' ? console.log('tron') : console.log('other')}
+
+
+            {/* //consoling all errors and success */}
+            {/* <p>{error}</p> */}
+
+
+
+        </>
+    )
 }
 
 export default Send

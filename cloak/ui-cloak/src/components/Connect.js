@@ -1,10 +1,10 @@
 import React from 'react'
-import { useContext } from 'react'
-import { CloakContext } from './Cloak';
+// import { useContext } from 'react'
+// import { CloakContext } from './Cloak';
 
 const Connect = () => {
 
-    const { } = useContext(CloakContext);
+    // const { } = useContext(CloakContext);
     return (
         <div>
 
@@ -19,7 +19,7 @@ const Connect = () => {
             <p>Address</p>
 
 
-            <button>Connect</button>
+            <button>Connect Wallet</button>
         </div>
     )
 }

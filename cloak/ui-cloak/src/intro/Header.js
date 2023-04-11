@@ -19,7 +19,7 @@ const Header = () => {
       </>
 
       {/* at the bottom of the logo */}
-      <button onClick={() => navigate('/cloak')}>Launch app</button>
+      <button style={{border: '4px solid red'}} onClick={() => navigate('/cloak')}>Launch app</button>
 
 
     </div>

@@ -5,9 +5,9 @@ import { CloakContext } from './Cloak';
 import keccak256 from 'keccak256';
 import EllipticCurve from 'elliptic';
 import { AiOutlineCopy } from "react-icons/ai";
+// import tronWeb from 'tronweb';
 import { GiKangaroo } from "react-icons/gi";
 import { AiOutlineArrowsAlt } from "react-icons/ai";
-// import tronWeb from 'tronweb';
 const ec = new EllipticCurve.ec('secp256k1');
 
 
@@ -19,12 +19,13 @@ const Receive = () => {
   const [rootspendingkey, setrootspendingkey] = useState('')
   // const [spendingkey, setSpendingkey] = useState('')
   const [privatekey, setprivatekey] = useState('')
-  const [matching, setmatchingkey] = useState(false)
   const [hide, sethide] = useState(true)
+  const [matching, setmatchingkey] = useState(false)
+
+  const [err, seterr] = useState(false)
 
 
   const generaterootspendingkey = () => {
-
     setmatchingkey(true)
 
     var Spendingkey;
@@ -52,6 +53,7 @@ const Receive = () => {
         const pk = _key.mod(ec.curve.n);
         console.log('Private key to open wallet', pk.toString(16, 32))
         setprivatekey(privatekey.toString(16, 32))
+        return true
 
       }
 
@@ -59,9 +61,15 @@ const Receive = () => {
 
 
 
+
     })
 
     setmatchingkey(false)
+    seterr('Sorry not matched')
+    return false
+   
+
+
   }
 
   const copykey = () => {
@@ -71,21 +79,30 @@ const Receive = () => {
   return (
     <>
 
-      <input type='text'
-        value={rootspendingkey}
-        onChange={(e) => { setrootspendingkey(e.target.value) }}
-        placeholder='Root spending key'
-      />
+      {hide !== true &&
 
-      <AiOutlineArrowsAlt onClick={sethide(!hide)} />
+        <input style={{border: '1px solid red'}}  type='text'
+          value={rootspendingkey}
+          onChange={(e) => { setrootspendingkey(e.target.value) }}
+          placeholder='Root spending key'
+        />
+      }
+      <AiOutlineArrowsAlt size={30} onClick={() => sethide(!hide)} />
       <p>Match Key</p>
-      <GiKangaroo onClick={generaterootspendingkey} color='red' />
+      <GiKangaroo size={40} onClick={generaterootspendingkey} color='red' />
 
-      {matching === true && <p>Running</p>}
+      {matching === true ? <p>Running</p> : false}
 
-      <p>CopyPrivateKey</p>
+      {generaterootspendingkey === true ?
+        <>
+          <p>CopyPrivateKey</p>
+          <AiOutlineCopy size={40} onClick={copykey} />
+        </> :
+        <p>{err}</p>
 
-      <AiOutlineCopy onClick={copykey} />
+      }
+
+
 
     </>
   )

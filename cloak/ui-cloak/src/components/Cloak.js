@@ -12,9 +12,6 @@ export const CloakContext = createContext(null)
 
 
 
-
-
-
 const Cloak = () => {
 
 

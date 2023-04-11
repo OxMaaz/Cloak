@@ -6,7 +6,7 @@ import sun from '../assets/sun.png'
 import usdt from '../assets/usdt.png'
 
 export const Tokens = [
-
+    { "name": "TRON", "address": 'txsxsjsssxbsxbsj', "symbol": null},
     { "name": "USDT", "address": 'txsxsjsssxbsxbsj', "symbol": wink },
     { "name": "BTT", "address": 'txsxsjsssxbsxbsj', "symbol": bttc },
     { "name": "WIN", "address": 'txsxsjsssxbsxbsj', "symbol": just },

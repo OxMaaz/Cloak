@@ -13,16 +13,16 @@ const ec = new EllipticCurve.ec('secp256k1');
 
 const Stealth = () => {
 
-    const { error, seterror } = useContext(CloakContext);
+    const data = useContext(CloakContext);
 
     const [stealthmeta, setstealthmeta] = useState('')
     const [storedspendingkey, setstoredspendingkey] = useState('')
-    const [showaddress, setshowaddress] = useState(false)
+    // const [showaddress, setshowaddress] = useState(false)
 
 
     const generatestealthmetaaddress = () => {
 
-        setshowaddress(true)
+        // setshowaddress(true)
 
         try {
 
@@ -50,7 +50,7 @@ const Stealth = () => {
 
         catch (e) {
             console.error(e)
-            // seterror(e)
+            data.seterror(e)
         }
 
     }
@@ -77,7 +77,7 @@ const Stealth = () => {
 
         generatestealthmetaaddress()
 
-    }, [])
+    },[])
 
 
 
@@ -87,16 +87,16 @@ const Stealth = () => {
 
             <h1>Cloak Address</h1>
 
-            {Tokens.map((t) => <img src={t.symbol} alt="" height={20} width={20} />)}
+            {/* {Tokens.map((t) => <img src={t.symbol} alt="" height={20} width={20} />)} */}
 
             <div>
-                <h3>{showaddress === true && `#tronCloak-${stealthmeta}`}</h3>
-                <AiOutlineCopy onClick={oncopy} color="red" />
-                <button onClick={generatestealthmetaaddress}>Generate</button>
+                <h3>{`#tronCloak-${stealthmeta}`}</h3>
+                <AiOutlineCopy size={40} onClick={oncopy} color="red" />
+                <button style={{border: '4px solid red'}} onClick={generatestealthmetaaddress}>Generate</button>
             </div>
 
             <p>Share this address instead of your wallet address to sender</p>
-            {/* <p>{error}</p> */}
+            {/* <p>{data.error}</p> */}
 
 
         </div>

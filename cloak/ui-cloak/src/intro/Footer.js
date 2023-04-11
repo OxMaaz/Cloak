@@ -2,6 +2,8 @@ import React from 'react'
 
 const Footer = () => {
   return (
+
+    // horizontally
     <div>
 
       <ul>
