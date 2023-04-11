@@ -19,7 +19,7 @@ const Connect = () => {
             <p>Address</p>
 
 
-            <button>Connect Wallet</button>
+            <button  style={{border: '1px solid red'}} >Connect Wallet</button>
         </div>
     )
 }

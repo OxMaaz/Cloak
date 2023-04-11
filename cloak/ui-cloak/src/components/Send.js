@@ -29,7 +29,6 @@ const Send = () => {
     // const [hashed, sethashed] = useState('')
     const [secret, setsecret] = useState('')
     const [error, seterror] = useState('')
-    const [tron, settron] = useState(true)
     const [amount, setamount] = useState('0.1')
 
 
@@ -161,10 +160,10 @@ const Send = () => {
             </select>
             {console.log(token, StealthmetaAddress, amount)}
 
-            <input  style={{border: '1px solid red'}}  type='text' onChange={(e) => setStealthmetaAddress(e.target.value)} placeholder='Receipent address' />
-            <input  style={{border: '1px solid red'}} value={amount} type='text' onChange={(e) => setamount(e.target.value)} />
+            <input style={{ border: '1px solid red' }} type='text' onChange={(e) => setStealthmetaAddress(e.target.value)} placeholder='Receipent address' />
+            <input style={{ border: '1px solid red' }} value={amount} type='text' onChange={(e) => setamount(e.target.value)} />
 
-            <button style={{border: '4px solid red'}} onClick={token === 'TRON' ? sendTrx : sendTrc20}>Send</button>
+            <button style={{ border: '4px solid red' }} onClick={token === 'TRON' ? sendTrx : sendTrc20}>Send</button>
             {token === 'TRON' ? console.log('tron') : console.log('other')}
 
 

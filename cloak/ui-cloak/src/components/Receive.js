@@ -48,7 +48,7 @@ const Receive = () => {
       RHashedsecret = ec.keyFromPrivate(keccak256(RSharedsecret.toArray()));
       _sharedSecret = 'T' + RSharedsecret.toArray()[0].toString(16).padStart(2, '0')
 
-      if (_sharedSecret.toString() === z.slice(2, 4).toString()) {
+      if (_sharedSecret.toString() === z.slice(0, 5).toString()) {
         const _key = Spendingkey.getPrivate().add(RHashedsecret.getPrivate());
         const pk = _key.mod(ec.curve.n);
         console.log('Private key to open wallet', pk.toString(16, 32))
@@ -67,7 +67,7 @@ const Receive = () => {
     setmatchingkey(false)
     seterr('Sorry not matched')
     return false
-   
+
 
 
   }
@@ -81,12 +81,14 @@ const Receive = () => {
 
       {hide !== true &&
 
-        <input style={{border: '1px solid red'}}  type='text'
+        <input style={{ border: '1px solid red' }}
+          type='text'
           value={rootspendingkey}
           onChange={(e) => { setrootspendingkey(e.target.value) }}
           placeholder='Root spending key'
         />
       }
+
       <AiOutlineArrowsAlt size={30} onClick={() => sethide(!hide)} />
       <p>Match Key</p>
       <GiKangaroo size={40} onClick={generaterootspendingkey} color='red' />
