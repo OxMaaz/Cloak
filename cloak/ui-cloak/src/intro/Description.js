@@ -50,9 +50,9 @@ const Description = () => {
 {/* Features */}
 
 <div class="rounded-lg p-8">
-  <div class="max-w-l mx-auto">
+  <div class="mx-auto">
     <h2 class="text-2xl font-semibold mb-4 underline-offset-4 border-b-2 pb-2 border-[#ff8080]">Features</h2>
-    <div class="sm:p-6 px-15 p-6 grid grid-cols-2 gap-8">
+    <div class="sm:p-6 mx-auto max-w-[1100px] px-15 p-6 grid grid-cols-2 gap-8">
       <div class="col-span-2 md:col-span-1">
         <div class="bg-white shadow-md hover:shadow-lg rounded-lg p-10 space-y-4 h-full">
           <div className='flex space-x-2 items-center justify-center'>
