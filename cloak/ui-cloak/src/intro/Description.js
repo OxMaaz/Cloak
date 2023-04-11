@@ -1,58 +1,70 @@
 import React from 'react'
-import { MdOutlinePrivacyTip, MdSecurity, MdAlarmOn, MdThumbUpOffAlt } from "react-icons/md";
 
 const Description = () => {
   return (
-    <div>
+    <div className='bg-[#FDF0EF] p-10 px-8'>
 
-      {/* Heading */}
-      <h2>How it works?</h2>
+      <div className='flex items-start flex-col px-4'>
+        {/* Heading */}
+        <h2 className='self-left font-semibold text-2xl text-black'>How it works?</h2>
 
+        {/* image */}
+        <div className='flex flex-col xl:items-center xl:flex-row-reverse xl:justify-between'>
+          <div className='md:mx-auto p-4 py-10'>
+            <img
+              className='w-[789px] rounded-[1rem] outline-none'
+              src={descriptionimage}
+              alt='' />
+          </div>
 
-      {/* paragraph */}
-      <p>
+          {/* paragraph */}
+          <div class="xl:w-[40%] flex flex-col p-8 break-words">
+            <ul class="list-disc list-inside space-y-6">
+              <li className="mb-2 text-left text-gray-600">
+                <span className="font-semibold text-black break-words">Step 1: </span>
+                Charlotte generates a root spending key and a unique stealth meta-address using cryptographic algorithms. The meta-address is used as a secret key here.
+              </li>
+              <li class="mb-2 text-left text-gray-600">
+                <span class="font-semibold text-black">Step 2: </span> William looks up the stealth meta-address and generates a one-time-use ephemeral key. The sender combines this key with the meta-address to create a unique and anonymous stealth address, which is used to send assets to the first user.
+              </li>
+              <li class="mb-2 text-left text-gray-600">
+                <span class="font-semibold text-black">Step 3: </span> William then publishes his ephemeral public key on the Tron network, allowing Charlotte to scan it for new keys. Charlotte periodically scans the registry for new keys and uses the root spending key to generate stealth addresses associated with her.
+              </li>
+              <li class="mb-2 text-left text-gray-600">
+                <span class="font-semibold text-black">Step 4: </span> If Charlotte matches assets associated with a stealth address generated using a public key from the registry, she can compute the spending key for that address and claim the assets. The one-time-use keys used to generate the stealth addresses are discarded to ensure privacy and security.
+              </li>
+            </ul>
+          </div>
 
+          1.Charlotte generates a root spending key and a unique stealth meta-address using cryptographic algorithms. The meta-address is used as a secret key here.
 
-        Cloak is a project that aims to bring privacy and security to transactions on the Tron blockchain. The project leverages the concept of secret or fresh addresses to make transactions anonymous and untraceable, protecting users' financial information from prying eyes.
-        Cloak allow users to create a one-time-use address that can be used to receive payments without revealing their actual address. This means that transactions can be made without revealing the identity of the sender or recipient, providing a high level of privacy and security.
-        Cloak is a decentralized application that utilizes smart contracts to automate the creation of virtual private addresses and the handling of private transactions on the Tron blockchain. The application is designed to be user-friendly and accessible, making it easy for anyone to use and enjoy the benefits of private transactions.
-        Cloak is an innovative solution that addresses the growing need for privacy and security in the world of blockchain and cryptocurrency. By providing a secure and anonymous way to transact on the Tron blockchain, Cloak is helping to build a more secure and trustworthy digital economy
+          2.William looks up the stealth meta-address and generates a one-time-use ephemeral key. The sender combines this key with the meta-address to create a unique and anonymous stealth address, which is used to send assets to the first user.
 
-        1.Charlotte generates a root spending key and a unique stealth meta-address using cryptographic algorithms. The meta-address is used as a secret key here.
+          3.William then publishes his ephemeral public key on the Tron network, allowing Charlotte to scan it for new keys. Charlotte periodically scans the registry for new keys and uses the root spending key to generate stealth addresses associated with her.
 
-        2.William looks up the stealth meta-address and generates a one-time-use ephemeral key. The sender combines this key with the meta-address to create a unique and anonymous stealth address, which is used to send assets to the first user.
+          4.If Charlotte matches assets associated with a stealth address generated using a public key from the registry, she can compute the spending key for that address and claim the assets. The one-time-use keys used to generate the stealth addresses are discarded to ensure privacy and security.
 
-        3.William then publishes his ephemeral public key on the Tron network, allowing Charlotte to scan it for new keys. Charlotte periodically scans the registry for new keys and uses the root spending key to generate stealth addresses associated with her.
-
-        4.If Charlotte matches assets associated with a stealth address generated using a public key from the registry, she can compute the spending key for that address and claim the assets. The one-time-use keys used to generate the stealth addresses are discarded to ensure privacy and security.
-
-        In summary, Cloak uses cryptographic algorithms and one-time-use keys to create anonymous and secure public addresses for transactions on the blockchain. These addresses can also be associated with domain names through Name Services and can be generated and claimed using ephemeral keys and public key registries.
-
-      </p>
-
-      {/* image */}
-      <img src='' alt='' />
-
-
-      {/* properties */}
-      <MdOutlinePrivacyTip />
-      <h2>Privacy</h2>
-      <p>Stealth addresses allow the receiver of a transaction to generate a unique, one-time address for each transaction, which is not linked to their permanent public address on the blockchain. This helps to protect their privacy and prevent their transactions from being traced.</p>
-      <MdSecurity />
-      <h2>Security</h2>
-      <p> Stealth addresses provide an extra layer of security by making it difficult for anyone other than the intended recipient to know the destination of the transaction. This is because the stealth address is derived from a secret key known only to the recipient, making it effectively "hidden" from anyone else.</p>
-      <MdAlarmOn />
-      <h2>Uniqueness</h2>
-      <p>Each stealth address generated by a recipient is unique to a particular transaction, making it difficult for anyone to link multiple transactions together or perform analysis on them.</p>
-      <MdThumbUpOffAlt />
-      <h2>Compatibility</h2>
-      <p>Stealth addresses are compatible with many different cryptocurrencies and blockchains, including Bitcoin, Ethereum, and Tron. This makes them a versatile solution for anyone looking to protect their privacy and security when sending and receiving cryptocurrency transactions.</p>
-
-
-    </div>
+          In summary, Cloak uses cryptographic algorithms and one-time-use keys to create anonymous and secure public addresses for transactions on the blockchain. These addresses can also be associated with domain names through Name Services and can be generated and claimed using ephemeral keys and public key registries.
+          {/* </h3> */}
+        </div>
 
 
-  )
+        {/* properties */}
+        <h2>Privacy</h2>
+        <p>Stealth addresses allow the receiver of a transaction to generate a unique, one-time address for each transaction, which is not linked to their permanent public address on the blockchain. This helps to protect their privacy and prevent their transactions from being traced.</p>
+        <h2>Security</h2>
+        <p> Stealth addresses provide an extra layer of security by making it difficult for anyone other than the intended recipient to know the destination of the transaction. This is because the stealth address is derived from a secret key known only to the recipient, making it effectively "hidden" from anyone else.</p>
+        <h2>Uniqueness</h2>
+        <p>Each stealth address generated by a recipient is unique to a particular transaction, making it difficult for anyone to link multiple transactions together or perform analysis on them.</p>
+        <h2>Compatibility</h2>
+        <p>Stealth addresses are compatible with many different cryptocurrencies and blockchains, including Bitcoin, Ethereum, and Tron. This makes them a versatile solution for anyone looking to protect their privacy and security when sending and receiving cryptocurrency transactions.</p>
+
+
+      </div>
+      </div>
+
+
+      )
 }
 
 export default Description
