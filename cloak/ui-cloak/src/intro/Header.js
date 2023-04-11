@@ -22,8 +22,8 @@ const Header = () => {
       </div>
         {/* at the bottom of the logo */}
         <div className='sm:p-16 p-10 flex flex-col items-start space-y-4'>
-          <h2 className='font-bold sm:text-[1.5rem] text-[1.2rem] text-[#FDF0EF]'>Experience the Revolution.</h2>
-          <p className='text-[#FDF0EF] text-left break-words  max-w-[400px]'>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+          <h2 className='font-bold sm:text-[1.5rem] text-[1.2rem] text-[#FDF0EF]'>Stay Anonymous.</h2>
+          <p className='text-[#FDF0EF] text-left break-words  max-w-[400px]'>Share crypto without revealing your actual address.</p>
           <div className='pt-1'>
             <button className='border-1 p-1 hover:text-white hover:bg-[#FF5757] hover:shadow-xl px-4 rounded-full bg-[#FDF0EF] text-[#FF5757] font-semibold hover:border-white border-red-500 border' onClick={() => navigate('/cloak')}>Launch app</button>
           </div>

@@ -1,12 +1,14 @@
 import React from 'react'
 import { Tokens } from '../helpers/Token'
-import base58 from 'bs58';
+// import base58 from 'bs58';
 import { useState } from 'react'
-import keccak256 from 'keccak256';
+import { base58, keccak256 } from 'ethers/lib/utils.js';
 import EllipticCurve from 'elliptic';
 import { useContext } from 'react'
 import { CloakContext } from './Cloak';
-import { Buffer } from 'buffer';
+
+
+
 
 
 const ec = new EllipticCurve.ec('secp256k1');
@@ -21,57 +23,17 @@ const Send = () => {
     const data = useContext(CloakContext);
     const [token, settoken] = useState('')
     const [StealthmetaAddress, setStealthmetaAddress] = useState('')
-    const [receipent, setreceipent] = useState('')
+    // const [receipent, setreceipent] = useState('')
     const [zkey, setzkey] = useState('')
-    // const [tokenaddress,settokenaddress] = useState('')
-    // const [ephKey, setephKey] = useState('')
-    // const [meta, setmeta] = useState('')
-    // const [hashed, sethashed] = useState('')
     const [secret, setsecret] = useState('')
     const [error, seterror] = useState('')
     const [amount, setamount] = useState('0.1')
 
 
-    // const generateEph = () => {
-    //     const ephKey = ec.genKeyPair();
-    //     ephPublic = ephKey.getPublic();
-    //     // setephPublic(ephpublic)
-
-    // }
-
-    // const validateMetaAddress = () => {
-
-    //     try {
-    //         if (StealthmetaAddress.startsWith('T')) {
-    //             const _StealthmetaAddress = StealthmetaAddress.slice(1)
-    //             let decodedID = base58.decode(_StealthmetaAddress);
-    //             const meta = decodedID.subarray(0, 33);
-    //             const metaAddress = ec.keyFromPublic(meta, 'hex');
-    //             setmeta(metaAddress)
-
-    //         }
-    //         else {
-    //             seterror('Plz paste the valid address')
-    //         }
-    //     }
-
-    //     catch (e) {
-    //         seterror(e.message)
-    //     }
-    // }
-
-    // const generateSharedSecret = () => {
-    //     const sharedsecret = ephKey.derive(meta.getPublic());
-    //     const hashedsecret = ec.keyFromPrivate(keccak256(sharedsecret.toArray()));
-    //     const ss = 'T' + sharedsecret.toArray()[0].toString(16).padStart(2, '0')
-    //     sethashed(hashedsecret)
-    //     setsecret(ss)
-    // }
 
     function initializer() {
 
         var meta;
-        // var ephKey;
         var ephPublic;
 
 
@@ -85,7 +47,6 @@ const Send = () => {
                 let decodedID = base58.decode(_StealthmetaAddress);
                 const metaAddress = decodedID.subarray(0, 33);
                 meta = ec.keyFromPublic(metaAddress, 'hex');
-                // setmeta(metaAddress)
                 console.log(meta)
 
             }
@@ -99,22 +60,18 @@ const Send = () => {
         }
         try {
             const sharedsecret = ephKey.derive(meta.getPublic());
-            console.log(sharedsecret)
             const hashed = ec.keyFromPrivate(keccak256(sharedsecret.toArray()));
+            console.log('hashed', hashed)
             const ss = 'T' + sharedsecret.toArray()[0].toString(16).padStart(2, '0')
-            // sethashed(hashedsecret)
-            console.log(hashed)
             setsecret(ss)
             console.log(secret)
-
-            const publicKey = meta.getPublic().add(hashed.getPublic()).encode('array', false);
-            const address = keccak256(publicKey.splice(1));
-            console.log(address)
-            const StealthAddress = Buffer.from(address);
-            const _HexString = StealthAddress.substring(StealthAddress.length - 40, StealthAddress.length)
+            const publicKey = meta.getPublic().add(hashed.getPublic()).encode('array', false).splice(1)
+            const address = keccak256(publicKey);
+            console.log('add', address);
+            const _HexString = address.substring(address.length - 40, address.length)
             const _Hex = '41' + _HexString
-            // setreceipent(tronWeb.address.fromHex(_Hex))
-            console.log(_Hex)
+            // // setreceipent(tronWeb.address.fromHex(_Hex))
+            console.log('stealth', _Hex)
 
         }
 
@@ -143,10 +100,6 @@ const Send = () => {
     }
 
 
-    // const savetron = (t) => {
-    //     settoken(t.address)
-    //   console.log(token)
-    // }
     return (
         <>
 
@@ -158,7 +111,7 @@ const Send = () => {
                     </option>
                 )}
             </select>
-            {console.log(token, StealthmetaAddress, amount)}
+            {console.log('token-address',token,'meta', StealthmetaAddress,'amount' ,amount, 'zkey', zkey)}
 
             <input style={{ border: '1px solid red' }} type='text' onChange={(e) => setStealthmetaAddress(e.target.value)} placeholder='Receipent address' />
             <input style={{ border: '1px solid red' }} value={amount} type='text' onChange={(e) => setamount(e.target.value)} />
