@@ -3,7 +3,7 @@ import { FaDiscord, FaGithub, FaEnvelope } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-  <div class="p-4">
+  <div class="p-4 bg-[#FFF7F7] ">
     <ul class="flex justify-center space-x-4">
       <li class="p-2"><a href="/"><FaDiscord className='text-[#5751ff]' /></a></li>
       <li class="p-2"><a href="/"><FaGithub /></a></li>
