@@ -23,6 +23,7 @@ const Cloak = () => {
     const [address, setAddress] = useState()
     const [balance, setBalance] = useState()
     const [wallet, setWallet] = useState(false)
+    
 
 
 
@@ -41,7 +42,7 @@ const Cloak = () => {
             const balanceInTrx = tronWeb.fromSun(balanceInSun);
             localStorage.setItem('balance', `${balanceInTrx}TRX`)
 
-            // Print the balance to the console
+            // Printing the balance to the console
 
             console.log(`Balance: ${balanceInTrx} TRX`);
             setBalance(balanceInTrx)

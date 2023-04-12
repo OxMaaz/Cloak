@@ -121,18 +121,15 @@ const Send = () => {
     return (
         <>
 
-            {/* tokens */}
+            {/* tokens dropdown */}
 
             <div>
-
-
-
                 <ul>
-                    <li>{bydefault}</li> <AiOutlineArrowDown size={20} onClick={()=>setshow(!show)}/>
+                    <li style={{border:'1px solid black' }}>{bydefault} <AiOutlineArrowDown size={20} onClick={()=>setshow(!show)}/></li>
                     {show && Tokens.map((t) =>
-                        <li bo key={t.name} onClick={()=>changedefault(t)} >
+                        <li style={{border:'1px solid black' }} bo key={t.name} onClick={()=>changedefault(t)} >
                             {t.name}
-                            <img src={t.symbol} alt="" height={10} width={10} />
+                            <img src={t.symbol} alt="" height={20} width={20} />
                         </li>
                     )}
                 </ul>
