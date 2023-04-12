@@ -79,6 +79,17 @@ const Send = () => {
             // // setreceipent(tronWeb.address.fromHex(_Hex))
             console.log('stealth', _Hex)
 
+
+
+            const x = ephPublic.getX().toString(16, 64)
+            const y = ephPublic.getY().toString(16, 64)
+            const z = `0x${secret}04${x}${y}`
+            setzkey(z)
+    
+            data.setRegistry([...data.registry, z])
+            console.log('token-address', token, 'meta', StealthmetaAddress, 'amount', amount, 'zkey', z, "registry", data.registry)
+    
+
         }
 
         catch (e) {
@@ -86,13 +97,7 @@ const Send = () => {
         }
 
 
-        const x = ephPublic.getX().toString(16, 64)
-        const y = ephPublic.getY().toString(16, 64)
-        const z = `0x${secret}04${x}${y}`
-        setzkey(z)
-
-        data.setRegistry([...data.registry, zkey])
-
+   
     }
 
     const changedefault = (t)=>{
@@ -124,10 +129,10 @@ const Send = () => {
             {/* tokens dropdown */}
 
             <div>
-                <ul>
-                    <li style={{border:'1px solid black' }}>{bydefault} <AiOutlineArrowDown size={20} onClick={()=>setshow(!show)}/></li>
+                <ul >
+                    <li style={{border:'1px solid black',cursor:'pointer' }}>{bydefault} <AiOutlineArrowDown size={20} onClick={()=>setshow(!show)}/></li>
                     {show && Tokens.map((t) =>
-                        <li style={{border:'1px solid black' }} bo key={t.name} onClick={()=>changedefault(t)} >
+                        <li style={{border:'1px solid black' , cursor:'pointer'  }} bo key={t.name} onClick={()=>changedefault(t)} >
                             {t.name}
                             <img src={t.symbol} alt="" height={20} width={20} />
                         </li>
@@ -135,7 +140,7 @@ const Send = () => {
                 </ul>
             </div>
 
-            {console.log('token-address', token, 'meta', StealthmetaAddress, 'amount', amount, 'zkey', zkey, "registry", data.registry)}
+
 
 
             {/* Recepent address */}
@@ -146,6 +151,9 @@ const Send = () => {
             <button style={{ border: '4px solid red' }} onClick={token === 'TRON' ? sendTrx : sendTrc20}>Send</button>
             <p>{error}</p>
             {token === 'TRON' ? console.log('tron') : console.log('other')}
+
+            {/* consoling */}
+          
 
 
 
