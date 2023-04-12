@@ -130,7 +130,7 @@ const Send = () => {
                 <ul>
                     <li>{bydefault}</li> <AiOutlineArrowDown size={20} onClick={()=>setshow(!show)}/>
                     {show && Tokens.map((t) =>
-                        <li key={t.name} onClick={()=>changedefault(t)} >
+                        <li bo key={t.name} onClick={()=>changedefault(t)} >
                             {t.name}
                             <img src={t.symbol} alt="" height={10} width={10} />
                         </li>
