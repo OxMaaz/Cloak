@@ -6,13 +6,13 @@ import sun from '../assets/sun.png'
 import usdt from '../assets/usdt.png'
 
 export const Tokens = [
-    { "name": "TRON", "address": 'txsxsjsssxbsxbsj', "symbol": null},
-    { "name": "USDT", "address": 'txsxsjsssxbsxbsj', "symbol": wink },
-    { "name": "BTT", "address": 'txsxsjsssxbsxbsj', "symbol": bttc },
-    { "name": "WIN", "address": 'txsxsjsssxbsxbsj', "symbol": just },
-    { "name": "JST", "address": 'txsxsjsssxbsxbsj', "symbol": usdj },
-    { "name": "SUN", "address": 'txsxsjsssxbsxbsj', "symbol": sun },
-    { "name": "USDJ", "address": 'txsxsjsssxbsxbsj', "symbol": usdt }
+    { "name": "TRON", "address": '', "symbol": null },
+    { "name": "WIN", "address": 'TQRkMDMdWj1Crwv4s7XfMi1LCiPkGnajvB', "symbol": wink },
+    { "name": "BTT", "address": 'TNeC4hx8rXo1ZUtERVTj4nMz6o8GpWzmzg', "symbol": bttc },
+    { "name": "JST", "address": 'TBzrkFBjgzowt7nHkaYkbLBfcLTvg2qe6a', "symbol": just },
+    { "name": "USDJ", "address": 'TLxqc8tQpftjyW8n4TpNTEhdzPK8vSgeRA', "symbol": usdj },
+    { "name": "SUN", "address": 'TWkUvS8uP7GiLxqeiUhwC1CLpc8TuVhgcm', "symbol": sun },
+    { "name": "USDT", "address": 'TDZDd58a44n5Bvg7pFpcdWhZpv7XsT9PsU', "symbol": usdt }
 ]
 
 

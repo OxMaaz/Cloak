@@ -27,13 +27,16 @@ const Send = () => {
     const data = useContext(CloakContext);
     const [token, settoken] = useState('')
     const [StealthmetaAddress, setStealthmetaAddress] = useState('')
-    const [receipent, setreceipent] = useState('')
+    // const [receipent, setreceipent] = useState('')
     const [zkey, setzkey] = useState('')
     const [secret, setsecret] = useState('')
     const [error, seterror] = useState('')
     const [amount, setamount] = useState('')
     const [show, setshow] = useState(false)
     const [bydefault, setbydefault] = useState('TRON')
+    let receipent;
+
+
 
 
     useEffect(() => {
@@ -84,7 +87,7 @@ const Send = () => {
             console.log('add', address);
             const _HexString = address.substring(address.length - 40, address.length)
             const _Hex = '41' + _HexString
-            setreceipent(tronWeb.address.fromHex(_Hex))
+            receipent = tronWeb.address.fromHex(_Hex)
             console.log('stealth', _Hex)
             console.log('recepeint', receipent)
 
@@ -134,7 +137,7 @@ const Send = () => {
         }
 
         contract.SendTron(r, s, a, receipent).send({
-            callValue: tronWeb.toSun(1),
+            callValue: tronWeb.toSun(amount),
             shouldPollResponse: true
         }).then(res => {
             console.log('https://shasta.tronscan.org/tx/' + res.transactionHash);
@@ -142,12 +145,11 @@ const Send = () => {
             console.error(err);
         });
 
-        // let result = await tronWeb.trx.getTransaction(txID);
-        // console.log(result);
+
         console.log('hello')
 
     }
-    const sendTrc20 =async() => {
+    const sendTrc20 = async () => {
         initializer()
         let contract
 
@@ -158,18 +160,31 @@ const Send = () => {
         catch (e) {
             console.log(e.message)
         }
-//address token, address target, uint256 amount
-        contract.SendTron(r, s, a, receipent).send({
-            callValue: tronWeb.toSun(1),
+
+        contract.SendTrc20(r, s, a, token, receipent, amount).send({
+            callValue: tronWeb.toSun(amount),
             shouldPollResponse: true
         }).then(res => {
-            console.log('https://shasta.tronscan.org/tx/' + res.transactionHash);
+            console.log('https://shasta.tronscan.org/tx/' + res.transaction.txID);
         }).catch(err => {
             console.error(err);
         });
 
 
     }
+
+    useEffect(() => {
+
+        const fetchContract = async () => {
+            const instance = await tronWeb.contract().at('TJBeQh58L9nLzkamyemu3A5GZgTafVHdeF');
+            const result=await instance.events.eph().watch()
+            console.log(result.toString())
+
+
+        }
+
+        fetchContract()
+    }, [tronWeb])
 
 
     return (
@@ -182,7 +197,7 @@ const Send = () => {
                 <ul >
                     <li style={{ border: '1px solid black', cursor: 'pointer' }}>{bydefault} <AiOutlineArrowDown size={20} onClick={() => setshow(!show)} /></li>
                     {show && Tokens.map((t) =>
-                        <li style={{ border: '1px solid black', cursor: 'pointer' }} bo key={t.name} onClick={() => changedefault(t)} >
+                        <li style={{ border: '1px solid black', cursor: 'pointer' }} key={t.name} onClick={() => changedefault(t)} >
                             {t.name}
                             <img src={t.symbol} alt="" height={20} width={20} />
                         </li>
@@ -196,14 +211,14 @@ const Send = () => {
             <div className="sm:flex-row sm:space-x-5 flex-col items-center gap-5 flex">
                 <input
                     // style={{ border: '1px solid red' }}
-                    className="outline-none border rounded-sm p-1 px-2 border-1 border-gray-400 w-[210px]"
+                    className="outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[210px]"
                     type="text"
                     onChange={(e) => setStealthmetaAddress(e.target.value)}
                     placeholder="Receipent address"
                 />
                 {/* Amount*/}
                 <input
-                    className="outline-none border rounded-sm p-1 px-2 border-1 border-gray-400 w-[110px]"
+                    className="outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[110px]"
                     value={amount}
                     type="text"
                     placeholder="Ex: 100trx"
@@ -214,12 +229,12 @@ const Send = () => {
             {/* <button style={{ border: '4px solid red' }} onClick={token === 'TRON' ? sendTrx : sendTrc20}>Send</button> */}
             <button
                 className="border-1 p-1 text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
-                onClick={sendTrx}
+                onClick={token === '' ? sendTrx : sendTrc20}
             >
                 Send
             </button>
             <p>{error}</p>
-            {token === 'TRON' ? console.log('tron') : console.log('other')}
+            {token === '' ? console.log('tron') : console.log('other')}
 
             {/* consoling */}
 

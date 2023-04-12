@@ -22,25 +22,41 @@ export const CloakContext = createContext(null)
 
 const Cloak = () => {
 
-    const [address, setAddress] = useState()
+
     const [balance, setBalance] = useState()
     const [wallet, setWallet] = useState(false)
-
-
-
-
     const { tronWeb } = window
+
+    useEffect(() => {
+        if (!tronWeb) {
+            alert("Please install tronweb")
+        }
+    }, [tronWeb])
+
+    useEffect(() => {
+        const checkNetwork = async () => {
+            const currentNetwork = await tronWeb.trx.getCurrentBlock();
+            if (currentNetwork.block_header.raw_data.field[0].chain_id === 1) {
+                console.error("Error: You are not on the Shasta test network.");
+            }
+            console.log('👍')
+
+        }
+        checkNetwork()
+
+
+    }, [])
+
 
     async function connectwallet() {
         if (tronWeb) {
             await window.tronLink.request({ method: 'tron_requestAccounts' });
             const address = tronWeb.defaultAddress.base58;
             localStorage.setItem('address', address)
-            setAddress(address)
             const balanceInSun = await tronWeb.trx.getBalance(address);
             // Convert the balance from SUN to TRX
             const balanceInTrx = tronWeb.fromSun(balanceInSun);
-            localStorage.setItem('balance',`${balanceInTrx} TRX` )
+            localStorage.setItem('balance', `${balanceInTrx} TRX`)
             console.log(`Balance: ${balanceInTrx} TRX`);
             setBalance(balanceInTrx)
             localStorage.setItem('wallet', true)
@@ -68,8 +84,7 @@ const Cloak = () => {
     const [error, seterror] = useState('')
 
     const contextValue = {
-        registry, setRegistry, error, seterror, connectwallet,
-        address, balance, wallet
+        registry, setRegistry, error, seterror, connectwallet, balance, wallet
     }
 
 
@@ -79,7 +94,7 @@ const Cloak = () => {
                 <Connect />
                 <Stealth />
                 <Transaction />
-                <Footer/>
+                <Footer />
             </CloakContext.Provider>
         </div>
     )

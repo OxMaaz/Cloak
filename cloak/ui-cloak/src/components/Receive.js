@@ -27,11 +27,9 @@ const Receive = () => {
   const generaterootspendingkey = () => {
 
     setmatchingkey(true)
-    // console.log(localStorage.getItem('myKey'))
 
     var Spendingkey;
     // if (rootspendingkey === null) {
-      // const mystoredspendingkey = localStorage.getItem('myKey');
       Spendingkey = ec.keyFromPrivate(localStorage.getItem('myKey'), 'hex');
    
     // }
@@ -48,11 +46,12 @@ const Receive = () => {
     var _sharedSecret;
 
     data.registry.forEach((z) => {
+      const kk=z.slice(3)
 
-      ephPublicKey = ec.keyFromPublic(z.slice(3), 'hex');
+      ephPublicKey = ec.keyFromPublic(kk, 'hex');
       RSharedsecret = Spendingkey.derive(ephPublicKey.getPublic()); // 
       RHashedsecret = ec.keyFromPrivate(keccak256(RSharedsecret.toArray()));
-      _sharedSecret = '0xT' + RSharedsecret.toArray()[0].toString(16).padStart(2, '0')
+      _sharedSecret = '0x' + RSharedsecret.toArray()[0].toString(16).padStart(2, '0')
 
       if (_sharedSecret.toString().slice(2, 4) === z.slice(1, 3).toString()) {
         const _key = Spendingkey.getPrivate().add(RHashedsecret.getPrivate());
@@ -82,7 +81,7 @@ const Receive = () => {
         {hide !== true && (
           <input
             type="text"
-            className="outline-none border rounded-sm p-1 px-2 border-1 border-gray-400 w-[210px]"
+            className="outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[210px]"
             value={rootspendingkey}
             onChange={(e) => {
               setrootspendingkey(e.target.value);
