@@ -1,10 +1,10 @@
 import React from 'react'
-// import { useContext } from 'react'
-// import { CloakContext } from './Cloak';
+import { useContext } from 'react'
+import { CloakContext } from './Cloak';
 
 const Connect = () => {
 
-    // const { } = useContext(CloakContext);
+    const data = useContext(CloakContext);
     return (
         <div>
 
@@ -15,11 +15,11 @@ const Connect = () => {
 
             {/* rigt side */}
 
-            <p>0.17</p>
-            <p>TAMm9ctKzbKtRtBe12trkZhd1iC3EfpY8G</p>
+            <p>{data.balance}</p>
+            <p>{data.address}</p>
 
 
-            <button  style={{border: '1px solid red'}} >Connect Wallet</button>
+            <button  style={{border: '1px solid red'}} onClick={data.connectwallet} >Connect Wallet</button>
         </div>
     )
 }
