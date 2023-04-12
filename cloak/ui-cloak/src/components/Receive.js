@@ -15,23 +15,30 @@ const ec = new EllipticCurve.ec('secp256k1');
 const Receive = () => {
 
 
-  const { registry } = useContext(CloakContext);
+  const  data  = useContext(CloakContext);
   const [rootspendingkey, setrootspendingkey] = useState('')
   const [privatekey, setprivatekey] = useState('')
   const [hide, sethide] = useState(true)
   const [matching, setmatchingkey] = useState(false)
   const [err, seterr] = useState(false)
+  const [reveal, setreveal] = useState(false)
 
 
   const generaterootspendingkey = () => {
 
     setmatchingkey(true)
+    // console.log(localStorage.getItem('myKey'))
 
     var Spendingkey;
-    if (rootspendingkey === null) {
-      const mystoredspendingkey = localStorage.getItem('myKey');
-      Spendingkey = ec.keyFromPrivate(mystoredspendingkey, 'hex');
-    }
+    // if (rootspendingkey === null) {
+      // const mystoredspendingkey = localStorage.getItem('myKey');
+      Spendingkey = ec.keyFromPrivate(localStorage.getItem('myKey'), 'hex');
+   
+    // }
+
+    // else{
+    //   Spendingkey = ec.keyFromPrivate(rootspendingkey, 'hex');
+    // }
 
 
 
@@ -40,35 +47,28 @@ const Receive = () => {
     var RHashedsecret;
     var _sharedSecret;
 
-    registry.forEach((z) => {
+    data.registry.forEach((z) => {
 
       ephPublicKey = ec.keyFromPublic(z.slice(5), 'hex');
       RSharedsecret = Spendingkey.derive(ephPublicKey.getPublic()); // 
       RHashedsecret = ec.keyFromPrivate(keccak256(RSharedsecret.toArray()));
-      _sharedSecret = 'T' + RSharedsecret.toArray()[0].toString(16).padStart(2, '0')
+      _sharedSecret = '0xT' + RSharedsecret.toArray()[0].toString(16).padStart(2, '0')
 
       if (_sharedSecret.toString() === z.slice(0, 5).toString()) {
         const _key = Spendingkey.getPrivate().add(RHashedsecret.getPrivate());
         const pk = _key.mod(ec.curve.n);
         console.log('Private key to open wallet', pk.toString(16, 32))
-        setprivatekey(privatekey.toString(16, 32))
-        registry.splice(z,1)
-        return true
+        setprivatekey(pk.toString(16, 32))
+        setreveal(true)
 
       }
 
-      return
-
-
+      return 
 
 
     })
-
     setmatchingkey(false)
-    seterr('Sorry not matched')
-    return false
-
-
+ 
 
   }
 
@@ -98,7 +98,7 @@ const Receive = () => {
 
       {matching === true ? <p>Running</p> : false}
 
-      {generaterootspendingkey === true ?
+      {reveal=== true ?
         <>
           <p>CopyPrivateKey</p>
           <AiOutlineCopy size={40} onClick={copykey} />

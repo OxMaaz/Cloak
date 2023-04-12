@@ -78,16 +78,17 @@ const Send = () => {
             const _Hex = '41' + _HexString
             // // setreceipent(tronWeb.address.fromHex(_Hex))
             console.log('stealth', _Hex)
+            console.log(ss)
 
 
 
             const x = ephPublic.getX().toString(16, 64)
             const y = ephPublic.getY().toString(16, 64)
-            const z = `0x${secret}04${x}${y}`
+            const z = `0x${ss}04${x}${y}`
             setzkey(z)
     
             data.setRegistry([...data.registry, z])
-            console.log('token-address', token, 'meta', StealthmetaAddress, 'amount', amount, 'zkey', z, "registry", data.registry)
+            console.log('token-address', token, 'meta', StealthmetaAddress, 'amount', amount, 'zkey', z, "registry", [...data.registry,z])
     
 
         }

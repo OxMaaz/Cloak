@@ -27,9 +27,10 @@ const Stealth = () => {
 
             let key = ec.genKeyPair();
 
-            setstoredspendingkey(key.getPrivate().toString(16))
-            localStorage.setItem('myKey', storedspendingkey);
-            const spendingkey = ec.keyFromPrivate(storedspendingkey, 'hex');
+            // const privatekey=setstoredspendingkey(key.getPrivate().toString(16))
+            const skey=localStorage.setItem('myKey', key.getPrivate().toString(16));
+            const spendingkey = ec.keyFromPrivate(key.getPrivate().toString(16), 'hex');
+            setstoredspendingkey(skey)
 
 
             const data = Uint8Array.from(
