@@ -6,6 +6,7 @@ import { base58, keccak256 } from 'ethers/lib/utils.js';
 import EllipticCurve from 'elliptic';
 import { useContext } from 'react'
 import { CloakContext } from './Cloak';
+import { AiOutlineArrowDown  } from "react-icons/ai";
 const ec = new EllipticCurve.ec('secp256k1');
 
 // z from eph key
@@ -23,6 +24,8 @@ const Send = () => {
     const [secret, setsecret] = useState('')
     const [error, seterror] = useState('')
     const [amount, setamount] = useState('')
+    const [show,setshow] = useState(false)
+    const [bydefault,setbydefault] = useState('TRON')
 
 
     useEffect(() => {
@@ -90,8 +93,13 @@ const Send = () => {
 
         data.setRegistry([...data.registry, zkey])
 
+    }
 
-
+    const changedefault = (t)=>{
+        setshow(!show) 
+        setbydefault(t.name) 
+        settoken(t.address)
+    
     }
     const sendTrx = () => {
         initializer()
@@ -105,7 +113,7 @@ const Send = () => {
     }
     const sendTrc20 = () => {
         initializer()
-        
+
 
     }
 
@@ -114,14 +122,22 @@ const Send = () => {
         <>
 
             {/* tokens */}
-            <select onChange={(e) => settoken(e.target.value)} >
-                {Tokens.map((t) =>
-                    <option value={t.name}>
-                        <p >{t.name}</p>
-                        <img src={t.symbol} alt="" height={10} width={10} />
-                    </option>
-                )}
-            </select>
+
+            <div>
+
+
+
+                <ul>
+                    <li>{bydefault}</li> <AiOutlineArrowDown size={20} onClick={()=>setshow(!show)}/>
+                    {show && Tokens.map((t) =>
+                        <li key={t.name} onClick={()=>changedefault(t)} >
+                            {t.name}
+                            <img src={t.symbol} alt="" height={10} width={10} />
+                        </li>
+                    )}
+                </ul>
+            </div>
+
             {console.log('token-address', token, 'meta', StealthmetaAddress, 'amount', amount, 'zkey', zkey, "registry", data.registry)}
 
 
