@@ -7,7 +7,7 @@ import EllipticCurve from 'elliptic';
 import { AiOutlineCopy } from "react-icons/ai";
 // import tronWeb from 'tronweb';
 import { GiKangaroo } from "react-icons/gi";
-import { AiOutlineArrowsAlt } from "react-icons/ai";
+import { AiOutlineArrowsAlt ,AiOutlineShrink} from "react-icons/ai";
 const ec = new EllipticCurve.ec('secp256k1');
 
 
@@ -49,12 +49,12 @@ const Receive = () => {
 
     data.registry.forEach((z) => {
 
-      ephPublicKey = ec.keyFromPublic(z.slice(5), 'hex');
+      ephPublicKey = ec.keyFromPublic(z.slice(3), 'hex');
       RSharedsecret = Spendingkey.derive(ephPublicKey.getPublic()); // 
       RHashedsecret = ec.keyFromPrivate(keccak256(RSharedsecret.toArray()));
       _sharedSecret = '0xT' + RSharedsecret.toArray()[0].toString(16).padStart(2, '0')
 
-      if (_sharedSecret.toString() === z.slice(0, 5).toString()) {
+      if (_sharedSecret.toString().slice(2, 4) === z.slice(1, 3).toString()) {
         const _key = Spendingkey.getPrivate().add(RHashedsecret.getPrivate());
         const pk = _key.mod(ec.curve.n);
         console.log('Private key to open wallet', pk.toString(16, 32))
@@ -78,34 +78,62 @@ const Receive = () => {
 
   return (
     <>
+ <div className="py-2 flex space-x-4 justify-center">
+        {hide !== true && (
+          <input
+            type="text"
+            className="outline-none border rounded-sm p-1 px-2 border-1 border-gray-400 w-[210px]"
+            value={rootspendingkey}
+            onChange={(e) => {
+              setrootspendingkey(e.target.value);
+            }}
+            placeholder="Rootkey (optional)"
+          />
+        )}
+        {hide && (
+          <p className="text-gray-500 border-r p-1 px-2 border-red-700">
+            Expand to enter the saved Key (optional)
+          </p>
+        )}
+        {/* expand icon (toggle of input button) */}
+        {hide ? (
+          <AiOutlineArrowsAlt
+            className="cursor-pointer"
+            size={30}
+            onClick={() => sethide(!hide)}
+          />
+        ) : (
+          <AiOutlineShrink
+            className="cursor-pointer"
+            size={30}
+            onClick={() => sethide(!hide)}
+          />
+        )}
+      </div>
 
-      {hide !== true &&
+      {/* Match key */}
+      <div className="flex justify-center pt-4">
+        <div
+          className="flex items-center cursor-pointer space-x-1 border-1 p-1 text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
+          onClick={generaterootspendingkey}
+        >
+          <GiKangaroo size={25} />
+          <h2>Match Key</h2>
+        </div>
+      </div>
 
-        <input style={{ border: '1px solid red' }}
-          type='text'
-          value={rootspendingkey}
-          onChange={(e) => { setrootspendingkey(e.target.value) }}
-          placeholder='Rootkey (optional)'
-        />
-      }
-
-      {/* expand icon (toggle of input button) */}
-      <AiOutlineArrowsAlt size={30} onClick={() => sethide(!hide)} />
-
-
-      <p>Match Key</p>
-      <GiKangaroo size={40} onClick={generaterootspendingkey} color='red' />
-
-      {matching === true ? <p>Running</p> : false}
-
-      {reveal=== true ?
-        <>
-          <p>CopyPrivateKey</p>
-          <AiOutlineCopy size={40} onClick={copykey} />
-        </> :
-        <p>{err}</p>
-
-      }
+      {/* message */}
+      <div className="p-4 text-red-900 font-semibold">
+        {matching === true ? <p>Running.....</p> : false}
+        {reveal === true ? (
+          <>
+            <p>CopyPrivateKey</p>
+            <AiOutlineCopy size={40} onClick={copykey} />
+          </>
+        ) : (
+          <p>{err && 'Error : ' + err}</p>
+        )}
+      </div>
 
 
 

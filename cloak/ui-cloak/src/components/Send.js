@@ -6,7 +6,9 @@ import { base58, keccak256 } from 'ethers/lib/utils.js';
 import EllipticCurve from 'elliptic';
 import { useContext } from 'react'
 import { CloakContext } from './Cloak';
-import { AiOutlineArrowDown  } from "react-icons/ai";
+import { AiOutlineArrowDown } from "react-icons/ai";
+import abi from '../build/contracts/EphKeys.json';
+import tronWeb from 'tronweb'
 const ec = new EllipticCurve.ec('secp256k1');
 
 // z from eph key
@@ -16,16 +18,22 @@ const ec = new EllipticCurve.ec('secp256k1');
 
 const Send = () => {
 
+    const contractAddress = 'TJBeQh58L9nLzkamyemu3A5GZgTafVHdeF'
+    var r;
+    var s;
+    var a;
+    const { tronWeb } = window
+
     const data = useContext(CloakContext);
     const [token, settoken] = useState('')
     const [StealthmetaAddress, setStealthmetaAddress] = useState('')
-    // const [receipent, setreceipent] = useState('')
+    const [receipent, setreceipent] = useState('')
     const [zkey, setzkey] = useState('')
     const [secret, setsecret] = useState('')
     const [error, seterror] = useState('')
     const [amount, setamount] = useState('')
-    const [show,setshow] = useState(false)
-    const [bydefault,setbydefault] = useState('TRON')
+    const [show, setshow] = useState(false)
+    const [bydefault, setbydefault] = useState('TRON')
 
 
     useEffect(() => {
@@ -68,28 +76,34 @@ const Send = () => {
             const sharedsecret = ephKey.derive(meta.getPublic());
             const hashed = ec.keyFromPrivate(keccak256(sharedsecret.toArray()));
             console.log('hashed', hashed)
-            const ss = 'T' + sharedsecret.toArray()[0].toString(16).padStart(2, '0')
-            setsecret(ss)
+            a = '0x' + sharedsecret.toArray()[0].toString(16).padStart(2, '0')
+            setsecret(a)
             console.log(secret)
             const publicKey = meta.getPublic().add(hashed.getPublic()).encode('array', false).splice(1)
             const address = keccak256(publicKey);
             console.log('add', address);
             const _HexString = address.substring(address.length - 40, address.length)
             const _Hex = '41' + _HexString
-            // // setreceipent(tronWeb.address.fromHex(_Hex))
+            setreceipent(tronWeb.address.fromHex(_Hex))
             console.log('stealth', _Hex)
-            console.log(ss)
+            console.log('recepeint', receipent)
 
 
 
-            const x = ephPublic.getX().toString(16, 64)
-            const y = ephPublic.getY().toString(16, 64)
-            const z = `0x${ss}04${x}${y}`
+
+            r = '0x' + ephPublic.getX().toString(16, 64)
+            s = '0x' + ephPublic.getY().toString(16, 64)
+            const rs = `04${r.slice(2)}${s.slice(2)}`
+            const z = `T${a.replace('0x', '')}04${r.slice(2)}${s.slice(2)}`
             setzkey(z)
-    
+            console.log(z, 'z')
+            console.log(r, 'r')
+            console.log(s, 's')
+            console.log(a, 'a')
+
             data.setRegistry([...data.registry, z])
-            console.log('token-address', token, 'meta', StealthmetaAddress, 'amount', amount, 'zkey', z, "registry", [...data.registry,z])
-    
+            // console.log('token-address', token, 'meta', StealthmetaAddress, 'amount', amount, 'zkey', z, "registry", [...data.registry, z], 'abi', abi.abi)
+
 
         }
 
@@ -98,42 +112,77 @@ const Send = () => {
         }
 
 
-   
+
     }
 
-    const changedefault = (t)=>{
-        setshow(!show) 
-        setbydefault(t.name) 
+    const changedefault = (t) => {
+        setshow(!show)
+        setbydefault(t.name)
         settoken(t.address)
-    
-    }
-    const sendTrx = () => {
-        initializer()
-        // let abi = [...];
-        // let contract = await tronWeb.contract(abi, 'USDT_ADDRESS');
-        // let txID = await contract.transfer('ACCOUNT_ADDRESS', 100).send();
-        // // now you can visit web page https://nile.tronscan.org/#/transaction/${txID} to view the transaction detail.
-        // // or using code below:
-        // let result = await tronWeb.trx.getTransaction(txID);
 
     }
-    const sendTrc20 = () => {
+    const sendTrx = async () => {
         initializer()
+        let contract
+
+        try {
+            contract = await tronWeb.contract(abi.abi, contractAddress);
+
+        }
+        catch (e) {
+            console.log(e.message)
+        }
+
+        contract.SendTron(r, s, a, receipent).send({
+            callValue: tronWeb.toSun(1),
+            shouldPollResponse: true
+        }).then(res => {
+            console.log('https://shasta.tronscan.org/tx/' + res.transactionHash);
+        }).catch(err => {
+            console.error(err);
+        });
+
+        // let result = await tronWeb.trx.getTransaction(txID);
+        // console.log(result);
+        console.log('hello')
+
+    }
+    const sendTrc20 =async() => {
+        initializer()
+        let contract
+
+        try {
+            contract = await tronWeb.contract(abi.abi, contractAddress);
+
+        }
+        catch (e) {
+            console.log(e.message)
+        }
+//address token, address target, uint256 amount
+        contract.SendTron(r, s, a, receipent).send({
+            callValue: tronWeb.toSun(1),
+            shouldPollResponse: true
+        }).then(res => {
+            console.log('https://shasta.tronscan.org/tx/' + res.transactionHash);
+        }).catch(err => {
+            console.error(err);
+        });
 
 
     }
 
 
     return (
-        <>
+        <div className="flex flex-col items-center space-y-4">
+
 
             {/* tokens dropdown */}
 
-            <div>
+            <div >
                 <ul >
-                    <li style={{border:'1px solid black',cursor:'pointer' }}>{bydefault} <AiOutlineArrowDown size={20} onClick={()=>setshow(!show)}/></li>
+                    <li style={{ border: '1px solid black', cursor: 'pointer' }}>{bydefault} <AiOutlineArrowDown size={20} onClick={() => setshow(!show)} /></li>
                     {show && Tokens.map((t) =>
-                        <li style={{border:'1px solid black' , cursor:'pointer'  }} bo key={t.name} onClick={()=>changedefault(t)} >
+                        <li style={{ border: '1px solid black', cursor: 'pointer' }} bo key={t.name} onClick={() => changedefault(t)} >
                             {t.name}
                             <img src={t.symbol} alt="" height={20} width={20} />
                         </li>
@@ -144,24 +193,43 @@ const Send = () => {
 
 
 
-            {/* Recepent address */}
-            <input style={{ border: '1px solid red' }} type='text' onChange={(e) => setStealthmetaAddress(e.target.value)} placeholder='Receipent address' />
-            {/* Amount       */}
-            <input style={{ border: '1px solid red' }} value={amount} type='text' onChange={(e) => setamount(e.target.value)} />
+            <div className="sm:flex-row sm:space-x-5 flex-col items-center gap-5 flex">
+                <input
+                    // style={{ border: '1px solid red' }}
+                    className="outline-none border rounded-sm p-1 px-2 border-1 border-gray-400 w-[210px]"
+                    type="text"
+                    onChange={(e) => setStealthmetaAddress(e.target.value)}
+                    placeholder="Receipent address"
+                />
+                {/* Amount*/}
+                <input
+                    className="outline-none border rounded-sm p-1 px-2 border-1 border-gray-400 w-[110px]"
+                    value={amount}
+                    type="text"
+                    placeholder="Ex: 100trx"
+                    onChange={(e) => setamount(e.target.value)}
+                />
+            </div>
             {/* send button */}
-            <button style={{ border: '4px solid red' }} onClick={token === 'TRON' ? sendTrx : sendTrc20}>Send</button>
+            {/* <button style={{ border: '4px solid red' }} onClick={token === 'TRON' ? sendTrx : sendTrc20}>Send</button> */}
+            <button
+                className="border-1 p-1 text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
+                onClick={sendTrx}
+            >
+                Send
+            </button>
             <p>{error}</p>
             {token === 'TRON' ? console.log('tron') : console.log('other')}
 
             {/* consoling */}
-          
 
 
 
 
 
 
-        </>
+
+        </div>
     )
 }
 

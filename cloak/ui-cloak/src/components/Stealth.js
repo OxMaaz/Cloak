@@ -82,25 +82,32 @@ const Stealth = () => {
 
 
     return (
-
-        <div>
-
-            <h1>Cloak Address</h1>
-
-
-            <div>
-                <h3>{`#tronCloak-${localStorage.getItem('meta')}`}</h3>
-                {/* copy key */}
-                <AiOutlineCopy size={40} onClick={oncopy} color="red" />
-                {/* genetaemetakey */}
-                <button style={{ border: '4px solid red' }} onClick={generatestealthmetaaddress}>Generate</button>
-            </div>
-
-            <p>Share this Cloak address to get funds</p>
-
-
-
+        <div className="flex flex-col space-y-6">
+        <h1 className="text-3xl font-semibold">Cloak Address</h1>
+  
+        <div className="flex mx-auto space-x-3">
+          <h3>{`#tronCloak-${localStorage.getItem('meta')}`}</h3>
+          {/* copy key */}
+          <AiOutlineCopy
+            className="cursor-pointer"
+            size={20}
+            onClick={oncopy}
+            color="red"
+          />
         </div>
+  
+        {/* genetaemetakey */}
+        <div>
+          <button
+            className="border-1 p-1 text-white bg-[#FF5757] hover:shadow-xl px-3 rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
+            onClick={generatestealthmetaaddress}
+          >
+            Generate
+          </button>
+        </div>
+  
+        {/* <p>Share this Cloak address to get funds</p> */}
+      </div>
     )
 }
 

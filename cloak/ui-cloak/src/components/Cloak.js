@@ -6,6 +6,8 @@ import { createContext } from 'react'
 import { useState, useEffect } from 'react'
 import TronWeb from 'tronweb';
 import querystring from 'querystring';
+import Footer from '../intro/Footer'
+
 
 
 
@@ -23,7 +25,7 @@ const Cloak = () => {
     const [address, setAddress] = useState()
     const [balance, setBalance] = useState()
     const [wallet, setWallet] = useState(false)
-    
+
 
 
 
@@ -31,19 +33,14 @@ const Cloak = () => {
 
     async function connectwallet() {
         if (tronWeb) {
-            // User is already connected
+            await window.tronLink.request({ method: 'tron_requestAccounts' });
             const address = tronWeb.defaultAddress.base58;
-            console.log('Connected to wallet:', address);
             localStorage.setItem('address', address)
             setAddress(address)
-            const balanceInSun = await tronWeb.trx.getBalance(tronWeb.defaultAddress.base58);
-
+            const balanceInSun = await tronWeb.trx.getBalance(address);
             // Convert the balance from SUN to TRX
             const balanceInTrx = tronWeb.fromSun(balanceInSun);
-            localStorage.setItem('balance', `${balanceInTrx}TRX`)
-
-            // Printing the balance to the console
-
+            localStorage.setItem('balance',`${balanceInTrx} TRX` )
             console.log(`Balance: ${balanceInTrx} TRX`);
             setBalance(balanceInTrx)
             localStorage.setItem('wallet', true)
@@ -77,13 +74,14 @@ const Cloak = () => {
 
 
     return (
-        <>
+        <div className='bg-[#FFF7F7]'>
             <CloakContext.Provider value={contextValue}>
                 <Connect />
                 <Stealth />
                 <Transaction />
+                <Footer/>
             </CloakContext.Provider>
-        </>
+        </div>
     )
 }
 
