@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react'
 import TronWeb from 'tronweb';
 import querystring from 'querystring';
 import Footer from '../intro/Footer'
+import BigNumber from 'bignumber.js';
 
 
 
@@ -45,7 +46,7 @@ const Cloak = () => {
         checkNetwork()
 
 
-    }, [])
+    }, [tronWeb])
 
 
     async function connectwallet() {
@@ -55,9 +56,11 @@ const Cloak = () => {
             localStorage.setItem('address', address)
             const balanceInSun = await tronWeb.trx.getBalance(address);
             // Convert the balance from SUN to TRX
+            if (new BigNumber(balanceInSun).toNumber()>0) {
+                console.log('No amount')
+            }
             const balanceInTrx = tronWeb.fromSun(balanceInSun);
             localStorage.setItem('balance', `${balanceInTrx} TRX`)
-            console.log(`Balance: ${balanceInTrx} TRX`);
             setBalance(balanceInTrx)
             localStorage.setItem('wallet', true)
             setWallet(true)

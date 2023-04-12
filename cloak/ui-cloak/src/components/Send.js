@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Tokens } from '../helpers/Token'
-// import base58 from 'bs58';
+import BigNumber from 'bignumber.js';
 import { useState } from 'react'
 import { base58, keccak256 } from 'ethers/lib/utils.js';
 import EllipticCurve from 'elliptic';
@@ -124,9 +124,33 @@ const Send = () => {
         settoken(t.address)
 
     }
+
+    const fetchContract = async () => {
+        const instance = await tronWeb.contract().at(token);
+        const result = await instance.balanceOf(localStorage.getItem('address')).call();
+
+        try {
+            if (new BigNumber(result).toNumber() === 0) {
+                alert('You have no tokens')
+
+            }
+
+
+        }
+
+        catch (err) { 
+            console.log(err)
+        }
+
+
+
+    }
+
+   
     const sendTrx = async () => {
         initializer()
-        let contract
+        let contract;
+        console.log('tron')
 
         try {
             contract = await tronWeb.contract(abi.abi, contractAddress);
@@ -140,7 +164,7 @@ const Send = () => {
             callValue: tronWeb.toSun(amount),
             shouldPollResponse: true
         }).then(res => {
-            console.log('https://shasta.tronscan.org/tx/' + res.transactionHash);
+            console.log('https://shasta.tronscan.org/tx/' + res);
         }).catch(err => {
             console.error(err);
         });
@@ -150,8 +174,12 @@ const Send = () => {
 
     }
     const sendTrc20 = async () => {
+        fetchContract()
+
         initializer()
-        let contract
+        console.log('trc20')
+
+        let contract;
 
         try {
             contract = await tronWeb.contract(abi.abi, contractAddress);
@@ -159,32 +187,31 @@ const Send = () => {
         }
         catch (e) {
             console.log(e.message)
+
         }
+
 
         contract.SendTrc20(r, s, a, token, receipent, amount).send({
             callValue: tronWeb.toSun(amount),
             shouldPollResponse: true
         }).then(res => {
-            console.log('https://shasta.tronscan.org/tx/' + res.transaction.txID);
+            console.log('https://shasta.tronscan.org/tx/' + res);
         }).catch(err => {
             console.error(err);
+            seterror(err.message);
         });
 
 
     }
 
-    useEffect(() => {
-
-        const fetchContract = async () => {
-            const instance = await tronWeb.contract().at('TJBeQh58L9nLzkamyemu3A5GZgTafVHdeF');
-            const result=await instance.events.eph().watch()
-            console.log(result.toString())
 
 
-        }
 
-        fetchContract()
-    }, [tronWeb])
+
+
+
+
+
 
 
     return (
@@ -234,7 +261,7 @@ const Send = () => {
                 Send
             </button>
             <p>{error}</p>
-            {token === '' ? console.log('tron') : console.log('other')}
+            {token === '' ? console.log('tron') : console.log(token)}
 
             {/* consoling */}
 

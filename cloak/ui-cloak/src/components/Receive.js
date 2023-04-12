@@ -81,7 +81,7 @@ const Receive = () => {
         {hide !== true && (
           <input
             type="text"
-            className="outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[210px]"
+            className="outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[299px]"
             value={rootspendingkey}
             onChange={(e) => {
               setrootspendingkey(e.target.value);
@@ -98,13 +98,13 @@ const Receive = () => {
         {hide ? (
           <AiOutlineArrowsAlt
             className="cursor-pointer"
-            size={30}
+            size={26}
             onClick={() => sethide(!hide)}
           />
         ) : (
           <AiOutlineShrink
             className="cursor-pointer"
-            size={30}
+            size={26}
             onClick={() => sethide(!hide)}
           />
         )}

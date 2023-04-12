@@ -6,7 +6,7 @@ import { useState } from 'react'
 const Transaction = () => {
     const [show, setShow] = useState(false)
     return (
-        <div className="flex flex-col pt-6 space-y-4 mt-5">
+        <div className="flex flex-col pt-6 space-y-4 mt-14">
         <div className="flex font-semibold space-x-16 mx-auto">
           <h4
             className={`text-xl cursor-pointer hover:text-[#FF5757] ${
