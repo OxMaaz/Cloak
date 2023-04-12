@@ -41,8 +41,9 @@ const Stealth = () => {
             addr.set(data);
             addr.set(crc, data.length);
             const M = 'T' + base58.encode(addr)
+            localStorage.setItem('meta', M)
             setstealthmeta(M)
-            localStorage.setItem('meta', stealthmeta)
+  
 
         }
 

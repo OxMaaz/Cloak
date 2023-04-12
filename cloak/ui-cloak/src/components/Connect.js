@@ -15,11 +15,11 @@ const Connect = () => {
 
             {/* rigt side */}
 
-            <p>{data.balance}</p>
-            <p>{data.address}</p>
+            <p>{localStorage.getItem('address')}</p>
+            <p>{localStorage.getItem('balance')}</p>
 
 
-            <button style={{ border: '1px solid red' }} onClick={data.connectwallet} >{localStorage.getItem('wallet') ? 'connected' : 'connect Wallet'}</button>
+            <button style={{ border: '1px solid red' }} onClick={data.connectwallet} >{localStorage.getItem('wallet') && localStorage.getItem('address') ? 'connected' : 'connect Wallet'}</button>
         </div>
     )
 }

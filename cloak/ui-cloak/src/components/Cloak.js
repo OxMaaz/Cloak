@@ -20,9 +20,9 @@ export const CloakContext = createContext(null)
 
 const Cloak = () => {
 
-    const [address ,setAddress] =useState()
-    const [balance,setBalance]=useState()
-    const [wallet,setWallet]=useState(false)
+    const [address, setAddress] = useState()
+    const [balance, setBalance] = useState()
+    const [wallet, setWallet] = useState(false)
 
 
 
@@ -33,19 +33,21 @@ const Cloak = () => {
             // User is already connected
             const address = tronWeb.defaultAddress.base58;
             console.log('Connected to wallet:', address);
+            localStorage.setItem('address', address)
             setAddress(address)
             const balanceInSun = await tronWeb.trx.getBalance(tronWeb.defaultAddress.base58);
 
             // Convert the balance from SUN to TRX
             const balanceInTrx = tronWeb.fromSun(balanceInSun);
+            localStorage.setItem('balance', `${balanceInTrx}TRX`)
 
             // Print the balance to the console
 
             console.log(`Balance: ${balanceInTrx} TRX`);
             setBalance(balanceInTrx)
-            localStorage.setItem('wallet',true)
+            localStorage.setItem('wallet', true)
             setWallet(true)
-       
+
         } else {
             // Connect to user's wallet
             try {
@@ -57,7 +59,7 @@ const Cloak = () => {
             }
 
             // Get the balance of the connected TronLink wallet
-       
+
 
         }
     }
@@ -69,7 +71,7 @@ const Cloak = () => {
 
     const contextValue = {
         registry, setRegistry, error, seterror, connectwallet,
-        address,balance,wallet
+        address, balance, wallet
     }
 
 
