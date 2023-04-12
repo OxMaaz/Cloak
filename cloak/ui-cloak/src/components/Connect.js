@@ -19,7 +19,7 @@ const Connect = () => {
             <p>{data.address}</p>
 
 
-            <button  style={{border: '1px solid red'}} onClick={data.connectwallet} >Connect Wallet</button>
+            <button style={{ border: '1px solid red' }} onClick={data.connectwallet} >{localStorage.getItem('wallet') ? 'connected' : 'connect Wallet'}</button>
         </div>
     )
 }

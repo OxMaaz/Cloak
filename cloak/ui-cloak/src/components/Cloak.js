@@ -22,6 +22,7 @@ const Cloak = () => {
 
     const [address ,setAddress] =useState()
     const [balance,setBalance]=useState()
+    const [wallet,setWallet]=useState(false)
 
 
 
@@ -39,8 +40,12 @@ const Cloak = () => {
             const balanceInTrx = tronWeb.fromSun(balanceInSun);
 
             // Print the balance to the console
+
             console.log(`Balance: ${balanceInTrx} TRX`);
             setBalance(balanceInTrx)
+            localStorage.setItem('wallet',true)
+            setWallet(true)
+       
         } else {
             // Connect to user's wallet
             try {
@@ -64,7 +69,7 @@ const Cloak = () => {
 
     const contextValue = {
         registry, setRegistry, error, seterror, connectwallet,
-        address,balance
+        address,balance,wallet
     }
 
 
