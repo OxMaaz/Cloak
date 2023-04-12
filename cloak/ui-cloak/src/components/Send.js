@@ -23,7 +23,7 @@ const Send = () => {
     const [secret, setsecret] = useState('')
     const [error, seterror] = useState('')
     const [amount, setamount] = useState('')
-    
+
 
     useEffect(() => {
         if (StealthmetaAddress.startsWith('#tronCloak-')) {
@@ -95,10 +95,17 @@ const Send = () => {
     }
     const sendTrx = () => {
         initializer()
+        // let abi = [...];
+        // let contract = await tronWeb.contract(abi, 'USDT_ADDRESS');
+        // let txID = await contract.transfer('ACCOUNT_ADDRESS', 100).send();
+        // // now you can visit web page https://nile.tronscan.org/#/transaction/${txID} to view the transaction detail.
+        // // or using code below:
+        // let result = await tronWeb.trx.getTransaction(txID);
 
     }
     const sendTrc20 = () => {
         initializer()
+        
 
     }
 
@@ -115,7 +122,7 @@ const Send = () => {
                     </option>
                 )}
             </select>
-            {console.log('token-address', token, 'meta', StealthmetaAddress, 'amount', amount, 'zkey', zkey ,"registry",data.registry)}
+            {console.log('token-address', token, 'meta', StealthmetaAddress, 'amount', amount, 'zkey', zkey, "registry", data.registry)}
 
 
             {/* Recepent address */}
