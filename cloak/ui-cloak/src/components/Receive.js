@@ -29,14 +29,14 @@ const Receive = () => {
     setmatchingkey(true)
 
     var Spendingkey;
-    // if (rootspendingkey === null) {
+    if (rootspendingkey === '') {
       Spendingkey = ec.keyFromPrivate(localStorage.getItem('myKey'), 'hex');
    
-    // }
+    }
 
-    // else{
-    //   Spendingkey = ec.keyFromPrivate(rootspendingkey, 'hex');
-    // }
+    else{
+      Spendingkey = ec.keyFromPrivate(rootspendingkey, 'hex');
+    }
 
 
 

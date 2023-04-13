@@ -165,7 +165,7 @@ const Send = () => {
         setrunning(true)
 
         try {
-            const trx = await   contract.SendTron(r, s, a, receipent).send({
+            const trx = await contract.SendTron(r, s, a, receipent).send({
                 callValue: tronWeb.toSun(amount),
                 shouldPollResponse: true
             })
@@ -175,6 +175,7 @@ const Send = () => {
         }
         catch (e) {
             console.log(e.message)
+            seterror(e.message)
 
         }
 
@@ -212,6 +213,7 @@ const Send = () => {
         }
         catch (e) {
             console.log(e.message)
+            seterror(e.message)
 
         }
 
