@@ -90,7 +90,7 @@ const Receive = () => {
         {hide !== true && (
           <input
             type="text"
-            className="text-gray-800 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[299px]"
+            className="bg-[#fffafa] text-gray-800 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[340px]"
             value={rootspendingkey}
             onChange={(e) => {
               setrootspendingkey(e.target.value);
@@ -99,21 +99,21 @@ const Receive = () => {
           />
         )}
         {hide && (
-          <p className="text-gray-500 border-r p-1 px-2 border-red-700">
-            Expand to enter the saved Key (optional)
+          <p className="text-gray-500 border-r p-1 px-2 montserrat-small border-red-700">
+            Expand to enter the saved Key ( optional )
           </p>
         )}
         {/* expand icon (toggle of input button) */}
         {hide ? (
           <AiOutlineArrowsAlt
-            className="cursor-pointer"
-            size={26}
+            className="cursor-pointer text-gray-500"
+            size={25}
             onClick={() => sethide(!hide)}
           />
         ) : (
           <AiOutlineShrink
-            className="cursor-pointer"
-            size={26}
+            className="cursor-pointer text-gray-500"
+            size={25}
             onClick={() => sethide(!hide)}
           />
         )}
@@ -131,13 +131,13 @@ const Receive = () => {
       </div>
 
       {/* message */}
-      <div className="p-4 text-red-900 font-semibold">
+      <div className="p-4  text-red-400 font-semibold">
         {matching === true ? <p>Running.....</p> : false}
         {reveal === true ? (
-          <>
-            <p>CopyPrivateKey</p>
-            <AiOutlineCopy size={40} onClick={copykey} />
-          </>
+          <div className="flex ml-60  justify-center space-x-3 montserrat-small">
+            <p>Copy PrivateKey</p>
+            <AiOutlineCopy size={25} className='cursor-pointer text-gray-500 ' onClick={copykey} />
+          </div>
         ) : (
           <p>{err && 'Error : ' + err}</p>
         )}

@@ -22,10 +22,10 @@ const Header = () => {
       </div>
         {/* at the bottom of the logo */}
         <div className='sm:p-16 p-10 flex flex-col items-start space-y-4'>
-          <h2 className='montserrat-title font-bold sm:text-[1.6rem] text-[1.5rem] text-[#FDF0EF]'>Stay Anonymous with Cloak.</h2>
+          <h2 className='montserrat-subtitle font-bold sm:text-[1.9rem] text-[1.7rem] text-[#FDF0EF]'>Stay Anonymous with Cloak.</h2>
           <p className='montserrat-small text-[#FDF0EF] text-left break-words  max-w-[400px]'>Exchange Trx and Tokens without revealing your actual address.</p>
           <div className='pt-1'>
-            <button className='border-1 p-1 hover:text-white hover:bg-[#FF5757] hover:shadow-xl px-4 rounded-full bg-[#FDF0EF] text-[#FF5757] font-semibold hover:border-white border-red-500 border' onClick={() => navigate('/cloak')}>Launch app</button>
+            <button className='border-1  hover:text-white hover:bg-[#FF5757] hover:shadow-xl p-2 px-4 rounded-full bg-[#FDF0EF] text-[#FF5757] font-semibold hover:border-white border-red-500 border text-lg' onClick={() => navigate('/cloak')}>Launch app</button>
           </div>
         </div>
     </div>

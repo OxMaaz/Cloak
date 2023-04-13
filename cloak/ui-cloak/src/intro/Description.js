@@ -25,7 +25,7 @@ const Description = () => {
           </div>
 
           {/* paragraph */}
-          <div class="xl:w-[40%] flex flex-col p-8 break-words">
+          <div class="xl:w-[40%] flex flex-col p-8 break-words montserrat-subheading">
             <ul class="list-disc list-inside space-y-6">
               <li className="mb-2 text-left text-gray-600">
                 <span className="font-semibold text-black break-words">Step 1 : </span>
@@ -67,7 +67,7 @@ const Description = () => {
                   <MdPrivacyTip color='#ff8080' className='text-xl mb-2 ' />
                   <h3 class="montserrat-subheading text-xl text-black font-semibold mb-2">Privacy</h3>
                 </div>
-                <p class="text-gray-600">Cloak app prioritizes user privacy by generating a unique cloak address for every transaction, thereby making it difficult to track or trace the transaction history of a particular user. Since the cloak address is not linked to any personal information, it allows users to maintain anonymity while transacting on the app. Moreover, users can choose to keep their secret key private, which adds an extra layer of privacy to their transactions.
+                <p class=" text-gray-950 montserrat-heading">Cloak app prioritizes user privacy by generating a unique cloak address for every transaction, thereby making it difficult to track or trace the transaction history of a particular user. Since the cloak address is not linked to any personal information, it allows users to maintain anonymity while transacting on the app. Moreover, users can choose to keep their secret key private, which adds an extra layer of privacy to their transactions.
                   .</p>
               </div>
             </div>
@@ -78,7 +78,7 @@ const Description = () => {
                   <MdOutlineSecurity color='#ff8080' className='text-xl mb-2' />
                   <h3 class="montserrat-subheading text-xl font-semibold mb-2">Security</h3>
                 </div>
-                <p class="text-gray-700">Cloak app employs robust security measures to ensure that users' funds and information are safe. The random number generated during the cloak address creation serves as a secret key, which only the user has access to. This secret key is needed to access the private key associated with a particular transaction, making it nearly impossible for anyone else to access it. Additionally, the app uses encryption to protect the user's data and funds from hackers or unauthorized access..</p>
+                <p class=" text-gray-950 montserrat-heading">Cloak app employs robust security measures to ensure that users' funds and information are safe. The random number generated during the cloak address creation serves as a secret key, which only the user has access to. This secret key is needed to access the private key associated with a particular transaction, making it nearly impossible for anyone else to access it. Additionally, the app uses encryption to protect the user's data and funds from hackers or unauthorized access..</p>
               </div>
             </div>
             <div class="col-span-2 md:col-span-1">
@@ -91,7 +91,7 @@ const Description = () => {
              
 
                 </div>
-                <p class="text-gray-700">Cloak app is designed to be user-friendly, with a simple and intuitive interface that allows users to generate, send, and match cloak addresses in one click. The app's step-by-step guide makes it easy for users to navigate and transact on the platform. Moreover, the app provides real-time updates on the status of a transaction, allowing users to track the progress of their transactions in real-time..</p>
+                <p class="text-gray-950 montserrat-heading">Cloak app is designed to be user-friendly, with a simple and intuitive interface that allows users to generate, send, and match cloak addresses in one click. The app's step-by-step guide makes it easy for users to navigate and transact on the platform. Moreover, the app provides real-time updates on the status of a transaction, allowing users to track the progress of their transactions in real-time..</p>
               </div>
             </div>
             <div class="col-span-2 md:col-span-1">
@@ -104,7 +104,7 @@ const Description = () => {
                
 
                 </div>
-                <p class="text-gray-700">Cloak app allows for fast and seamless transactions, with funds being sent and received almost instantly. This means that users do not have to wait for an extended period to access their funds or complete a transaction, making it an ideal option for those who require quick and efficient transactions..</p>
+                <p class=" text-gray-950 montserrat-heading">Cloak app allows for fast and seamless transactions, with funds being sent and received almost instantly. This means that users do not have to wait for an extended period to access their funds or complete a transaction, making it an ideal option for those who require quick and efficient transactions..</p>
               </div>
             </div>
           </div>

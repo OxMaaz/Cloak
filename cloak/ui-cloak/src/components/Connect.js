@@ -18,9 +18,9 @@ const Connect = () => {
             </div>
             {/* rigt side */}
             <div className="sm:flex-row flex-co flex space-x-3 items-center">
-              <p className="text-[1rem]  font-semibold">{localStorage.getItem('address')!==null?localStorage.getItem('balance'):''}</p>
-              <p className="sm:text-[1rem] text-[0.8rem]">{localStorage.getItem('address')===null||false ? '' :`${localStorage.getItem('address').slice(0,12)}...`}</p>
-              <button onClick={data.connectwallet}  className="montserrat-subtitle border-1 p-1 sm:text-[1rem] text-[0.8rem] text-white bg-[#FF5757] hover:shadow-xl px-2 sm:px-4 rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border">
+              <p className="text-[1rem]  text-gray-500   font-semibold">{localStorage.getItem('address')!==null?localStorage.getItem('balance'):''}</p>
+              <p className="sm:text-[1rem]  text-gray-500  font-medium text-[0.8rem]">{localStorage.getItem('address')===null||false ? '' :`${localStorage.getItem('address').slice(0,12)}...`}</p>
+              <button onClick={data.connectwallet}  className="montserrat-subtitle border-1 p-1 sm:text-[1rem] text-[0.8rem] hover:text-white hover:bg-[#FF5757] shadow-xl px-2 sm:px-4 rounded-md bg-[#FDF0EF] text-[#FF5757] font-semibold border-white hover:border-red-500 border">
               { localStorage.getItem('address')===null && localStorage.getItem('balance')===null || localStorage.getItem('wallet')===false ? 'connect wallet' : 'Connected'}
               </button>
             </div>

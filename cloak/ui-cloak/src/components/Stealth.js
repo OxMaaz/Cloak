@@ -44,7 +44,7 @@ const Stealth = () => {
       addr.set(crc, data.length);
       const M = 'T' + base58.encode(addr);
       localStorage.setItem('meta', M);
-      setstealthmeta(M.slice(0, 6) + '....' + M.slice(-5));
+      setstealthmeta(M);
     }
 
     catch (e) {
@@ -81,15 +81,15 @@ const Stealth = () => {
       <h1 className="montserrat-subtitle text-4xl font-semibold">Cloak Address</h1>
 
       <div className="flex mx-auto space-x-3">
-        <h3 className="montserrat-medium">#tronCloak - 
+        <h3 className="montserrat-medium font-semibold">#tronCloak - 
           <span className="montserrat-small"> {stealthmeta}</span>
         </h3>
         {/* copy key */}
         <AiOutlineCopy
-          className="cursor-pointer"
+          className="cursor-pointer text-gray-500"
           size={20}
           onClick={oncopy}
-          color="red"
+
         />
       </div>
 

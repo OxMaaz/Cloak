@@ -217,48 +217,51 @@ const Send = () => {
 
         }
 
-
+        setStealthmetaAddress('')
+        setamount('')
 
         setrunning(false)
     }
 
     return (
-        <div className=" flex flex-col items-center space-y-4">
+        <div className=" flex flex-col items-center space-y-4 mt-4">
 
 
             {/* tokens dropdown */}
 
-            <div className='absolute w-72'>
-                <ul className='hover:shadow-md  border rounded-md' onClick={() => setshow(!show)}>
-                    <li className='rounded-md px-2 p-1  cursor-pointer flex space-x-2  justify-between text-md  border border-gray-400' >
+            <div className='absolute w-72 '>
+                <ul className='hover:shadow-md border rounded-md' onClick={() => setshow(!show)}>
+                    <li className='rounded-md px-2 p-1 text-gray-500   cursor-pointer flex space-x-2  justify-between text-md  border border-gray-400' >
                         <p>{bydefault}</p>
                         <AiOutlineArrowDown className='float-right' color='grey' size={18} />
                     </li>
-                    {show && Tokens.map((t) =>
-                        <div className='bg-white hover:shadow-md text-sm'>
-                            <li
-                                className='px-2 p-3 cursor-default
+                    <div className={show === true && 'h-32 overflow-y-scroll'}>
+                        {show && Tokens.map((t) =>
+                            <div className='bg-[#FFF7F7] hover:shadow-md text-sm '>
+                                <li
+                                    className='px-2 p-3 cursor-pointer text-gray-500
                          hover:bg-[#FF5757] hover:text-white montserrat-small 
                          flex space-x-8 justify-between' key={t.name} onClick={() => changedefault(t)} >
-                                <p>{t.name}</p>
-                                <img src={t.symbol} alt="" height={16} width={20} />
-                            </li>
-                        </div>
-                    )}
+                                    <p>{t.name}</p>
+                                    <img src={t.symbol} alt="" height={16} width={20} />
+                                </li>
+                            </div>
+                        )}
+                    </div>
                 </ul>
             </div>
 
-            <div className="sm:flex-row pt-14 sm:space-x-5 flex-col items-center gap-5 flex">
+            <div className="sm:flex-row pt-12 sm:space-x-5 flex-col items-center gap-5 flex">
                 <input
                     // style={{ border: '1px solid red' }}
-                    className="text-gray-800 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[210px]"
+                    className="bg-[#fffafa] text-gray-800 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[210px]"
                     type="text"
                     onChange={(e) => setStealthmetaAddress(e.target.value)}
                     placeholder="Receipent address"
                 />
                 {/* Amount*/}
                 <input
-                    className="text-gray-800 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[110px]"
+                    className="bg-[#fffafa] text-gray-800 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[110px]"
                     value={amount}
                     type="text"
                     placeholder="Ex: 100trx"
@@ -267,12 +270,15 @@ const Send = () => {
             </div>
             {/* send button */}
 
-            <button
-                className="montserrat-subtitle border-1 p-1 text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
-                onClick={token === '' ? sendTrx : sendTrc20}
-            >
-                Send
-            </button>
+            <div className=' pt-5 ml-2'>
+                <button
+                    className="  montserrat-subtitle border-1 p-1  text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
+                    onClick={token === '' ? sendTrx : sendTrc20}
+                >
+
+                    Send
+                </button>
+            </div>
             <p>{trxid}</p>
             <p>{running ? 'running' : ''}</p>
             <p>{error}</p>
