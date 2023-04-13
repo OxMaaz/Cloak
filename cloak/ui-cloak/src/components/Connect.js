@@ -15,10 +15,10 @@ const Connect = () => {
             </div>
             {/* rigt side */}
             <div className="sm:flex-row flex-co flex space-x-3 items-center">
-              <p className="text-[1rem] font-semibold">{localStorage.getItem('balance')}</p>
-              <p className="sm:text-[1rem] text-[0.8rem]">{localStorage.getItem('address')===null ? '' :`${localStorage.getItem('address').slice(0,12)}...`}</p>
+              <p className="text-[1rem] font-semibold">{localStorage.getItem('address')!==null?localStorage.getItem('balance'):''}</p>
+              <p className="sm:text-[1rem] text-[0.8rem]">{localStorage.getItem('address')===null||false ? '' :`${localStorage.getItem('address').slice(0,12)}...`}</p>
               <button onClick={data.connectwallet}  className="border-1 p-1 sm:text-[1rem] text-[0.8rem] text-white bg-[#FF5757] hover:shadow-xl px-2 sm:px-4 rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border">
-              { localStorage.getItem('address')===null && localStorage.getItem('balance')===null ? 'connect Wallet' : 'Connected'}
+              { localStorage.getItem('address')===null && localStorage.getItem('balance')===null || localStorage.getItem('wallet')===false ? 'connect Wallet' : 'Connected'}
               </button>
             </div>
           </div>

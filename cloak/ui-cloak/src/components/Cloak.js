@@ -32,18 +32,26 @@ const Cloak = () => {
         if (!tronWeb) {
             alert("Please install tronweb")
         }
-    }, [tronWeb])
+
+    }, [])
 
     useEffect(() => {
-        const checkNetwork = async () => {
-            const currentNetwork = await tronWeb.trx.getCurrentBlock();
-            if (currentNetwork.block_header.raw_data.field[0].chain_id === 1) {
-                console.error("Error: You are not on the Shasta test network.");
+
+        async function checkNetwork() {
+            if (!tronWeb.currentProvider) {
+                console.log('Error: TronWeb provider is undefined');
+                return;
             }
-            console.log('👍')
+            const network = await tronWeb.trx.getNetwork();
+            if (network.name !== 'shasta') {
+                throw new Error('Please connect to the Shasta testnet using TronLink');
+            }
+            console.log('Connected to Shasta testnet');
+
 
         }
-        checkNetwork()
+
+        checkNetwork(); // Call checkNet
 
 
     }, [tronWeb])
@@ -51,12 +59,13 @@ const Cloak = () => {
 
     async function connectwallet() {
         if (tronWeb) {
-            await window.tronLink.request({ method: 'tron_requestAccounts' });
+
+            window.tronLink.request({ method: 'tron_requestAccounts' })
             const address = tronWeb.defaultAddress.base58;
             localStorage.setItem('address', address)
             const balanceInSun = await tronWeb.trx.getBalance(address);
             // Convert the balance from SUN to TRX
-            if (new BigNumber(balanceInSun).toNumber()>0) {
+            if (new BigNumber(balanceInSun).toNumber() > 0) {
                 console.log('No amount')
             }
             const balanceInTrx = tronWeb.fromSun(balanceInSun);

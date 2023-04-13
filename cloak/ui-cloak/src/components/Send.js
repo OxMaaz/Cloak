@@ -34,6 +34,7 @@ const Send = () => {
     const [amount, setamount] = useState('')
     const [show, setshow] = useState(false)
     const [bydefault, setbydefault] = useState('TRON')
+    const [tron, settron] = useState('')
     let receipent;
 
 
@@ -138,7 +139,7 @@ const Send = () => {
 
         }
 
-        catch (err) { 
+        catch (err) {
             console.log(err)
         }
 
@@ -146,7 +147,7 @@ const Send = () => {
 
     }
 
-   
+
     const sendTrx = async () => {
         initializer()
         let contract;
@@ -165,6 +166,7 @@ const Send = () => {
             shouldPollResponse: true
         }).then(res => {
             console.log('https://shasta.tronscan.org/tx/' + res);
+            settron('https://shasta.tronscan.org/tx/' + res)
         }).catch(err => {
             console.error(err);
         });
@@ -196,6 +198,7 @@ const Send = () => {
             shouldPollResponse: true
         }).then(res => {
             console.log('https://shasta.tronscan.org/tx/' + res);
+            settron('https://shasta.tronscan.org/tx/' + res)
         }).catch(err => {
             console.error(err);
             seterror(err.message);
@@ -260,6 +263,7 @@ const Send = () => {
             >
                 Send
             </button>
+            <p>{tron}</p>
             <p>{error}</p>
             {token === '' ? console.log('tron') : console.log(token)}
 
