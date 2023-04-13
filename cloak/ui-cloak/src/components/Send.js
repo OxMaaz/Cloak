@@ -43,7 +43,7 @@ const Send = () => {
 
     useEffect(() => {
         if (StealthmetaAddress.startsWith('#tronCloak-')) {
-            StealthmetaAddress.replace('#tronCloak-', '')
+            StealthmetaAddress.replace('#tronCloak-', '');
         }
 
     }, [StealthmetaAddress])
@@ -217,53 +217,48 @@ const Send = () => {
 
         }
 
-    
+
 
         setrunning(false)
     }
 
-
-
-
-
-
-
-
-
-
-
     return (
-        <div className="flex flex-col items-center space-y-4">
+        <div className=" flex flex-col items-center space-y-4">
 
 
             {/* tokens dropdown */}
 
-            <div >
-                <ul >
-                    <li style={{ border: '1px solid black', cursor: 'pointer' }}>{bydefault} <AiOutlineArrowDown size={20} onClick={() => setshow(!show)} /></li>
+            <div className='absolute w-72'>
+                <ul className='hover:shadow-md  border rounded-md' onClick={() => setshow(!show)}>
+                    <li className='rounded-md px-2 p-1  cursor-pointer flex space-x-2  justify-between text-md  border border-gray-400' >
+                        <p>{bydefault}</p>
+                        <AiOutlineArrowDown className='float-right' color='grey' size={18} />
+                    </li>
                     {show && Tokens.map((t) =>
-                        <li style={{ border: '1px solid black', cursor: 'pointer' }} key={t.name} onClick={() => changedefault(t)} >
-                            {t.name}
-                            <img src={t.symbol} alt="" height={20} width={20} />
-                        </li>
+                        <div className='bg-white hover:shadow-md text-sm'>
+                            <li
+                                className='px-2 p-3 cursor-default
+                         hover:bg-[#FF5757] hover:text-white montserrat-small 
+                         flex space-x-8 justify-between' key={t.name} onClick={() => changedefault(t)} >
+                                <p>{t.name}</p>
+                                <img src={t.symbol} alt="" height={16} width={20} />
+                            </li>
+                        </div>
                     )}
                 </ul>
             </div>
 
-
-
-
-            <div className="sm:flex-row sm:space-x-5 flex-col items-center gap-5 flex">
+            <div className="sm:flex-row pt-14 sm:space-x-5 flex-col items-center gap-5 flex">
                 <input
                     // style={{ border: '1px solid red' }}
-                    className="outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[210px]"
+                    className="text-gray-800 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[210px]"
                     type="text"
                     onChange={(e) => setStealthmetaAddress(e.target.value)}
                     placeholder="Receipent address"
                 />
                 {/* Amount*/}
                 <input
-                    className="outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[110px]"
+                    className="text-gray-800 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[110px]"
                     value={amount}
                     type="text"
                     placeholder="Ex: 100trx"
@@ -273,7 +268,7 @@ const Send = () => {
             {/* send button */}
 
             <button
-                className="border-1 p-1 text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
+                className="montserrat-subtitle border-1 p-1 text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
                 onClick={token === '' ? sendTrx : sendTrc20}
             >
                 Send
@@ -284,13 +279,6 @@ const Send = () => {
             {token === '' ? console.log('tron') : console.log(token)}
 
             {/* consoling */}
-
-
-
-
-
-
-
         </div>
     )
 }
