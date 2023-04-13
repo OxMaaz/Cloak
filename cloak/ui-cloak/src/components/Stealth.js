@@ -12,7 +12,7 @@ const ec = new EllipticCurve.ec('secp256k1');
 
 
 const Stealth = () => {
-
+  
   const data = useContext(CloakContext);
   let key;
 
@@ -42,16 +42,14 @@ const Stealth = () => {
       const addr = new Uint8Array(data.length + 2);
       addr.set(data);
       addr.set(crc, data.length);
-      const M = 'T' + base58.encode(addr)
-      localStorage.setItem('meta', M)
-      setstealthmeta(M)
-
-
+      const M = 'T' + base58.encode(addr);
+      localStorage.setItem('meta', M);
+      setstealthmeta(M.slice(0, 6) + '....' + M.slice(-5));
     }
 
     catch (e) {
-      console.error(e)
-      data.seterror(e)
+      console.error(e);
+      data.seterror(e);
     }
 
   }
@@ -75,19 +73,17 @@ const Stealth = () => {
   }
 
   useEffect(() => {
-
-    generatestealthmetaaddress()
-
-  }, [])
-
-
+    generatestealthmetaaddress();
+  }, []);
 
   return (
     <div className="flex flex-col space-y-6">
-      <h1 className="text-5xl font-semibold">Cloak Address</h1>
+      <h1 className="montserrat-subtitle text-4xl font-semibold">Cloak Address</h1>
 
       <div className="flex mx-auto space-x-3">
-        <h3>{`#tronCloak-${localStorage.getItem('meta')}`}</h3>
+        <h3 className="montserrat-medium">#tronCloak - 
+          <span className="montserrat-small"> {stealthmeta}</span>
+        </h3>
         {/* copy key */}
         <AiOutlineCopy
           className="cursor-pointer"
@@ -100,7 +96,7 @@ const Stealth = () => {
       {/* genetaemetakey */}
       <div>
         <button
-          className="border-1 p-1 text-white bg-[#FF5757] hover:shadow-xl px-3 rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
+          className="montserrat-subtitle border-1 p-1 text-white bg-[#FF5757] hover:shadow-xl px-3 rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
           onClick={generatestealthmetaaddress}
         >
           Generate

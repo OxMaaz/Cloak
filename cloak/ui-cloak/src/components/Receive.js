@@ -90,7 +90,7 @@ const Receive = () => {
         {hide !== true && (
           <input
             type="text"
-            className="outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[299px]"
+            className="text-gray-800 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[299px]"
             value={rootspendingkey}
             onChange={(e) => {
               setrootspendingkey(e.target.value);
