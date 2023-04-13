@@ -11,11 +11,11 @@ const Connect = () => {
           <div className="sm:px-7 flex justify-between">
             {/* leftside logo */}
             <div>
-              <img className="sm:w-25 w-24 font-bold" src={logo} alt="" />
+              <img className="sm:w-25 w-24 h-14 font-bold" src={logo} alt="" />
             </div>
             {/* rigt side */}
             <div className="sm:flex-row flex-co flex space-x-3 items-center">
-              <p className="text-[1rem] font-semibold">{localStorage.getItem('address')!==null?localStorage.getItem('balance'):''}</p>
+              <p className="text-[1rem]  font-semibold">{localStorage.getItem('address')!==null?localStorage.getItem('balance'):''}</p>
               <p className="sm:text-[1rem] text-[0.8rem]">{localStorage.getItem('address')===null||false ? '' :`${localStorage.getItem('address').slice(0,12)}...`}</p>
               <button onClick={data.connectwallet}  className="border-1 p-1 sm:text-[1rem] text-[0.8rem] text-white bg-[#FF5757] hover:shadow-xl px-2 sm:px-4 rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border">
               { localStorage.getItem('address')===null && localStorage.getItem('balance')===null || localStorage.getItem('wallet')===false ? 'connect Wallet' : 'Connected'}

@@ -34,7 +34,8 @@ const Send = () => {
     const [amount, setamount] = useState('')
     const [show, setshow] = useState(false)
     const [bydefault, setbydefault] = useState('TRON')
-    const [tron, settron] = useState('')
+    const [trxid, settrxid] = useState('')
+    const [running, setrunning] = useState(false)
     let receipent;
 
 
@@ -149,6 +150,7 @@ const Send = () => {
 
 
     const sendTrx = async () => {
+  
         initializer()
         let contract;
         console.log('tron')
@@ -160,22 +162,24 @@ const Send = () => {
         catch (e) {
             console.log(e.message)
         }
+        setrunning(true)
 
         contract.SendTron(r, s, a, receipent).send({
             callValue: tronWeb.toSun(amount),
             shouldPollResponse: true
         }).then(res => {
             console.log('https://shasta.tronscan.org/tx/' + res);
-            settron('https://shasta.tronscan.org/tx/' + res)
+            settrxid('https://shasta.tronscan.org/tx/' + res)
         }).catch(err => {
             console.error(err);
         });
 
 
-        console.log('hello')
+        setrunning(false)
 
     }
     const sendTrc20 = async () => {
+  
         fetchContract()
 
         initializer()
@@ -191,20 +195,20 @@ const Send = () => {
             console.log(e.message)
 
         }
-
+        setrunning(true)
 
         contract.SendTrc20(r, s, a, token, receipent, amount).send({
             callValue: tronWeb.toSun(amount),
             shouldPollResponse: true
         }).then(res => {
-            console.log('https://shasta.tronscan.org/tx/' + res);
-            settron('https://shasta.tronscan.org/tx/' + res)
+            console.log('https://shasta.tronscan.org/tx/' + res.trx);
+            settrxid('https://shasta.tronscan.org/tx/' + res)
         }).catch(err => {
             console.error(err);
             seterror(err.message);
         });
 
-
+        setrunning(false)
     }
 
 
@@ -263,7 +267,8 @@ const Send = () => {
             >
                 Send
             </button>
-            <p>{tron}</p>
+            <p>{trxid}</p>
+            <p>{running ? 'running' : ''}</p>
             <p>{error}</p>
             {token === '' ? console.log('tron') : console.log(token)}
 
