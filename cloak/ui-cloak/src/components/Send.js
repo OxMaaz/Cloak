@@ -43,14 +43,19 @@ const Send = () => {
 
 
 
-    // useEffect(() => {
-    //     if (StealthmetaAddress.startsWith('#tronCloak-')) {
-    //         StealthmetaAddress.replace('#tronCloak-', '');
-    //     }
+    const handlemetaaddress = (e) => {
+        if (e.target.value[0] !== 'T' && e.target.value !== '') {
+            seterror('Invalid address')
+            setTimeout(() => {
+                seterror('')
+            }, 4000);
+        
 
-    // }, [StealthmetaAddress])
 
+        }
+        setStealthmetaAddress(e.target.value)
 
+    }
 
     function initializer() {
 
@@ -267,7 +272,7 @@ const Send = () => {
                     // style={{ border: '1px solid red' }}
                     className="bg-[#fffafa] font-semibold text-gray-700 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[210px]"
                     type="text"
-                    onChange={(e) => setStealthmetaAddress(e.target.value)}
+                    onChange={handlemetaaddress}
                     placeholder="Receipent address"
                 />
                 {/* Amount*/}
@@ -292,7 +297,7 @@ const Send = () => {
             </div>
             {running === true ? <img height={60} width={60} src={loading} alt="" /> : ''}
             <p>{trxid}</p>
-            <p>{error}</p>
+            <p className='montserrat-subtitle text-[#FF5757]'>{error}</p>
             {token === '' ? console.log('tron') : console.log(token)}
 
             {/* consoling */}

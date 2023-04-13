@@ -29,30 +29,30 @@ const Cloak = () => {
     const { tronWeb } = window
 
     useEffect(() => {
-        if (!window.tronWeb.ready) {
+        if (!window.tronWeb) {
             alert("Please connect with Tronlink")
         }
 
     }, [])
 
-    useEffect(() => {
-        async function getChainId() {
-            const currentBlock = await tronWeb.trx.getCurrentBlock();
-            const blockNumber = currentBlock.block_header.raw_data.number;
-            const block = await tronWeb.trx.getBlock(blockNumber);
-            if (!block) {
-              throw new Error('Unable to get block information.');
-            }
-            const chainId = block.block_header.raw_data.fee_limit;
-            return chainId;
-          }
+    // useEffect(() => {
+    //     async function getChainId() {
+    //         const currentBlock = await tronWeb.trx.getCurrentBlock();
+    //         const blockNumber = currentBlock.block_header.raw_data.number;
+    //         const block = await tronWeb.trx.getBlock(blockNumber);
+    //         if (!block) {
+    //           throw new Error('Unable to get block information.');
+    //         }
+    //         const chainId = block.block_header.raw_data.fee_limit;
+    //         return chainId;
+    //       }
           
-          getChainId().then(chainId => {
-         alert(`The chain ID is ${chainId}.`);
-          }).catch(error => {
-            console.error(error);
-          });
-    }, [tronWeb])
+    //       getChainId().then(chainId => {
+    //      alert(`The chain ID is ${chainId}.`);
+    //       }).catch(error => {
+    //         console.error(error);
+    //       });
+    // }, [tronWeb])
 
 
     async function connectwallet() {
