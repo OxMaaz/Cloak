@@ -169,7 +169,7 @@ const Send = () => {
                 callValue: tronWeb.toSun(amount),
                 shouldPollResponse: true
             })
-            let trxhash = await tronWeb.trx.getTransaction(trx);
+            let trxhash = await tronWeb.trx.getTransaction.txID(trx);
             settrxid('https://shasta.tronscan.org/tx/' + trxhash)
 
         }
@@ -207,7 +207,7 @@ const Send = () => {
                 callValue: tronWeb.toSun(amount),
                 shouldPollResponse: true
             })
-            let trxhash = await tronWeb.trx.getTransaction(trx);
+            let trxhash = await tronWeb.trx.getTransaction.txID(trx);
             settrxid('https://shasta.tronscan.org/tx/' + trxhash)
 
         }

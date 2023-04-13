@@ -7,7 +7,7 @@ import EllipticCurve from 'elliptic';
 import { AiOutlineCopy } from "react-icons/ai";
 // import tronWeb from 'tronweb';
 import { GiKangaroo } from "react-icons/gi";
-import { AiOutlineArrowsAlt ,AiOutlineShrink} from "react-icons/ai";
+import { AiOutlineArrowsAlt, AiOutlineShrink } from "react-icons/ai";
 const ec = new EllipticCurve.ec('secp256k1');
 
 
@@ -15,7 +15,7 @@ const ec = new EllipticCurve.ec('secp256k1');
 const Receive = () => {
 
 
-  const  data  = useContext(CloakContext);
+  const data = useContext(CloakContext);
   const [rootspendingkey, setrootspendingkey] = useState('')
   const [privatekey, setprivatekey] = useState('')
   const [hide, sethide] = useState(true)
@@ -31,10 +31,10 @@ const Receive = () => {
     var Spendingkey;
     if (rootspendingkey === '') {
       Spendingkey = ec.keyFromPrivate(localStorage.getItem('myKey'), 'hex');
-   
+
     }
 
-    else{
+    else {
       Spendingkey = ec.keyFromPrivate(rootspendingkey, 'hex');
     }
 
@@ -46,28 +46,37 @@ const Receive = () => {
     var _sharedSecret;
 
     data.registry.forEach((z) => {
-      const kk=z.slice(3)
+      const kk = z.slice(3)
 
       ephPublicKey = ec.keyFromPublic(kk, 'hex');
       RSharedsecret = Spendingkey.derive(ephPublicKey.getPublic()); // 
       RHashedsecret = ec.keyFromPrivate(keccak256(RSharedsecret.toArray()));
       _sharedSecret = '0x' + RSharedsecret.toArray()[0].toString(16).padStart(2, '0')
 
-      if (_sharedSecret.toString().slice(2, 4) === z.slice(1, 3).toString()) {
-        const _key = Spendingkey.getPrivate().add(RHashedsecret.getPrivate());
-        const pk = _key.mod(ec.curve.n);
-        console.log('Private key to open wallet', pk.toString(16, 32))
-        setprivatekey(pk.toString(16, 32))
-        setreveal(true)
+
+      try {
+        if (_sharedSecret.toString().slice(2, 4) === z.slice(1, 3).toString()) {
+          const _key = Spendingkey.getPrivate().add(RHashedsecret.getPrivate());
+          const pk = _key.mod(ec.curve.n);
+          console.log('Private key to open wallet', pk.toString(16, 32))
+          setprivatekey(pk.toString(16, 32))
+          setreveal(true)
+
+        }
+
+        return
 
       }
 
-      return 
+      catch (e) {
+        seterr(e.message)
+      }
+
 
 
     })
     setmatchingkey(false)
- 
+
 
   }
 
@@ -77,7 +86,7 @@ const Receive = () => {
 
   return (
     <>
- <div className="py-2 flex space-x-4 justify-center">
+      <div className="py-2 flex space-x-4 justify-center">
         {hide !== true && (
           <input
             type="text"
