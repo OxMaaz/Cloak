@@ -29,31 +29,29 @@ const Cloak = () => {
     const { tronWeb } = window
 
     useEffect(() => {
-        if (!tronWeb) {
+        if (!window.tronWeb.ready) {
             alert("Please install tronweb")
         }
 
     }, [])
 
     useEffect(() => {
-
-        async function checkNetwork() {
-            if (!tronWeb.currentProvider) {
-                console.log('Error: TronWeb provider is undefined');
-                return;
+        async function getChainId() {
+            const currentBlock = await tronWeb.trx.getCurrentBlock();
+            const blockNumber = currentBlock.block_header.raw_data.number;
+            const block = await tronWeb.trx.getBlock(blockNumber);
+            if (!block) {
+              throw new Error('Unable to get block information.');
             }
-            const network = await tronWeb.trx.getNetwork();
-            if (network.name !== 'shasta') {
-                throw new Error('Please connect to the Shasta testnet using TronLink');
-            }
-            console.log('Connected to Shasta testnet');
-
-
-        }
-
-        checkNetwork(); // Call checkNet
-
-
+            const chainId = block.block_header.raw_data.fee_limit;
+            return chainId;
+          }
+          
+          getChainId().then(chainId => {
+         alert(`The chain ID is ${chainId}.`);
+          }).catch(error => {
+            console.error(error);
+          });
     }, [tronWeb])
 
 
@@ -64,10 +62,6 @@ const Cloak = () => {
             const address = tronWeb.defaultAddress.base58;
             localStorage.setItem('address', address)
             const balanceInSun = await tronWeb.trx.getBalance(address);
-            // Convert the balance from SUN to TRX
-            if (new BigNumber(balanceInSun).toNumber() > 0) {
-                console.log('No amount')
-            }
             const balanceInTrx = tronWeb.fromSun(balanceInSun);
             localStorage.setItem('balance', `${balanceInTrx} TRX`)
             setBalance(balanceInTrx)
@@ -76,13 +70,7 @@ const Cloak = () => {
 
         } else {
             // Connect to user's wallet
-            try {
-                await tronWeb.setAddress();
-                const address = tronWeb.defaultAddress.base58;
-                console.log('Connected to wallet:', address);
-            } catch (error) {
-                console.error('Error connecting to wallet:', error);
-            }
+            alert('connect to shasta network')
 
             // Get the balance of the connected TronLink wallet
 
