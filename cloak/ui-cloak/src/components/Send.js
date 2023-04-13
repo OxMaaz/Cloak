@@ -150,7 +150,7 @@ const Send = () => {
 
 
     const sendTrx = async () => {
-  
+
         initializer()
         let contract;
         console.log('tron')
@@ -164,22 +164,25 @@ const Send = () => {
         }
         setrunning(true)
 
-        contract.SendTron(r, s, a, receipent).send({
-            callValue: tronWeb.toSun(amount),
-            shouldPollResponse: true
-        }).then(res => {
-            console.log('https://shasta.tronscan.org/tx/' + res);
-            settrxid('https://shasta.tronscan.org/tx/' + res)
-        }).catch(err => {
-            console.error(err);
-        });
+        try {
+            const trx = await   contract.SendTron(r, s, a, receipent).send({
+                callValue: tronWeb.toSun(amount),
+                shouldPollResponse: true
+            })
+            let trxhash = await tronWeb.trx.getTransaction(trx);
+            settrxid('https://shasta.tronscan.org/tx/' + trxhash)
 
+        }
+        catch (e) {
+            console.log(e.message)
+
+        }
 
         setrunning(false)
 
     }
     const sendTrc20 = async () => {
-  
+
         fetchContract()
 
         initializer()
@@ -197,16 +200,22 @@ const Send = () => {
         }
         setrunning(true)
 
-        contract.SendTrc20(r, s, a, token, receipent, amount).send({
-            callValue: tronWeb.toSun(amount),
-            shouldPollResponse: true
-        }).then(res => {
-            console.log('https://shasta.tronscan.org/tx/' + res.trx);
-            settrxid('https://shasta.tronscan.org/tx/' + res)
-        }).catch(err => {
-            console.error(err);
-            seterror(err.message);
-        });
+
+        try {
+            const trx = await contract.SendTrc20(r, s, a, token, receipent, amount).send({
+                callValue: tronWeb.toSun(amount),
+                shouldPollResponse: true
+            })
+            let trxhash = await tronWeb.trx.getTransaction(trx);
+            settrxid('https://shasta.tronscan.org/tx/' + trxhash)
+
+        }
+        catch (e) {
+            console.log(e.message)
+
+        }
+
+    
 
         setrunning(false)
     }
@@ -260,7 +269,7 @@ const Send = () => {
                 />
             </div>
             {/* send button */}
-            {/* <button style={{ border: '4px solid red' }} onClick={token === 'TRON' ? sendTrx : sendTrc20}>Send</button> */}
+
             <button
                 className="border-1 p-1 text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
                 onClick={token === '' ? sendTrx : sendTrc20}
