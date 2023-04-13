@@ -9,7 +9,9 @@ import { CloakContext } from './Cloak';
 import { AiOutlineArrowDown } from "react-icons/ai";
 import abi from '../build/contracts/EphKeys.json';
 import tronWeb from 'tronweb'
+import loading from '../assets/loading.gif'
 const ec = new EllipticCurve.ec('secp256k1');
+
 
 // z from eph key
 // token address
@@ -41,12 +43,12 @@ const Send = () => {
 
 
 
-    useEffect(() => {
-        if (StealthmetaAddress.startsWith('#tronCloak-')) {
-            StealthmetaAddress.replace('#tronCloak-', '');
-        }
+    // useEffect(() => {
+    //     if (StealthmetaAddress.startsWith('#tronCloak-')) {
+    //         StealthmetaAddress.replace('#tronCloak-', '');
+    //     }
 
-    }, [StealthmetaAddress])
+    // }, [StealthmetaAddress])
 
 
 
@@ -150,10 +152,13 @@ const Send = () => {
 
 
     const sendTrx = async () => {
+        setStealthmetaAddress('')
+        setamount('')
 
         initializer()
         let contract;
         console.log('tron')
+
 
         try {
             contract = await tronWeb.contract(abi.abi, contractAddress);
@@ -169,8 +174,11 @@ const Send = () => {
                 callValue: tronWeb.toSun(amount),
                 shouldPollResponse: true
             })
-            let trxhash = await tronWeb.trx.getTransaction.txID(trx);
+
+            let trxhash = await tronWeb.trx.getTransaction(trx);
             settrxid('https://shasta.tronscan.org/tx/' + trxhash)
+            console.log('https://shasta.tronscan.org/tx/' + trxhash)
+
 
         }
         catch (e) {
@@ -207,8 +215,12 @@ const Send = () => {
                 callValue: tronWeb.toSun(amount),
                 shouldPollResponse: true
             })
-            let trxhash = await tronWeb.trx.getTransaction.txID(trx);
+            setStealthmetaAddress('')
+            setamount('')
+            let trxhash = await tronWeb.trx.getTransaction(trx);
             settrxid('https://shasta.tronscan.org/tx/' + trxhash)
+            console.log('https://shasta.tronscan.org/tx/' + trxhash)
+
 
         }
         catch (e) {
@@ -217,21 +229,20 @@ const Send = () => {
 
         }
 
-        setStealthmetaAddress('')
-        setamount('')
+
 
         setrunning(false)
     }
 
     return (
-        <div className=" flex flex-col items-center space-y-4 mt-4">
+        <div className=" flex flex-col items-center space-y-4 mt-4 ">
 
 
             {/* tokens dropdown */}
 
             <div className='absolute w-72 '>
                 <ul className='hover:shadow-md border rounded-md' onClick={() => setshow(!show)}>
-                    <li className='rounded-md px-2 p-1 text-gray-500   cursor-pointer flex space-x-2  justify-between text-md  border border-gray-400' >
+                    <li className='rounded-md px-2 p-1 text-gray-500 font-semibold   cursor-pointer flex space-x-2  justify-between text-md  border border-gray-400' >
                         <p>{bydefault}</p>
                         <AiOutlineArrowDown className='float-right' color='grey' size={18} />
                     </li>
@@ -254,14 +265,14 @@ const Send = () => {
             <div className="sm:flex-row pt-12 sm:space-x-5 flex-col items-center gap-5 flex">
                 <input
                     // style={{ border: '1px solid red' }}
-                    className="bg-[#fffafa] text-gray-800 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[210px]"
+                    className="bg-[#fffafa] font-semibold text-gray-700 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[210px]"
                     type="text"
                     onChange={(e) => setStealthmetaAddress(e.target.value)}
                     placeholder="Receipent address"
                 />
                 {/* Amount*/}
                 <input
-                    className="bg-[#fffafa] text-gray-800 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[110px]"
+                    className="bg-[#fffafa] font-semibold text-gray-700 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[110px]"
                     value={amount}
                     type="text"
                     placeholder="Ex: 100trx"
@@ -276,11 +287,11 @@ const Send = () => {
                     onClick={token === '' ? sendTrx : sendTrc20}
                 >
 
-                    Send
+                    {running === true ? 'sending' : 'send'}
                 </button>
             </div>
+            {running === true ? <img height={60} width={60} src={loading} alt="" /> : ''}
             <p>{trxid}</p>
-            <p>{running ? 'running' : ''}</p>
             <p>{error}</p>
             {token === '' ? console.log('tron') : console.log(token)}
 

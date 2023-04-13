@@ -30,7 +30,7 @@ const Cloak = () => {
 
     useEffect(() => {
         if (!window.tronWeb.ready) {
-            alert("Please install tronweb")
+            alert("Please connect with Tronlink")
         }
 
     }, [])
@@ -93,6 +93,8 @@ const Cloak = () => {
             <CloakContext.Provider value={contextValue}>
                 <Connect />
                 <Stealth />
+                <div className=' mt-16  border-2  mx-auto  w-[700px]'>
+                </div>
                 <Transaction />
                 <Footer />
             </CloakContext.Provider>

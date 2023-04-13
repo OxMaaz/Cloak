@@ -12,12 +12,13 @@ const ec = new EllipticCurve.ec('secp256k1');
 
 
 const Stealth = () => {
-  
+
   const data = useContext(CloakContext);
   let key;
 
   const [stealthmeta, setstealthmeta] = useState('')
   const [storedspendingkey, setstoredspendingkey] = useState('')
+  const [note, setnote] = useState(false)
 
 
 
@@ -65,10 +66,21 @@ const Stealth = () => {
   }
 
 
+  const revealnot = () => {
+    setnote(true)
+    setTimeout(() => {
+      setnote(false)
+
+    }, 6000);
+
+
+  }
+
   const oncopy = () => {
 
     navigator.clipboard.writeText(stealthmeta)
     downloadFile(localStorage.getItem('myKey'))
+    revealnot()
 
   }
 
@@ -81,8 +93,8 @@ const Stealth = () => {
       <h1 className="montserrat-subtitle text-4xl font-semibold">Cloak Address</h1>
 
       <div className="flex mx-auto space-x-3">
-        <h3 className="montserrat-medium font-semibold">#tronCloak - 
-          <span className="montserrat-small"> {stealthmeta}</span>
+        <h3 className="montserrat-medium font-normal">#tronCloak-
+          <span className="montserrat-small font-semibold">{stealthmeta}</span>
         </h3>
         {/* copy key */}
         <AiOutlineCopy
@@ -102,8 +114,9 @@ const Stealth = () => {
           Generate
         </button>
       </div>
-
-      {/* <p>Share this Cloak address to get funds</p> */}
+      {note === true &&
+        <div className="flex justify-center text-gray-500 items-center mr-14 mb-2"> <span className="montserrat-subtitle font-semibold " >⚠Note : </span> <p className="montserrat-subtitle font-normal   ">Share only cloak address Never share the DontRevealMe key</p>
+        </div>}
     </div>
   )
 }

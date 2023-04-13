@@ -9,7 +9,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Container />} />
-          <Route path="/cloak" element={<Cloak/>}   />
+          <Route path="/cloak" element={<Cloak/>}  />
         </Routes>
       </Router>
     </div>

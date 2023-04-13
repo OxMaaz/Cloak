@@ -17,7 +17,7 @@ const Header = () => {
           <h1 className='montserrat-subtitle sm:text-[1.5rem] font-semibold text-[1.2rem] text-[#FDF0EF]'>Cloak</h1>
         </div>
         {/* "how it works" on the right side*/}
-        <h4 className='montserrat-subtitle cursor-pointer sm:text-[1.2rem] font-semibold underline-offset-4 underline text-[.9rem] hover:font-bold hover:text-white text-[#FDF0EF] ' onClick={() => navigate('/')}>How it works?</h4>
+        <h4 className='montserrat-subtitle cursor-pointer sm:text-[1.2rem] font-semibold  hover:font-bold hover:text-white text-[#FDF0EF] ' onClick={() => navigate('/')}>How it works?</h4>
 
       </div>
         {/* at the bottom of the logo */}

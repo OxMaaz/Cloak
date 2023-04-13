@@ -22,6 +22,7 @@ const Receive = () => {
   const [matching, setmatchingkey] = useState(false)
   const [err, seterr] = useState(false)
   const [reveal, setreveal] = useState(false)
+  const [founded, setfounded] = useState('founded')
 
 
   const generaterootspendingkey = () => {
@@ -61,6 +62,8 @@ const Receive = () => {
           console.log('Private key to open wallet', pk.toString(16, 32))
           setprivatekey(pk.toString(16, 32))
           setreveal(true)
+          setrootspendingkey('')
+          setfounded('founded')
 
         }
 
@@ -90,7 +93,7 @@ const Receive = () => {
         {hide !== true && (
           <input
             type="text"
-            className="bg-[#fffafa] text-gray-800 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[340px]"
+            className="bg-[#fffafa] font-semibold text-gray-700 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[340px]"
             value={rootspendingkey}
             onChange={(e) => {
               setrootspendingkey(e.target.value);
@@ -99,7 +102,7 @@ const Receive = () => {
           />
         )}
         {hide && (
-          <p className="text-gray-500 border-r p-1 px-2 montserrat-small border-red-700">
+          <p className="text-gray-500 p-1 px-2 font-semibold montserrat-small ">
             Expand to enter the saved Key ( optional )
           </p>
         )}
@@ -139,7 +142,10 @@ const Receive = () => {
             <AiOutlineCopy size={25} className='cursor-pointer text-gray-500 ' onClick={copykey} />
           </div>
         ) : (
-          <p>{err && 'Error : ' + err}</p>
+          <>
+            <p>{founded!=='founded'&& 'Key doesnt exist'}</p>
+            <p>{err && 'Error : ' + err}</p>
+          </>
         )}
       </div>
 
