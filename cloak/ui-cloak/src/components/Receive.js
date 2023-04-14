@@ -45,8 +45,11 @@ const Receive = () => {
     var RSharedsecret;
     var RHashedsecret;
     var _sharedSecret;
+    const ephkeys = localStorage.getItem('ephkeys');
+    const registry = JSON.parse(ephkeys);
+    console.log(registry)
 
-    data.registry.forEach((z) => {
+    registry.forEach((z) => {
       const kk = z.slice(3)
 
       ephPublicKey = ec.keyFromPublic(kk, 'hex');
@@ -128,8 +131,8 @@ const Receive = () => {
           className="flex items-center cursor-pointer space-x-1 border-1 p-1 text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
           onClick={generaterootspendingkey}
         >
-          <GiKangaroo size={25} />
-          <h2>Match Key</h2>
+          <GiKangaroo size={26} />
+          <h2 className='montserrat-small'>Match Key</h2>
         </div>
       </div>
 
@@ -143,7 +146,7 @@ const Receive = () => {
           </div>
         ) : (
           <>
-            <p>{founded!=='founded'&& 'Key doesnt exist'}</p>
+            <p>{founded !== 'founded' && 'Key doesnt exist'}</p>
             <p>{err && 'Error : ' + err}</p>
           </>
         )}

@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import { Tokens } from '../helpers/Token'
-import BigNumber from 'bignumber.js';
 import { useState } from 'react'
 import { base58, keccak256 } from 'ethers/lib/utils.js';
 import EllipticCurve from 'elliptic';
@@ -10,7 +9,6 @@ import { AiOutlineArrowDown } from "react-icons/ai";
 import abi from '../build/contracts/EphKeys.json';
 import tronWeb from 'tronweb'
 import loading2 from '../assets/loading2.gif'
-import loading from '../assets/loading.gif'
 const ec = new EllipticCurve.ec('secp256k1');
 
 
@@ -19,10 +17,11 @@ const ec = new EllipticCurve.ec('secp256k1');
 const Send = () => {
 
     const contractAddress = 'TJBeQh58L9nLzkamyemu3A5GZgTafVHdeF'
+    const { tronWeb } = window
+
     var r;
     var s;
     var a;
-    const { tronWeb } = window
 
     const data = useContext(CloakContext);
     const [token, settoken] = useState('')
@@ -30,7 +29,7 @@ const Send = () => {
     const [error, seterror] = useState('')
     const [amount, setamount] = useState('')
     const [show, setshow] = useState(false)
-    const [bydefault, setbydefault] = useState('TRON')
+    const [bydefault, setbydefault] = useState('TRX')
     const [trxid, settrxid] = useState('')
     const [running, setrunning] = useState(false)
     let receipent;
@@ -39,21 +38,19 @@ const Send = () => {
 
 
     const handlemetaaddress = (e) => {
-        setStealthmetaAddress(e.target.value)
+
         if (e.target.value[0] !== 'T' && e.target.value !== '') {
             seterror('Invalid address')
             setTimeout(() => {
                 seterror('')
             }, 4000);
 
-
-
         }
 
-
+        setStealthmetaAddress(e.target.value)
     }
 
-    function initializer() {
+    const initializer = () => {
 
         var meta;
         var ephPublic;
@@ -92,10 +89,10 @@ const Send = () => {
 
             r = '0x' + ephPublic.getX().toString(16, 64)
             s = '0x' + ephPublic.getY().toString(16, 64)
-            // const rs = `04${r.slice(2)}${s.slice(2)}`
+
             const z = `T${a.replace('0x', '')}04${r.slice(2)}${s.slice(2)}`
+            localStorage.setItem('ephkeys', JSON.stringify([...data.registry, z]));
             data.setRegistry([...data.registry, z])
-            // console.log('token-address', token, 'meta', StealthmetaAddress, 'amount', amount, 'zkey', z, "registry", [...data.registry, z], 'abi', abi.abi)
 
 
         }
@@ -104,7 +101,7 @@ const Send = () => {
             console.log('error', e)
         }
 
-
+        return true
 
     }
 
@@ -115,98 +112,101 @@ const Send = () => {
 
     }
 
-    const fetchContract = useMemo(async () => {
+    const fetchContract = async () => {
         const instance = await tronWeb.contract().at(token);
         const result = await instance.balanceOf(localStorage.getItem('address')).call();
 
-        try {
-            if (new BigNumber(result).toNumber() === 0) {
-                alert('You have no tokens')
-
-            }
-
+        if (result.toString() < amount) {
+            seterror('Not effecicient funds for the transaction')
+            alert('Not effecicient funds for the transaction')
+            setTimeout(() => {
+                seterror('')
+            }, 4000);
+            return false
 
         }
+        return true
 
-        catch (err) {
-            console.log(err)
-        }
-
+    }
 
 
-    }, [token])
+
+
 
 
     const sendTrx = async () => {
+        if(!tronWeb){
+            alert('Please initialze tronlink')
+            return
+        }
 
+        if (StealthmetaAddress === '' || amount === '') {
+            seterror('Please enter the address')
+            setTimeout(() => {
+                seterror('')
+            }, 4000);
+            return
+        }
+
+        setrunning(true)
         initializer()
-        let contract;
+
+
         console.log('tron')
 
 
-        try {
-            contract = await tronWeb.contract(abi.abi, contractAddress);
-
-        }
-        catch (e) {
-            console.log(e.message)
-        }
-        setrunning(true)
-
-        try {
-            const trx = await contract.SendTron(r, s, a, receipent).send({
-                callValue: tronWeb.toSun(amount),
-                shouldPollResponse: true
-            })
-
-            settrxid('https://shasta.tronscan.org/tx/' + trx)
+        const contract = await tronWeb.contract(abi.abi, contractAddress);
+        const trx = await contract.SendTron(r, s, a, receipent).send({
+            callValue: tronWeb.toSun(amount),
+        })
+        let txId = await tronWeb.trx.getTransaction(trx);
+        console.log(txId)
+        settrxid('https://shasta.tronscan.org/#/transaction/' + txId.txID)
 
 
-        }
-        catch (e) {
-            console.log(e.message)
-            seterror(e.message)
-
-        }
 
         setrunning(false)
 
     }
+
+
     const sendTrc20 = async () => {
+        if(!tronWeb){
+            alert('Please initialze tronlink')
+            return
+        }
 
-        fetchContract()
+        if (StealthmetaAddress === '' || amount === '') {
+            seterror('Please enter the address')
+            setTimeout(() => {
+                seterror('')
+            }, 4000);
+            return
+        }
+        setrunning(true)
+        if (fetchContract() !== true) {
+            setrunning(false)
+            return
 
-        initializer()
+        }
+
         console.log('trc20')
 
-        let contract;
 
-        try {
-            contract = await tronWeb.contract(abi.abi, contractAddress);
-
-        }
-        catch (e) {
-            console.log(e.message)
-        }
-
-        setrunning(true)
-
-        try {
-            const trx = await contract.transfer(receipent, tronWeb.toSun(amount)).send({
-                shouldPollResponse: true
-            })
-
-            settrxid('https://shasta.tronscan.org/tx/' + trx)
-
-
-        }
-        catch (e) {
-            console.log(e.message)
-            seterror(e.message)
-
-        }
+        const contract = await tronWeb.contract(abi.abi, contractAddress);
+        const trx = await contract.SendTrc20(r, s, a, token, receipent, amount).send()
+        let txId = await tronWeb.trx.getTransaction(trx);
+        settrxid('https://shasta.tronscan.org/#/transaction/' + txId.txID)
 
         setrunning(false)
+    }
+
+    const opentab = () => {
+        // if (event.target.innerText === '') return
+        if (trxid !== '') {
+            window.open(trxid, '_blank')
+        }
+
 
     }
 
@@ -222,8 +222,12 @@ const Send = () => {
                         <p>{bydefault}</p>
                         <AiOutlineArrowDown className='float-right' color='grey' size={18} />
                     </li>
+
                     <div className={`${show && 'h-36 overflow-y-scroll'} scrollbar
                      scrollbar-thumb-[#FF5757] scrollbar-w-[7px] scrollbar-h-3 scrollbar-thumb-rounded-full scrollbar-track-gray-100`}>
+
+                    <div className={show === true && 'max-h-32 overflow-y-scroll'}>
+
                         {show && Tokens.map((t) =>
                             <div className='bg-[#FFF7F7] hover:shadow-md text-sm '>
                                 <li
@@ -270,13 +274,11 @@ const Send = () => {
 
 
             </div>
-
-       
-            <p>{trxid}</p>
+            <p onClick={opentab} className='montserrat-subtitle text-gray-500 font-semibold underline underline-offset-8 decoration-[#FF5757] cursor-pointer'>{trxid !== '' ? trxid.slice(0, 58) : ''}</p>
             <p className='montserrat-subtitle text-[#FF5757]'>{error}</p>
 
 
-            {/* consoling */}
+            {console.log(token)}
         </div>
     )
 }

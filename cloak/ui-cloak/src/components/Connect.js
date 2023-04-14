@@ -16,7 +16,7 @@ const Connect = () => {
         {/* leftside logo */}
         <div className='flex items-center cursor-pointer' onClick={() => navigate('/')}>
           <img className="sm:w-20 w-16 font-bold" src={logo} alt="" />
-          <p onClick={navigate(Container)} className='ml-14 text-gray-700 montserrat-subtitle underline-offset-8 font-semibold underline decoration-[#FF5757]  text-[1.2rem]'>Home</p>
+          <p onClick={navigate(Container)} className='ml-14 text-gray-700 montserrat-subtitle underline-offset-8 font-semibold underline decoration-[#FF5757]  text-[1.1rem]'>Home</p>
         </div>
         
         {/* rigt side */}

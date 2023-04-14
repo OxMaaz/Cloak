@@ -7,16 +7,10 @@ import { useState, useEffect } from 'react'
 import TronWeb from 'tronweb';
 import querystring from 'querystring';
 import Footer from '../intro/Footer'
-import BigNumber from 'bignumber.js';
-
-
-
 
 
 
 export const CloakContext = createContext(null)
-
-
 
 
 
@@ -35,25 +29,7 @@ const Cloak = () => {
 
     }, [tronWeb])
 
-    // useEffect(() => {
-    //     async function getChainId() {
-    //         const currentBlock = await tronWeb.trx.getCurrentBlock();
-    //         const blockNumber = currentBlock.block_header.raw_data.number;
-    //         const block = await tronWeb.trx.getBlock(blockNumber);
-    //         if (!block) {
-    //           throw new Error('Unable to get block information.');
-    //         }
-    //         const chainId = block.block_header.raw_data.fee_limit;
-    //         return chainId;
-    //       }
-          
-    //       getChainId().then(chainId => {
-    //      alert(`The chain ID is ${chainId}.`);
-    //       }).catch(error => {
-    //         console.error(error);
-    //       });
-    // }, [tronWeb])
-
+  
 
     async function connectwallet() {
         if (tronWeb) {
@@ -65,8 +41,8 @@ const Cloak = () => {
             const balanceInTrx = tronWeb.fromSun(balanceInSun);
             localStorage.setItem('balance', `${balanceInTrx} TRX`)
             setBalance(balanceInTrx)
-            localStorage.setItem('wallet', true)
             setWallet(true)
+         
 
         } 
 
@@ -85,7 +61,7 @@ const Cloak = () => {
 
 
     return (
-        <div className='bg-[#FFF7F7]'>
+        <div className='bg-[#FFF7F7] '>
             <CloakContext.Provider value={contextValue}>
                 <Connect />
                 <Stealth />
