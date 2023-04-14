@@ -135,7 +135,7 @@ const Send = () => {
 
 
     const sendTrx = async () => {
-        if(!tronWeb){
+        if (!tronWeb) {
             alert('Please initialze tronlink')
             return
         }
@@ -171,7 +171,7 @@ const Send = () => {
 
 
     const sendTrc20 = async () => {
-        if(!tronWeb){
+        if (!tronWeb) {
             alert('Please initialze tronlink')
             return
         }
@@ -223,22 +223,22 @@ const Send = () => {
                         <AiOutlineArrowDown className='float-right' color='grey' size={18} />
                     </li>
 
-                    <div className={`${show && 'h-36 overflow-y-scroll'} scrollbar
-                     scrollbar-thumb-[#FF5757] scrollbar-w-[7px] scrollbar-h-3 scrollbar-thumb-rounded-full scrollbar-track-gray-100`}>
+                 
 
-                    <div className={show === true && 'max-h-32 overflow-y-scroll'}>
+                        <div className={show === true && 'max-h-32 overflow-y-scroll scrollbar cursor-pointer     scrollbar-thumb-[#FF5757] scrollbar-w-[7px] scrollbar-h-3 scrollbar-thumb-rounded-full scrollbar-track-gray-100 '}>
 
-                        {show && Tokens.map((t) =>
-                            <div className='bg-[#FFF7F7] hover:shadow-md text-sm '>
-                                <li
-                                    className='px-2 p-3 cursor-pointer text-gray-500
+                            {show && Tokens.map((t) =>
+                                <div className='bg-[#FFF7F7] hover:shadow-md text-sm  '>
+                                    <li
+                                        className='px-2 p-3 cursor-pointer text-gray-500 font-semibold
                          hover:bg-[#FF5757] hover:text-white montserrat-small 
                          flex space-x-8 justify-between' key={t.name} onClick={() => changedefault(t)} >
-                                    <p>{t.name}</p>
-                                    <img src={t.symbol} alt="" height={16} width={20} />
-                                </li>
-                            </div>
-                        )}
+                                        <p>{t.name}</p>
+                                        <img src={t.symbol} alt="" height={16} width={20} />
+                                    </li>
+                                </div>
+                            )}
+                    
                     </div>
                 </ul>
             </div>
