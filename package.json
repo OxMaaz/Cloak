@@ -14,5 +14,8 @@
     "dotenv": "^16.0.3",
     "tronbox": "^3.2.0",
     "tronweb": "^5.1.0"
+  },
+  "devDependencies": {
+    "tailwind-scrollbar": "^3.0.0"
   }
 }

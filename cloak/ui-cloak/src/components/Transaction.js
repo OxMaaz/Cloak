@@ -10,7 +10,7 @@ const Transaction = () => {
         <div className="flex font-semibold space-x-16 mx-auto">
           <h4
             className={`montserrat-subheading text-4xl cursor-pointer ml-7 hover:text-[#FF5757] ${
-              !show ? 'underline decoration-white underline-offset-2' : 'no-underline'
+              !show ? 'underline decoration-white underline-offset-4' : 'no-underline'
             }`}
             onClick={() => setShow(false)}
           >
@@ -18,7 +18,7 @@ const Transaction = () => {
           </h4>
           <h4
             className={`montserrat-subheading text-4xl cursor-pointer hover:text-black text-[#FF5757] ${
-              show ? 'underline decoration-white underline-offset-2' : 'no-underline'
+              show ? 'underline decoration-white underline-offset-4' : 'no-underline'
             }`}
             onClick={() => setShow(true)}
           >

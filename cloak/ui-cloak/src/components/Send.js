@@ -222,7 +222,8 @@ const Send = () => {
                         <p>{bydefault}</p>
                         <AiOutlineArrowDown className='float-right' color='grey' size={18} />
                     </li>
-                    <div className={show === true && 'h-32 overflow-y-scroll'}>
+                    <div className={`${show && 'h-36 overflow-y-scroll'} scrollbar
+                     scrollbar-thumb-[#FF5757] scrollbar-w-[7px] scrollbar-h-3 scrollbar-thumb-rounded-full scrollbar-track-gray-100`}>
                         {show && Tokens.map((t) =>
                             <div className='bg-[#FFF7F7] hover:shadow-md text-sm '>
                                 <li
