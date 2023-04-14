@@ -23,6 +23,7 @@ const Receive = () => {
   const [err, seterr] = useState(false)
   const [reveal, setreveal] = useState(false)
   const [founded, setfounded] = useState('founded')
+  const [iscopied,setiscopied] = useState('Copy PrivateKey')
 
 
   const generaterootspendingkey = () => {
@@ -88,6 +89,7 @@ const Receive = () => {
 
   const copykey = () => {
     navigator.clipboard.writeText(privatekey)
+    setiscopied('Copied')
   }
 
   return (
@@ -141,7 +143,7 @@ const Receive = () => {
         {matching === true ? <p>Running.....</p> : false}
         {reveal === true ? (
           <div className="flex ml-60  justify-center space-x-3 montserrat-small">
-            <p>Copy PrivateKey</p>
+            <p>{iscopied}</p>
             <AiOutlineCopy size={25} className='cursor-pointer text-gray-500 ' onClick={copykey} />
           </div>
         ) : (
