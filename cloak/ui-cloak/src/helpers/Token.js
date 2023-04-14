@@ -7,7 +7,7 @@ import usdt from '../assets/usdt.png'
 import trx from '../assets/trx.png'
 
 export const Tokens = [
-    { "name": "TRON", "address": '', "symbol": trx },
+    { "name": "TRX", "address": '', "symbol": trx },
     { "name": "WIN", "address": 'TQRkMDMdWj1Crwv4s7XfMi1LCiPkGnajvB', "symbol": wink },
     { "name": "BTT", "address": 'TNeC4hx8rXo1ZUtERVTj4nMz6o8GpWzmzg', "symbol": bttc },
     { "name": "JST", "address": 'TBzrkFBjgzowt7nHkaYkbLBfcLTvg2qe6a', "symbol": just },

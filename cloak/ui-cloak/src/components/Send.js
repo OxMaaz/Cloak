@@ -29,7 +29,7 @@ const Send = () => {
     const [error, seterror] = useState('')
     const [amount, setamount] = useState('')
     const [show, setshow] = useState(false)
-    const [bydefault, setbydefault] = useState('TRON')
+    const [bydefault, setbydefault] = useState('TRX')
     const [trxid, settrxid] = useState('')
     const [running, setrunning] = useState(false)
     let receipent;
@@ -38,7 +38,7 @@ const Send = () => {
 
 
     const handlemetaaddress = (e) => {
-        setStealthmetaAddress(e.target.value)
+       
         if (e.target.value[0] !== 'T' && e.target.value !== '') {
             seterror('Invalid address')
             setTimeout(() => {
@@ -49,7 +49,7 @@ const Send = () => {
 
         }
 
-
+ setStealthmetaAddress(e.target.value)
     }
 
     const initializer = () => {
@@ -232,7 +232,7 @@ const Send = () => {
                         <p>{bydefault}</p>
                         <AiOutlineArrowDown className='float-right' color='grey' size={18} />
                     </li>
-                    <div className={show === true && 'h-32 overflow-y-scroll'}>
+                    <div className={show === true && 'max-h-32 overflow-y-scroll'}>
                         {show && Tokens.map((t) =>
                             <div className='bg-[#FFF7F7] hover:shadow-md text-sm '>
                                 <li

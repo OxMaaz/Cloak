@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 import TronWeb from 'tronweb';
 import querystring from 'querystring';
 import Footer from '../intro/Footer'
-import BigNumber from 'bignumber.js';
+
 
 
 
@@ -28,32 +28,14 @@ const Cloak = () => {
     const [wallet, setWallet] = useState(false)
     const { tronWeb } = window
 
-    useMemo(() => {
+    useEffect(() => {
         if (!tronWeb) {
             alert("Please initialize Tronlink wallet")
         }
 
-    }, [tronWeb])
+    }, [])
 
-    // useEffect(() => {
-    //     async function getChainId() {
-    //         const currentBlock = await tronWeb.trx.getCurrentBlock();
-    //         const blockNumber = currentBlock.block_header.raw_data.number;
-    //         const block = await tronWeb.trx.getBlock(blockNumber);
-    //         if (!block) {
-    //           throw new Error('Unable to get block information.');
-    //         }
-    //         const chainId = block.block_header.raw_data.fee_limit;
-    //         return chainId;
-    //       }
-          
-    //       getChainId().then(chainId => {
-    //      alert(`The chain ID is ${chainId}.`);
-    //       }).catch(error => {
-    //         console.error(error);
-    //       });
-    // }, [tronWeb])
-
+  
 
     async function connectwallet() {
         if (tronWeb) {
@@ -85,7 +67,7 @@ const Cloak = () => {
 
 
     return (
-        <div className='bg-[#FFF7F7]'>
+        <div className='bg-[#FFF7F7] '>
             <CloakContext.Provider value={contextValue}>
                 <Connect />
                 <Stealth />
