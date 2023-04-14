@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import { Tokens } from '../helpers/Token'
-import BigNumber from 'bignumber.js';
 import { useState } from 'react'
 import { base58, keccak256 } from 'ethers/lib/utils.js';
 import EllipticCurve from 'elliptic';
@@ -44,8 +43,6 @@ const Send = () => {
             setTimeout(() => {
                 seterror('')
             }, 4000);
-
-
 
         }
 
@@ -145,27 +142,27 @@ const Send = () => {
             }, 4000);
             return
         }
- 
+
 
         try { initializer() }
         catch (e) { seterror(e.message) }
 
-        let contract;
+
         console.log('tron')
 
 
         setrunning(true)
 
         try {
-            contract = await tronWeb.contract(abi.abi, contractAddress);
+            const contract = await tronWeb.contract(abi.abi, contractAddress);
             const trx = await contract.SendTron(r, s, a, receipent).send({
                 callValue: tronWeb.toSun(amount),
-                shouldPollResponse: true
             })
+            let txId = await tronWeb.trx.getTransaction(trx);
+            settrxid('https://shasta.tronscan.org/#/transaction/' + txId.txID )
             setStealthmetaAddress('')
             setamount('')
 
-            settrxid('https://shasta.tronscan.org/tx/' + trx)
 
 
         }
@@ -195,20 +192,20 @@ const Send = () => {
         initializer()
         console.log('trc20')
 
-        let contract;
+
 
 
         setrunning(true)
 
 
         try {
-            contract = await tronWeb.contract(abi.abi, contractAddress);
-            const trx = await contract.SendTrc20(r, s, a, token, receipent, amount).send({
-                shouldPollResponse: true
-            })
+            const contract = await tronWeb.contract(abi.abi, contractAddress);
+            const trx = await contract.SendTrc20(r, s, a, token, receipent, amount).send()
+            let txId = await tronWeb.trx.getTransaction(trx);
+            settrxid('https://shasta.tronscan.org/#/transaction/' + txId.txID )
             setStealthmetaAddress('')
             setamount('')
-            settrxid('https://shasta.tronscan.org/tx/' + trx)
+
 
 
         }
@@ -221,6 +218,12 @@ const Send = () => {
 
 
         setrunning(false)
+    }
+
+    const opentab=(event)=>{
+        if(event.target.innerText==='') return
+        window.open(event.target.innerText,'_blank')
+        
     }
 
     return (
@@ -282,7 +285,7 @@ const Send = () => {
 
 
             </div>
-            <p>{trxid}</p>
+            <p onClick={opentab} className='montserrat-subtitle text-gray-700 cursor-pointer'>{trxid}</p>
             <p className='montserrat-subtitle text-[#FF5757]'>{error}</p>
 
 
