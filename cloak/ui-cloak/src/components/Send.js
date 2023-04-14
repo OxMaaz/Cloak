@@ -93,14 +93,14 @@ const Send = () => {
             localStorage.setItem('ephkeys', JSON.stringify([...data.registry, z]));
             data.setRegistry([...data.registry, z])
 
-
+    
         }
 
         catch (e) {
             console.log('error', e)
         }
 
-
+        return true
 
     }
 
@@ -143,38 +143,28 @@ const Send = () => {
             return
         }
 
-
-        try { initializer() }
-        catch (e) { seterror(e.message) }
-
+        setrunning(true)
+       initializer()
+     
 
         console.log('tron')
 
 
-        setrunning(true)
-
-        try {
-            const contract = await tronWeb.contract(abi.abi, contractAddress);
-            const trx = await contract.SendTron(r, s, a, receipent).send({
-                callValue: tronWeb.toSun(amount),
-            })
-            let txId = await tronWeb.trx.getTransaction(trx);
-            settrxid('https://shasta.tronscan.org/#/transaction/' + txId.txID )
-            setStealthmetaAddress('')
-            setamount('')
+        const contract = await tronWeb.contract(abi.abi, contractAddress);
+        const trx = await contract.SendTron(r, s, a, receipent).send({
+            callValue: tronWeb.toSun(amount),
+        })
+        let txId = await tronWeb.trx.getTransaction(trx);
+        console.log(txId)
+        settrxid('https://shasta.tronscan.org/#/transaction/' + txId.txID)
 
 
-
-        }
-        catch (e) {
-            console.log(e.message)
-            // seterror(e.message)
-
-        }
 
         setrunning(false)
 
     }
+
+
     const sendTrc20 = async () => {
 
         if (StealthmetaAddress === '' || amount === '') {
@@ -184,46 +174,36 @@ const Send = () => {
             }, 4000);
             return
         }
-
+        setrunning(true)
         if (fetchContract() !== true) {
+            setrunning(false)
             return
 
         }
-        initializer()
+     
         console.log('trc20')
 
 
-
-
-        setrunning(true)
-
-
-        try {
-            const contract = await tronWeb.contract(abi.abi, contractAddress);
-            const trx = await contract.SendTrc20(r, s, a, token, receipent, amount).send()
-            let txId = await tronWeb.trx.getTransaction(trx);
-            settrxid('https://shasta.tronscan.org/#/transaction/' + txId.txID )
-            setStealthmetaAddress('')
-            setamount('')
+        const contract = await tronWeb.contract(abi.abi, contractAddress);
+        const trx = await contract.SendTrc20(r, s, a, token, receipent, amount).send()
+        let txId = await tronWeb.trx.getTransaction(trx);
+        settrxid('https://shasta.tronscan.org/#/transaction/' + txId.txID)
 
 
 
-        }
-        catch (e) {
-            console.log(e.message)
-            // seterror(e.message)
-
-        }
 
 
 
         setrunning(false)
     }
 
-    const opentab=(event)=>{
-        if(event.target.innerText==='') return
-        window.open(event.target.innerText,'_blank')
-        
+    const opentab = () => {
+        // if (event.target.innerText === '') return
+        if (trxid !== '') {
+            window.open(trxid, '_blank')
+        }
+
+
     }
 
     return (
@@ -285,7 +265,7 @@ const Send = () => {
 
 
             </div>
-            <p onClick={opentab} className='montserrat-subtitle text-gray-700 cursor-pointer'>{trxid}</p>
+            <p onClick={opentab} className='montserrat-subtitle text-gray-500 font-semibold underline underline-offset-8 decoration-[#FF5757] cursor-pointer'>{trxid !== '' ? trxid.slice(0, 58) : ''}</p>
             <p className='montserrat-subtitle text-[#FF5757]'>{error}</p>
 
 
