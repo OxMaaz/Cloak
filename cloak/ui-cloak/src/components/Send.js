@@ -38,7 +38,7 @@ const Send = () => {
 
 
     const handlemetaaddress = (e) => {
-       
+
         if (e.target.value[0] !== 'T' && e.target.value !== '') {
             seterror('Invalid address')
             setTimeout(() => {
@@ -49,7 +49,7 @@ const Send = () => {
 
         }
 
- setStealthmetaAddress(e.target.value)
+        setStealthmetaAddress(e.target.value)
     }
 
     const initializer = () => {
@@ -95,7 +95,6 @@ const Send = () => {
             const z = `T${a.replace('0x', '')}04${r.slice(2)}${s.slice(2)}`
             localStorage.setItem('ephkeys', JSON.stringify([...data.registry, z]));
             data.setRegistry([...data.registry, z])
-            // console.log('token-address', token, 'meta', StealthmetaAddress, 'amount', amount, 'zkey', z, "registry", [...data.registry, z], 'abi', abi.abi)
 
 
         }
@@ -119,22 +118,22 @@ const Send = () => {
         const instance = await tronWeb.contract().at(token);
         const result = await instance.balanceOf(localStorage.getItem('address')).call();
 
-        try {
-            if (new BigNumber(result).toNumber() === 0) {
-                alert('You have no tokens')
-
-            }
-
+        if (result.toString() < amount) {
+            seterror('Not effecicient funds for the transaction')
+            alert('Not effecicient funds for the transaction')
+            setTimeout(() => {
+                seterror('')
+            }, 4000);
+            return false
 
         }
-
-        catch (err) {
-            console.log(err)
-        }
-
-
+        return true
 
     }
+
+
+
+
 
 
     const sendTrx = async () => {
@@ -144,7 +143,9 @@ const Send = () => {
             setTimeout(() => {
                 seterror('')
             }, 4000);
+            return
         }
+ 
 
         try { initializer() }
         catch (e) { seterror(e.message) }
@@ -184,10 +185,13 @@ const Send = () => {
             setTimeout(() => {
                 seterror('')
             }, 4000);
+            return
         }
 
-        fetchContract()
+        if (fetchContract() !== true) {
+            return
 
+        }
         initializer()
         console.log('trc20')
 
@@ -200,7 +204,6 @@ const Send = () => {
         try {
             contract = await tronWeb.contract(abi.abi, contractAddress);
             const trx = await contract.SendTrc20(r, s, a, token, receipent, amount).send({
-                callValue: tronWeb.toSun(amount),
                 shouldPollResponse: true
             })
             setStealthmetaAddress('')
@@ -283,7 +286,7 @@ const Send = () => {
             <p className='montserrat-subtitle text-[#FF5757]'>{error}</p>
 
 
-            {/* consoling */}
+            {console.log(token)}
         </div>
     )
 }
