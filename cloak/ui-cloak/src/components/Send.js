@@ -10,7 +10,6 @@ import { AiOutlineArrowDown } from "react-icons/ai";
 import abi from '../build/contracts/EphKeys.json';
 import tronWeb from 'tronweb'
 import loading2 from '../assets/loading2.gif'
-import loading from '../assets/loading.gif'
 const ec = new EllipticCurve.ec('secp256k1');
 
 
@@ -53,7 +52,7 @@ const Send = () => {
 
     }
 
-    function initializer() {
+    const initializer = () => {
 
         var meta;
         var ephPublic;
@@ -94,6 +93,7 @@ const Send = () => {
             s = '0x' + ephPublic.getY().toString(16, 64)
             // const rs = `04${r.slice(2)}${s.slice(2)}`
             const z = `T${a.replace('0x', '')}04${r.slice(2)}${s.slice(2)}`
+            localStorage.setItem('ephkeys', JSON.stringify([...data.registry, z]));
             data.setRegistry([...data.registry, z])
             // console.log('token-address', token, 'meta', StealthmetaAddress, 'amount', amount, 'zkey', z, "registry", [...data.registry, z], 'abi', abi.abi)
 
@@ -115,7 +115,7 @@ const Send = () => {
 
     }
 
-    const fetchContract = useMemo(async () => {
+    const fetchContract = async () => {
         const instance = await tronWeb.contract().at(token);
         const result = await instance.balanceOf(localStorage.getItem('address')).call();
 
@@ -134,30 +134,35 @@ const Send = () => {
 
 
 
-    }, [token])
+    }
 
 
     const sendTrx = async () => {
 
-        initializer()
+        if (StealthmetaAddress === '' || amount === '') {
+            seterror('Please enter the address')
+            setTimeout(() => {
+                seterror('')
+            }, 4000);
+        }
+
+        try { initializer() }
+        catch (e) { seterror(e.message) }
+
         let contract;
         console.log('tron')
 
 
-        try {
-            contract = await tronWeb.contract(abi.abi, contractAddress);
-
-        }
-        catch (e) {
-            console.log(e.message)
-        }
         setrunning(true)
 
         try {
+            contract = await tronWeb.contract(abi.abi, contractAddress);
             const trx = await contract.SendTron(r, s, a, receipent).send({
                 callValue: tronWeb.toSun(amount),
                 shouldPollResponse: true
             })
+            setStealthmetaAddress('')
+            setamount('')
 
             settrxid('https://shasta.tronscan.org/tx/' + trx)
 
@@ -165,7 +170,7 @@ const Send = () => {
         }
         catch (e) {
             console.log(e.message)
-            seterror(e.message)
+            // seterror(e.message)
 
         }
 
@@ -174,6 +179,13 @@ const Send = () => {
     }
     const sendTrc20 = async () => {
 
+        if (StealthmetaAddress === '' || amount === '') {
+            seterror('Please enter the address')
+            setTimeout(() => {
+                seterror('')
+            }, 4000);
+        }
+
         fetchContract()
 
         initializer()
@@ -181,33 +193,31 @@ const Send = () => {
 
         let contract;
 
-        try {
-            contract = await tronWeb.contract(abi.abi, contractAddress);
-
-        }
-        catch (e) {
-            console.log(e.message)
-        }
 
         setrunning(true)
 
+
         try {
-            const trx = await contract.transfer(receipent, tronWeb.toSun(amount)).send({
+            contract = await tronWeb.contract(abi.abi, contractAddress);
+            const trx = await contract.SendTrc20(r, s, a, token, receipent, amount).send({
+                callValue: tronWeb.toSun(amount),
                 shouldPollResponse: true
             })
-
+            setStealthmetaAddress('')
+            setamount('')
             settrxid('https://shasta.tronscan.org/tx/' + trx)
 
 
         }
         catch (e) {
             console.log(e.message)
-            seterror(e.message)
+            // seterror(e.message)
 
         }
 
-        setrunning(false)
 
+
+        setrunning(false)
     }
 
     return (
@@ -269,8 +279,6 @@ const Send = () => {
 
 
             </div>
-
-       
             <p>{trxid}</p>
             <p className='montserrat-subtitle text-[#FF5757]'>{error}</p>
 

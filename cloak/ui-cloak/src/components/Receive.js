@@ -45,8 +45,11 @@ const Receive = () => {
     var RSharedsecret;
     var RHashedsecret;
     var _sharedSecret;
+    const ephkeys = localStorage.getItem('ephkeys');
+    const registry = JSON.parse(ephkeys);
+    console.log(registry)
 
-    data.registry.forEach((z) => {
+    registry.forEach((z) => {
       const kk = z.slice(3)
 
       ephPublicKey = ec.keyFromPublic(kk, 'hex');
@@ -143,7 +146,7 @@ const Receive = () => {
           </div>
         ) : (
           <>
-            <p>{founded!=='founded'&& 'Key doesnt exist'}</p>
+            <p>{founded !== 'founded' && 'Key doesnt exist'}</p>
             <p>{err && 'Error : ' + err}</p>
           </>
         )}

@@ -2,15 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Style the scrollbar thumb */
-::-webkit-scrollbar-thumb {
-    background-color: #ccc; /* Change the color of the scrollbar thumb */
-    border-radius: 10px;
-  }
-  
-  /* Tailwind CSS classes */
-  .scrollbar-thumb {
-    scrollbar-color: #ccc transparent; /* Change the color of the scrollbar thumb */
-    scrollbar-width: thin;
-  }
-  
