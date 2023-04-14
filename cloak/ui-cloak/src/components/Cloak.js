@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import Connect from './Connect'
 import Stealth from './Stealth'
 import Transaction from './Transaction'
@@ -28,12 +28,12 @@ const Cloak = () => {
     const [wallet, setWallet] = useState(false)
     const { tronWeb } = window
 
-    useEffect(() => {
-        if (!window.tronWeb) {
-            alert("Please connect with Tronlink")
+    useMemo(() => {
+        if (!tronWeb) {
+            alert("Please initialize Tronlink wallet")
         }
 
-    }, [])
+    }, [tronWeb])
 
     // useEffect(() => {
     //     async function getChainId() {
@@ -68,14 +68,10 @@ const Cloak = () => {
             localStorage.setItem('wallet', true)
             setWallet(true)
 
-        } else {
-            // Connect to user's wallet
-            alert('connect to shasta network')
-
-            // Get the balance of the connected TronLink wallet
+        } 
 
 
-        }
+
     }
 
 

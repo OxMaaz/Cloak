@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useMemo } from 'react'
 import { Tokens } from '../helpers/Token'
 import BigNumber from 'bignumber.js';
 import { useState } from 'react'
@@ -9,14 +9,12 @@ import { CloakContext } from './Cloak';
 import { AiOutlineArrowDown } from "react-icons/ai";
 import abi from '../build/contracts/EphKeys.json';
 import tronWeb from 'tronweb'
+import loading2 from '../assets/loading2.gif'
 import loading from '../assets/loading.gif'
 const ec = new EllipticCurve.ec('secp256k1');
 
 
-// z from eph key
-// token address
-// amount
-// receipent address ie stealth address
+
 
 const Send = () => {
 
@@ -29,9 +27,6 @@ const Send = () => {
     const data = useContext(CloakContext);
     const [token, settoken] = useState('')
     const [StealthmetaAddress, setStealthmetaAddress] = useState('')
-    // const [receipent, setreceipent] = useState('')
-    const [zkey, setzkey] = useState('')
-    const [secret, setsecret] = useState('')
     const [error, seterror] = useState('')
     const [amount, setamount] = useState('')
     const [show, setshow] = useState(false)
@@ -44,16 +39,17 @@ const Send = () => {
 
 
     const handlemetaaddress = (e) => {
+        setStealthmetaAddress(e.target.value)
         if (e.target.value[0] !== 'T' && e.target.value !== '') {
             seterror('Invalid address')
             setTimeout(() => {
                 seterror('')
             }, 4000);
-        
+
 
 
         }
-        setStealthmetaAddress(e.target.value)
+
 
     }
 
@@ -61,8 +57,6 @@ const Send = () => {
 
         var meta;
         var ephPublic;
-
-
 
         const ephKey = ec.genKeyPair();
         ephPublic = ephKey.getPublic();
@@ -73,7 +67,7 @@ const Send = () => {
                 let decodedID = base58.decode(_StealthmetaAddress);
                 const metaAddress = decodedID.subarray(0, 33);
                 meta = ec.keyFromPublic(metaAddress, 'hex');
-                console.log(meta)
+
 
             }
             else {
@@ -82,37 +76,24 @@ const Send = () => {
         }
 
         catch (e) {
-            console.log(e.message)
+            seterror(e.message)
         }
         try {
             const sharedsecret = ephKey.derive(meta.getPublic());
             const hashed = ec.keyFromPrivate(keccak256(sharedsecret.toArray()));
             console.log('hashed', hashed)
             a = '0x' + sharedsecret.toArray()[0].toString(16).padStart(2, '0')
-            setsecret(a)
-            console.log(secret)
             const publicKey = meta.getPublic().add(hashed.getPublic()).encode('array', false).splice(1)
             const address = keccak256(publicKey);
-            console.log('add', address);
             const _HexString = address.substring(address.length - 40, address.length)
             const _Hex = '41' + _HexString
             receipent = tronWeb.address.fromHex(_Hex)
-            console.log('stealth', _Hex)
-            console.log('recepeint', receipent)
-
-
 
 
             r = '0x' + ephPublic.getX().toString(16, 64)
             s = '0x' + ephPublic.getY().toString(16, 64)
-            const rs = `04${r.slice(2)}${s.slice(2)}`
+            // const rs = `04${r.slice(2)}${s.slice(2)}`
             const z = `T${a.replace('0x', '')}04${r.slice(2)}${s.slice(2)}`
-            setzkey(z)
-            console.log(z, 'z')
-            console.log(r, 'r')
-            console.log(s, 's')
-            console.log(a, 'a')
-
             data.setRegistry([...data.registry, z])
             // console.log('token-address', token, 'meta', StealthmetaAddress, 'amount', amount, 'zkey', z, "registry", [...data.registry, z], 'abi', abi.abi)
 
@@ -134,7 +115,7 @@ const Send = () => {
 
     }
 
-    const fetchContract = async () => {
+    const fetchContract = useMemo(async () => {
         const instance = await tronWeb.contract().at(token);
         const result = await instance.balanceOf(localStorage.getItem('address')).call();
 
@@ -153,12 +134,10 @@ const Send = () => {
 
 
 
-    }
+    }, [token])
 
 
     const sendTrx = async () => {
-        setStealthmetaAddress('')
-        setamount('')
 
         initializer()
         let contract;
@@ -180,9 +159,7 @@ const Send = () => {
                 shouldPollResponse: true
             })
 
-            let trxhash = await tronWeb.trx.getTransaction(trx);
-            settrxid('https://shasta.tronscan.org/tx/' + trxhash)
-            console.log('https://shasta.tronscan.org/tx/' + trxhash)
+            settrxid('https://shasta.tronscan.org/tx/' + trx)
 
 
         }
@@ -210,21 +187,16 @@ const Send = () => {
         }
         catch (e) {
             console.log(e.message)
-
         }
+
         setrunning(true)
 
-
         try {
-            const trx = await contract.SendTrc20(r, s, a, token, receipent, amount).send({
-                callValue: tronWeb.toSun(amount),
+            const trx = await contract.transfer(receipent, tronWeb.toSun(amount)).send({
                 shouldPollResponse: true
             })
-            setStealthmetaAddress('')
-            setamount('')
-            let trxhash = await tronWeb.trx.getTransaction(trx);
-            settrxid('https://shasta.tronscan.org/tx/' + trxhash)
-            console.log('https://shasta.tronscan.org/tx/' + trxhash)
+
+            settrxid('https://shasta.tronscan.org/tx/' + trx)
 
 
         }
@@ -234,9 +206,8 @@ const Send = () => {
 
         }
 
-
-
         setrunning(false)
+
     }
 
     return (
@@ -286,19 +257,23 @@ const Send = () => {
             </div>
             {/* send button */}
 
-            <div className=' pt-5 ml-2'>
-                <button
-                    className="  montserrat-subtitle border-1 p-1  text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
+            <div className='  pt-5 ml-2'>
+                <div
+                    className=" cursor-pointer flex justify-around items-center  montserrat-subtitle border-1 p-1  text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md  font-semibold  border-red-500 border"
                     onClick={token === '' ? sendTrx : sendTrc20}
                 >
 
-                    {running === true ? 'sending' : 'send'}
-                </button>
+                    <h2 className=''>{running === true ? 'sending' : 'send'}</h2>
+                    {running === true ? <img height={35} width={35} src={loading2} alt="" /> : ''}
+                </div>
+
+
             </div>
-            {running === true ? <img height={60} width={60} src={loading} alt="" /> : ''}
+
+       
             <p>{trxid}</p>
             <p className='montserrat-subtitle text-[#FF5757]'>{error}</p>
-            {token === '' ? console.log('tron') : console.log(token)}
+
 
             {/* consoling */}
         </div>

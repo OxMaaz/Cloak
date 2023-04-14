@@ -89,7 +89,7 @@ const Receive = () => {
 
   return (
     <>
-      <div className="py-2 flex space-x-4 justify-center">
+      <div className="py-2 flex space-x-4 justify-center ml-11">
         {hide !== true && (
           <input
             type="text"
@@ -98,7 +98,7 @@ const Receive = () => {
             onChange={(e) => {
               setrootspendingkey(e.target.value);
             }}
-            placeholder="Rootkey (optional)"
+            placeholder="DontRevealMe key (optional)"
           />
         )}
         {hide && (

@@ -115,7 +115,7 @@ const Stealth = () => {
         </button>
       </div>
       {note === true &&
-        <div className="flex justify-center text-gray-500 items-center mr-14 mb-2"> <span className="montserrat-subtitle font-semibold " >⚠Note : </span> <p className="montserrat-subtitle font-normal   ">Share only cloak address Never share the DontRevealMe key</p>
+        <div className="flex justify-center text-gray-800 items-center mr-64 mb-2"> <span className="montserrat-subtitle font-semibold " >⚠Note :  </span> <p className="montserrat-subtitle font-semibold text-gray-500 "> Never expose the 'DontRevealMe' key</p>
         </div>}
     </div>
   )
