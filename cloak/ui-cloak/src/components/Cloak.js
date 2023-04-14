@@ -28,12 +28,12 @@ const Cloak = () => {
     const [wallet, setWallet] = useState(false)
     const { tronWeb } = window
 
-    useEffect(() => {
+    useMemo(() => {
         if (!tronWeb) {
             alert("Please initialize Tronlink wallet")
         }
 
-    }, [])
+    }, [tronWeb])
 
   
 
