@@ -10,13 +10,7 @@ import Footer from '../intro/Footer'
 
 
 
-
-
-
-
 export const CloakContext = createContext(null)
-
-
 
 
 
@@ -47,8 +41,8 @@ const Cloak = () => {
             const balanceInTrx = tronWeb.fromSun(balanceInSun);
             localStorage.setItem('balance', `${balanceInTrx} TRX`)
             setBalance(balanceInTrx)
-            localStorage.setItem('wallet', true)
             setWallet(true)
+         
 
         } 
 

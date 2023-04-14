@@ -17,10 +17,11 @@ const ec = new EllipticCurve.ec('secp256k1');
 const Send = () => {
 
     const contractAddress = 'TJBeQh58L9nLzkamyemu3A5GZgTafVHdeF'
+    const { tronWeb } = window
+
     var r;
     var s;
     var a;
-    const { tronWeb } = window
 
     const data = useContext(CloakContext);
     const [token, settoken] = useState('')
@@ -88,12 +89,12 @@ const Send = () => {
 
             r = '0x' + ephPublic.getX().toString(16, 64)
             s = '0x' + ephPublic.getY().toString(16, 64)
-            // const rs = `04${r.slice(2)}${s.slice(2)}`
+
             const z = `T${a.replace('0x', '')}04${r.slice(2)}${s.slice(2)}`
             localStorage.setItem('ephkeys', JSON.stringify([...data.registry, z]));
             data.setRegistry([...data.registry, z])
 
-    
+
         }
 
         catch (e) {
@@ -134,6 +135,10 @@ const Send = () => {
 
 
     const sendTrx = async () => {
+        if(!tronWeb){
+            alert('Please initialze tronlink')
+            return
+        }
 
         if (StealthmetaAddress === '' || amount === '') {
             seterror('Please enter the address')
@@ -144,8 +149,8 @@ const Send = () => {
         }
 
         setrunning(true)
-       initializer()
-     
+        initializer()
+
 
         console.log('tron')
 
@@ -166,6 +171,10 @@ const Send = () => {
 
 
     const sendTrc20 = async () => {
+        if(!tronWeb){
+            alert('Please initialze tronlink')
+            return
+        }
 
         if (StealthmetaAddress === '' || amount === '') {
             seterror('Please enter the address')
@@ -180,7 +189,7 @@ const Send = () => {
             return
 
         }
-     
+
         console.log('trc20')
 
 
@@ -188,11 +197,6 @@ const Send = () => {
         const trx = await contract.SendTrc20(r, s, a, token, receipent, amount).send()
         let txId = await tronWeb.trx.getTransaction(trx);
         settrxid('https://shasta.tronscan.org/#/transaction/' + txId.txID)
-
-
-
-
-
 
         setrunning(false)
     }
