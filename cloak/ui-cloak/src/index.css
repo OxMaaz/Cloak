@@ -2,3 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Target the ::selection pseudo-element for all elements */
+*::selection {
+    /* Set the background color to red */
+    background-color: #ffd7d4;
+  }
