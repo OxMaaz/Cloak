@@ -14,8 +14,10 @@ export const CloakContext = createContext(null)
 
 
 
-
+// keys
 const Cloak = () => {
+
+
 
 
     const [balance, setBalance] = useState()
@@ -29,7 +31,7 @@ const Cloak = () => {
 
     }, [tronWeb])
 
-  
+
 
     async function connectwallet() {
         if (tronWeb) {
@@ -42,9 +44,9 @@ const Cloak = () => {
             localStorage.setItem('balance', `${balanceInTrx} TRX`)
             setBalance(balanceInTrx)
             setWallet(true)
-         
 
-        } 
+
+        }
 
 
 
@@ -52,11 +54,11 @@ const Cloak = () => {
 
 
 
-    const [registry, setRegistry] = useState([])
+   
     const [error, seterror] = useState('')
 
     const contextValue = {
-        registry, setRegistry, error, seterror, connectwallet, balance, wallet
+      error, seterror, connectwallet, balance, wallet
     }
 
 

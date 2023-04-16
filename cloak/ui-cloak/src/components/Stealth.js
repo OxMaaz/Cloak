@@ -30,7 +30,7 @@ const Stealth = () => {
       key = ec.genKeyPair();
 
       // const privatekey=setstoredspendingkey(key.getPrivate().toString(16))
-      const skey = localStorage.setItem('myKey', key.getPrivate().toString(16));
+      const skey = localStorage.setItem('DontRevealMe', key.getPrivate().toString(16));
       const spendingkey = ec.keyFromPrivate(key.getPrivate().toString(16), 'hex');
       setstoredspendingkey(skey)
 
@@ -79,7 +79,7 @@ const Stealth = () => {
   const oncopy = () => {
 
     navigator.clipboard.writeText(stealthmeta)
-    downloadFile(localStorage.getItem('myKey'))
+    downloadFile(localStorage.getItem('DontRevealMe'))
     revealnot()
 
   }

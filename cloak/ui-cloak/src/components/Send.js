@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { Tokens } from '../helpers/Token'
 import { useState } from 'react'
 import { base58, keccak256 } from 'ethers/lib/utils.js';
@@ -16,7 +16,7 @@ const ec = new EllipticCurve.ec('secp256k1');
 
 const Send = () => {
 
-    const contractAddress = 'TJBeQh58L9nLzkamyemu3A5GZgTafVHdeF'
+    const contractAddress = 'TVBbkUs4jntJVPLL25hZz1MunUrCif2RQj'
     const { tronWeb } = window
 
     var r;
@@ -32,11 +32,14 @@ const Send = () => {
     const [bydefault, setbydefault] = useState('TRX')
     const [trxid, settrxid] = useState('')
     const [running, setrunning] = useState(false)
+ 
     let receipent;
 
 
-
-
+    //    let x;
+    //    let y;
+    //    let ss;
+    
     const handlemetaaddress = (e) => {
 
         if (e.target.value[0] !== 'T' && e.target.value !== '') {
@@ -90,9 +93,9 @@ const Send = () => {
             r = '0x' + ephPublic.getX().toString(16, 64)
             s = '0x' + ephPublic.getY().toString(16, 64)
 
-            const z = `T${a.replace('0x', '')}04${r.slice(2)}${s.slice(2)}`
-            localStorage.setItem('ephkeys', JSON.stringify([...data.registry, z]));
-            data.setRegistry([...data.registry, z])
+            // const z = `T${ss.replace('0x', '')}04${x.slice(2)}${y.slice(2)}`
+            // localStorage.setItem('ephkeys', JSON.stringify([...data.registry, z]));
+            // data.setRegistry([...data.registry, z])
 
 
         }
@@ -223,22 +226,22 @@ const Send = () => {
                         <AiOutlineArrowDown className='float-right' color='grey' size={18} />
                     </li>
 
-                 
 
-                        <div className={show === true && 'max-h-32 overflow-y-scroll scrollbar cursor-pointer     scrollbar-thumb-[#FF5757] scrollbar-w-[7px] scrollbar-h-3 scrollbar-thumb-rounded-full scrollbar-track-gray-100 '}>
 
-                            {show && Tokens.map((t) =>
-                                <div className='bg-[#FFF7F7] hover:shadow-md text-sm  '>
-                                    <li
-                                        className='px-2 p-3 cursor-pointer text-gray-500 font-semibold
+                    <div className={show === true && 'max-h-32 overflow-y-scroll scrollbar cursor-pointer     scrollbar-thumb-[#FF5757] scrollbar-w-[7px] scrollbar-h-3 scrollbar-thumb-rounded-full scrollbar-track-gray-100 '}>
+
+                        {show && Tokens.map((t) =>
+                            <div className='bg-[#FFF7F7] hover:shadow-md text-sm  '>
+                                <li
+                                    className='px-2 p-3 cursor-pointer text-gray-500 font-semibold
                          hover:bg-[#FF5757] hover:text-white montserrat-small 
                          flex space-x-8 justify-between' key={t.name} onClick={() => changedefault(t)} >
-                                        <p>{t.name}</p>
-                                        <img src={t.symbol} alt="" height={16} width={20} />
-                                    </li>
-                                </div>
-                            )}
-                    
+                                    <p>{t.name}</p>
+                                    <img src={t.symbol} alt="" height={16} width={20} />
+                                </li>
+                            </div>
+                        )}
+
                     </div>
                 </ul>
             </div>
@@ -279,6 +282,7 @@ const Send = () => {
 
 
             {console.log(token)}
+            {/* {console.log(x, y, ss, 'z',localStorage.getItem('ephkeys'))} */}
         </div>
     )
 }

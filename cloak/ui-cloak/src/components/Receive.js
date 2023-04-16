@@ -1,7 +1,7 @@
-import React from 'react'
-import { useState } from 'react'
-import { useContext } from 'react'
-import { CloakContext } from './Cloak';
+import React, { useCallback } from 'react'
+import { useState, useEffect } from 'react'
+// import { useContext } from 'react'
+// import { CloakContext } from './Cloak';
 import { keccak256 } from 'ethers/lib/utils.js';
 import EllipticCurve from 'elliptic';
 import { AiOutlineCopy } from "react-icons/ai";
@@ -14,8 +14,6 @@ const ec = new EllipticCurve.ec('secp256k1');
 
 const Receive = () => {
 
-
-  const data = useContext(CloakContext);
   const [rootspendingkey, setrootspendingkey] = useState('')
   const [privatekey, setprivatekey] = useState('')
   const [hide, sethide] = useState(true)
@@ -23,16 +21,49 @@ const Receive = () => {
   const [err, seterr] = useState(false)
   const [reveal, setreveal] = useState(false)
   const [founded, setfounded] = useState('founded')
-  const [iscopied,setiscopied] = useState('Copy PrivateKey')
+  const [iscopied, setiscopied] = useState('Copy PrivateKey')
+  let zkeys = []
+
+  const contractAddress = 'TVBbkUs4jntJVPLL25hZz1MunUrCif2RQj'
+  const { tronWeb } = window
+
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        const contract = await tronWeb.contract().at(contractAddress);
+        const limit = await contract.getLimit().call();
+        console.log(limit.toString())
+
+        for (let i = 0; i < limit.toString(); i++) {
+          await contract.keys(i).call((err, result) => {
+            zkeys.push(`T${result.ss.replace('0x', '')}04${result.x.slice(2)}${result.y.slice(2)}`)
+            localStorage.setItem('ephkeys', JSON.stringify(zkeys))
+
+          });
+
+        }
+   
+
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    fetchData();
+
+
+
+
+
+  }, []);
 
 
   const generaterootspendingkey = () => {
 
-    setmatchingkey(true)
-
     var Spendingkey;
     if (rootspendingkey === '') {
-      Spendingkey = ec.keyFromPrivate(localStorage.getItem('myKey'), 'hex');
+      Spendingkey = ec.keyFromPrivate(localStorage.getItem('DontRevealMe'), 'hex');
 
     }
 
@@ -40,23 +71,24 @@ const Receive = () => {
       Spendingkey = ec.keyFromPrivate(rootspendingkey, 'hex');
     }
 
+    console.log(zkeys)
 
 
     var ephPublicKey;
     var RSharedsecret;
     var RHashedsecret;
     var _sharedSecret;
+
     const ephkeys = localStorage.getItem('ephkeys');
     const registry = JSON.parse(ephkeys);
     console.log(registry)
-
     registry.forEach((z) => {
-      const kk = z.slice(3)
 
-      ephPublicKey = ec.keyFromPublic(kk, 'hex');
+      ephPublicKey = ec.keyFromPublic(z.slice(3), 'hex');
       RSharedsecret = Spendingkey.derive(ephPublicKey.getPublic()); // 
       RHashedsecret = ec.keyFromPrivate(keccak256(RSharedsecret.toArray()));
       _sharedSecret = '0x' + RSharedsecret.toArray()[0].toString(16).padStart(2, '0')
+      console.log(z.slice(1, 3).toString() , _sharedSecret.toString().slice(2, 4))
 
 
       try {
@@ -153,6 +185,7 @@ const Receive = () => {
           </>
         )}
       </div>
+
 
 
 
