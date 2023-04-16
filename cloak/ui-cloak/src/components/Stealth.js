@@ -26,10 +26,8 @@ const Stealth = () => {
 
     try {
 
-
       key = ec.genKeyPair();
 
-      // const privatekey=setstoredspendingkey(key.getPrivate().toString(16))
       const skey = localStorage.setItem('DontRevealMe', key.getPrivate().toString(16));
       const spendingkey = ec.keyFromPrivate(key.getPrivate().toString(16), 'hex');
       setstoredspendingkey(skey)
@@ -105,7 +103,7 @@ const Stealth = () => {
         />
       </div>
 
-      {/* genetaemetakey */}
+      {/* generatemetakey */}
       <div>
         <button
           className="montserrat-subtitle border-1 p-1 text-white bg-[#FF5757] hover:shadow-xl px-3 rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"

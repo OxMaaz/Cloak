@@ -60,6 +60,7 @@ const Receive = () => {
 
 
   const generaterootspendingkey = () => {
+    setmatchingkey(true)
 
     var Spendingkey;
     if (rootspendingkey === '') {
@@ -71,9 +72,6 @@ const Receive = () => {
       Spendingkey = ec.keyFromPrivate(rootspendingkey, 'hex');
     }
 
-    console.log(zkeys)
-
-
     var ephPublicKey;
     var RSharedsecret;
     var RHashedsecret;
@@ -82,13 +80,14 @@ const Receive = () => {
     const ephkeys = localStorage.getItem('ephkeys');
     const registry = JSON.parse(ephkeys);
     console.log(registry)
+
     registry.forEach((z) => {
 
       ephPublicKey = ec.keyFromPublic(z.slice(3), 'hex');
       RSharedsecret = Spendingkey.derive(ephPublicKey.getPublic()); // 
       RHashedsecret = ec.keyFromPrivate(keccak256(RSharedsecret.toArray()));
       _sharedSecret = '0x' + RSharedsecret.toArray()[0].toString(16).padStart(2, '0')
-      console.log(z.slice(1, 3).toString() , _sharedSecret.toString().slice(2, 4))
+      // console.log(z.slice(1, 3).toString() , _sharedSecret.toString().slice(2, 4))
 
 
       try {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { } from 'react'
 import { Tokens } from '../helpers/Token'
 import { useState } from 'react'
 import { base58, keccak256 } from 'ethers/lib/utils.js';
@@ -23,7 +23,7 @@ const Send = () => {
     var s;
     var a;
 
-    const data = useContext(CloakContext);
+
     const [token, settoken] = useState('')
     const [StealthmetaAddress, setStealthmetaAddress] = useState('')
     const [error, seterror] = useState('')
@@ -32,14 +32,9 @@ const Send = () => {
     const [bydefault, setbydefault] = useState('TRX')
     const [trxid, settrxid] = useState('')
     const [running, setrunning] = useState(false)
- 
+
     let receipent;
 
-
-    //    let x;
-    //    let y;
-    //    let ss;
-    
     const handlemetaaddress = (e) => {
 
         if (e.target.value[0] !== 'T' && e.target.value !== '') {
@@ -282,7 +277,7 @@ const Send = () => {
 
 
             {console.log(token)}
-            {/* {console.log(x, y, ss, 'z',localStorage.getItem('ephkeys'))} */}
+
         </div>
     )
 }

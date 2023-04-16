@@ -3,7 +3,7 @@ import Connect from './Connect'
 import Stealth from './Stealth'
 import Transaction from './Transaction'
 import { createContext } from 'react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import TronWeb from 'tronweb';
 import querystring from 'querystring';
 import Footer from '../intro/Footer'
