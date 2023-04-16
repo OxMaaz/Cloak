@@ -88,9 +88,9 @@ const Stealth = () => {
 
   return (
     <div className="flex flex-col space-y-6">
-      <h1 className="montserrat-subtitle text-4xl font-semibold">Cloak Address</h1>
+      <h1 className="montserrat-subtitle text-gray-700 text-4xl  font-extrabold">Cloak Address</h1>
 
-      <div className="flex mx-auto space-x-3">
+      <div className="flex mx-auto space-x-3 text-gray-700">
         <h3 className="montserrat-medium font-normal">#tronCloak-
           <span className="montserrat-small font-semibold">{stealthmeta}</span>
         </h3>
@@ -106,14 +106,14 @@ const Stealth = () => {
       {/* generatemetakey */}
       <div>
         <button
-          className="montserrat-subtitle border-1 p-1 text-white bg-[#FF5757] hover:shadow-xl px-3 rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
+          className="montserrat-subtitle border-1 p-1 montserrat-subtitle   text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md  font-semibold   hover:bg-[#FDF0EF] hover:text-[#FF5757]  hover:border-white border-red-500 border"
           onClick={generatestealthmetaaddress}
         >
           Generate
         </button>
       </div>
       {note === true &&
-        <div className="flex justify-center text-gray-800 items-center  mr-2 mb-2"> <span className="montserrat-subtitle font-semibold " >⚠ Note :  </span> <p className="montserrat-subtitle font-semibold text-gray-500 "> Never expose the 'DontRevealMe' key .Always Share 'Cloak address' to receive trnsc</p>
+        <div className="flex justify-center text-gray-800 items-center  mr-2 mb-2"> <span className="montserrat-subtitle font-semibold " >⚠ Note :  </span> <p className="montserrat-subtitle font-semibold text-gray-500 "> Never expose the 'DontRevealMe' key . Always Share 'Cloak address' to receive trnsc</p>
         </div>}
     </div>
   )

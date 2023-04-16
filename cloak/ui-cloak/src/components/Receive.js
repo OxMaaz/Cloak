@@ -1,11 +1,8 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { useState, useEffect } from 'react'
-// import { useContext } from 'react'
-// import { CloakContext } from './Cloak';
 import { keccak256 } from 'ethers/lib/utils.js';
 import EllipticCurve from 'elliptic';
 import { AiOutlineCopy } from "react-icons/ai";
-// import tronWeb from 'tronweb';
 import { GiKangaroo } from "react-icons/gi";
 import { AiOutlineArrowsAlt, AiOutlineShrink } from "react-icons/ai";
 const ec = new EllipticCurve.ec('secp256k1');
