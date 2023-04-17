@@ -12,6 +12,7 @@ contract EphKeys {
         bytes32 y;
         bytes1 ss;
     }
+    
     uint256 internal limit;
 
     event ephemeral(

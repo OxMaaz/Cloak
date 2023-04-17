@@ -50,9 +50,6 @@ const Receive = () => {
     fetchData();
 
 
-
-
-
   }, []);
 
 
@@ -98,7 +95,6 @@ const Receive = () => {
           setfounded('founded')
 
         }
-
         return
 
       }
@@ -106,7 +102,6 @@ const Receive = () => {
       catch (e) {
         seterr(e.message)
       }
-
 
 
     })

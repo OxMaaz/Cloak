@@ -21,10 +21,10 @@ const Connect = () => {
         
         {/* rigt side */}
         <div className="sm:flex-row flex-co flex space-x-3 items-center">
-          <p className="text-[1rem]  text-gray-500   font-semibold">{localStorage.getItem('address') !== null ? localStorage.getItem('balance') : ''}</p>
-          <p className="sm:text-[1rem]  text-gray-500  font-medium text-[0.8rem]">{localStorage.getItem('address') === null || false ? '' : `${localStorage.getItem('address').slice(0, 12)}...`}</p>
+          <p className="text-[1rem]  text-gray-500   font-semibold">{sessionStorage.getItem('address') !== null ? sessionStorage.getItem('balance') : ''}</p>
+          <p className="sm:text-[1rem]  text-gray-500  font-medium text-[0.8rem]">{sessionStorage.getItem('address') === null || false ? '' : `${sessionStorage.getItem('address').slice(0, 12)}...`}</p>
           <button onClick={data.connectwallet} className="montserrat-subtitle border-1 p-1 sm:text-[1rem] text-[0.8rem] hover:text-white hover:bg-[#FF5757] shadow-xl px-2 sm:px-4 rounded-md bg-[#FDF0EF] text-[#FF5757] font-semibold border-white hover:border-red-500 border">
-            {localStorage.getItem('address') === null && localStorage.getItem('balance') === null  ? 'connect wallet' : 'Connected'}
+            {(sessionStorage.getItem('address') === null || false) && sessionStorage.getItem('balance') === null  ? 'connect wallet' : 'Connected'}
           </button>
         </div>
       </div>
