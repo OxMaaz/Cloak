@@ -5,6 +5,8 @@ import EllipticCurve from 'elliptic';
 import { AiOutlineCopy } from "react-icons/ai";
 import { GiKangaroo } from "react-icons/gi";
 import { AiOutlineArrowsAlt, AiOutlineShrink } from "react-icons/ai";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const ec = new EllipticCurve.ec('secp256k1');
 
 
@@ -54,6 +56,10 @@ const Receive = () => {
 
 
   const generaterootspendingkey = () => {
+    if (!tronWeb) {
+      toast('Please initialze tronlink')
+      return
+  }
     setmatchingkey(true)
 
     var Spendingkey;

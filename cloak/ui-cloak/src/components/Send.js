@@ -7,6 +7,8 @@ import { AiOutlineArrowDown } from "react-icons/ai";
 import abi from '../build/contracts/EphKeys.json';
 import tronWeb from 'tronweb'
 import loading2 from '../assets/loading2.gif'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const ec = new EllipticCurve.ec('secp256k1');
 
 
@@ -128,7 +130,7 @@ const Send = () => {
 
     const sendTrx = async () => {
         if (!tronWeb) {
-            alert('Please initialze tronlink')
+            toast('Please initialze tronlink')
             return
         }
 
@@ -164,8 +166,7 @@ const Send = () => {
 
     const sendTrc20 = async () => {
         if (!tronWeb) {
-            alert('Please initialze tronlink')
-            return
+            toast('Please install Tron wallet');
         }
 
         if (StealthmetaAddress === '' || amount === '') {

@@ -8,34 +8,51 @@ import TronWeb from 'tronweb';
 import querystring from 'querystring';
 import Footer from '../intro/Footer'
 import { ToastContainer, toast } from 'react-toastify';
-
 import 'react-toastify/dist/ReactToastify.css';
 
 
 export const CloakContext = createContext(null)
 
 
-const Cloak = () => {
 
-    const [balance, setBalance] = useState()
+
+const Cloak = () => {
     const { tronWeb } = window
 
-    tronWeb.on('addressChanged', () => {
-        const renderAddress = async () => {
-            const address = await tronWeb.defaultAddress.base58;
-            sessionStorage.setItem('address', address)
-            const balanceInSun = await tronWeb.trx.getBalance(address);
-            const balanceInTrx = tronWeb.fromSun(balanceInSun);
-            sessionStorage.setItem('balance', `${balanceInTrx} TRX`)
-            setBalance(balanceInTrx)
-
+    useEffect(() => {
+        if (!tronWeb) {
+            toast('Please install Tron wallet');
         }
-        renderAddress()
-    })
+
+    }, [])
+
+    const [balance, setBalance] = useState()
+
+    if (tronWeb) {
+        tronWeb.on('addressChanged', () => {
+            const renderAddress = async () => {
+                const address = await tronWeb.defaultAddress.base58;
+                sessionStorage.setItem('address', address)
+                const balanceInSun = await tronWeb.trx.getBalance(address);
+                const balanceInTrx = tronWeb.fromSun(balanceInSun);
+                sessionStorage.setItem('balance', `${balanceInTrx} TRX`)
+                setBalance(balanceInTrx)
+
+            }
+            renderAddress()
+        })
+
+
+    }
+
 
 
 
     async function connectwallet() {
+
+        if (!tronWeb) {
+            toast('Please install Tron wallet');
+        }
 
         if (!tronWeb.defaultAddress.base58) {
             // TronLink is not connected
