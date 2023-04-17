@@ -20,7 +20,7 @@ contract EphKeys {
     bytes1 secret,
     uint256 timestamp
     );
-//0xc3a99394c6827b51093889417aa94356d033c9f567d4d5b405daeb234cef47fd  0xccca2dee9581c3d5df8efb033436c472ecf3912f31beea86bc26ef0b690444dc  0x9b
+
     address private owner;
 
     publickeys[] public keys;
@@ -51,7 +51,7 @@ contract EphKeys {
         (bool sent, ) = target.call{value: msg.value}("");
         require(sent, " Failed to send Tron");
         limit++;
-        emit eph(r, s, secret, block.timestamp);
+        emit ephemeral(r, s, secret, block.timestamp);
     }
 
     function SendTrc20(
@@ -70,6 +70,6 @@ contract EphKeys {
 
         IERC20(token).safeTransferFrom(msg.sender, target, amount);
         limit++;
-        emit eph(r, s, secret, block.timestamp);
+        emit ephemeral(r, s, secret, block.timestamp);
     }
 }

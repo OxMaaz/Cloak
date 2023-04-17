@@ -3,8 +3,6 @@ import { Tokens } from '../helpers/Token'
 import { useState } from 'react'
 import { base58, keccak256 } from 'ethers/lib/utils.js';
 import EllipticCurve from 'elliptic';
-import { useContext } from 'react'
-import { CloakContext } from './Cloak';
 import { AiOutlineArrowDown } from "react-icons/ai";
 import abi from '../build/contracts/EphKeys.json';
 import tronWeb from 'tronweb'
@@ -16,7 +14,7 @@ const ec = new EllipticCurve.ec('secp256k1');
 
 const Send = () => {
 
-    const contractAddress = 'TVBbkUs4jntJVPLL25hZz1MunUrCif2RQj'
+    const contractAddress = 'TG94Q4jtD184Bwzf2Pc2kmHz8twvacjyM5'
     const { tronWeb } = window
 
     var r;

@@ -21,7 +21,7 @@ const Receive = () => {
   const [iscopied, setiscopied] = useState('Copy PrivateKey')
   let zkeys = []
 
-  const contractAddress = 'TVBbkUs4jntJVPLL25hZz1MunUrCif2RQj'
+  const contractAddress = 'TG94Q4jtD184Bwzf2Pc2kmHz8twvacjyM5'
   const { tronWeb } = window
 
 
