@@ -86,10 +86,6 @@ const Send = () => {
             r = '0x' + ephPublic.getX().toString(16, 64)
             s = '0x' + ephPublic.getY().toString(16, 64)
 
-            // const z = `T${ss.replace('0x', '')}04${x.slice(2)}${y.slice(2)}`
-            // localStorage.setItem('ephkeys', JSON.stringify([...data.registry, z]));
-            // data.setRegistry([...data.registry, z])
-
 
         }
 
@@ -198,7 +194,7 @@ const Send = () => {
     }
 
     const opentab = () => {
-        // if (event.target.innerText === '') return
+ 
         if (trxid !== '') {
             window.open(trxid, '_blank')
         }
