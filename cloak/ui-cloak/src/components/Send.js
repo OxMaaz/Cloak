@@ -112,7 +112,7 @@ const Send = () => {
 
         if (result.toString() < amount) {
             seterror('Not effecicient funds for the transaction')
-            alert('Not effecicient funds for the transaction')
+            toast.error('Not effecicient funds for the transaction')
             setTimeout(() => {
                 seterror('')
             }, 4000);
@@ -170,13 +170,14 @@ const Send = () => {
         }
 
         if (StealthmetaAddress === '' || amount === '') {
-            seterror('Please enter the address')
+            seterror('Please enter the address and amount')
             setTimeout(() => {
                 seterror('')
             }, 4000);
             return
         }
         setrunning(true)
+
         if (fetchContract() !== true) {
             setrunning(false)
             return
@@ -268,10 +269,10 @@ const Send = () => {
 
             </div>
             <p onClick={opentab} className='montserrat-subtitle text-gray-500 font-semibold underline underline-offset-8 decoration-[#FF5757] cursor-pointer'>{trxid !== '' ? trxid.slice(0, 58) : ''}</p>
-            <p className='montserrat-subtitle text-[#FF5757]'>{error}</p>
+            <p className='montserrat-subtitle text-[#FF5757] font-semibold'>{error}</p>
 
 
-            {console.log(token)}
+            {/* {console.log(token)} */}
 
         </div>
     )

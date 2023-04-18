@@ -19,13 +19,7 @@ export const CloakContext = createContext(null)
 const Cloak = () => {
     const { tronWeb } = window
 
-    useEffect(() => {
-        if (!tronWeb) {
-            toast('Please install Tron wallet');
-        }
-
-    }, [])
-
+   
     const [balance, setBalance] = useState()
 
     if (tronWeb) {
@@ -56,7 +50,7 @@ const Cloak = () => {
 
         if (!tronWeb.defaultAddress.base58) {
             // TronLink is not connected
-            toast('Please open TronLink and connect to the Shasta network');
+            toast.warning('Please open TronLink and connect to the Shasta network');
 
         }
 
