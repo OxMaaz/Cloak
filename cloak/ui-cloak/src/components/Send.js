@@ -205,7 +205,7 @@ const Send = () => {
     }
 
     return (
-        <div className=" flex flex-col items-center space-y-4 mt-4 ">
+        <div className=" flex flex-col items-center space-y-2 mt-4 ">
 
 
             {/* tokens dropdown */}
@@ -256,7 +256,7 @@ const Send = () => {
             </div>
             {/* send button */}
 
-            <div className='  pt-5 ml-2'>
+            <div className='  pt-3 ml-2'>
                 <div
                     className=" cursor-pointer flex justify-around items-center  montserrat-subtitle border-1 p-1  text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md  font-semibold  border-red-500 border"
                     onClick={token === '' ? sendTrx : sendTrc20}

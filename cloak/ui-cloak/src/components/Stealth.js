@@ -87,36 +87,38 @@ const Stealth = () => {
   }, []);
 
   return (
-    <div className="flex flex-col space-y-6">
-      <h1 className="montserrat-subtitle text-gray-700 text-4xl  font-extrabold">Cloak Address</h1>
+    <>
+      <div className="flex flex-col items-center p-14 rounded-t-md">
 
-      <div className="flex mx-auto space-x-3 text-gray-700">
-        <h3 className="montserrat-medium font-normal">#tronCloak-
-          <span className="montserrat-small font-semibold">{stealthmeta}</span>
-        </h3>
-        {/* copy key */}
-        <AiOutlineCopy
-          className="cursor-pointer text-gray-500"
-          size={20}
-          onClick={oncopy}
+        <div className="pb-6 flex flex-col space-y-4 items-center border-b w-full">
+          <h1
+            className="mx-auto w-[45%] montserrat-subtitle text-gray-500 md:text-3xl 
+      text-4xl  font-bold"
+          > Unlock
+            <span className="montserrat-subtitle md:text-3xl 
+      text-4xl font-extrabold text-gray-500 "> the true potential of privacy</span> with Cloak Protocol</h1>
 
-        />
-      </div>
+          {note === true &&
+            <p
+              className="montserrat-small text-gray-500 font-semibold font-mono w-[60%]">
+              Guard the key, unleash the cloak. Never reveal the 'DontRevealMe key' , only share your secure 'Cloak address' for confidential transactions. </p>}
+        </div>
 
-      {/* generatemetakey */}
-      <div>
+        <div className="my-6 flex gap-4 items-center p-2 px-3 rounded-md  bg-[#fceeee]">
+          <p className="montserrat-small  font-semibold text-gray-500">
+            <span className="text-[#435864] font-semibold">#tronCloak-</span>
+            {stealthmeta}</p>
+          <AiOutlineCopy className='font-bold text-2xl text-gray-500' onClick={oncopy} />
+        </div>
+
         <button
           className="montserrat-subtitle border-1 p-1 montserrat-subtitle   text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md  font-semibold   hover:bg-[#FDF0EF] hover:text-[#FF5757]  hover:border-white border-red-500 border"
-          onClick={generatestealthmetaaddress}
-        >
-          Generate
-        </button>
+          onClick={generatestealthmetaaddress}>Generate</button>
       </div>
-      {note === true &&
-        <div className="flex justify-center text-gray-800 items-center  mr-2 mb-2"> <span className="montserrat-subtitle font-semibold  " >⚠ Note :  </span> <p className="montserrat-subtitle font-semibold text-gray-500 "> Never expose the 'DontRevealMe' key . Always Share 'Cloak address' to receive trnsc</p>
-        </div>}
-    </div>
+    </>
   )
 }
 
 export default Stealth
+
+

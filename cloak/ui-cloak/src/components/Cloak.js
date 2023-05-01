@@ -95,10 +95,9 @@ const Cloak = () => {
                     theme="light" />
                 <Connect />
                 <Stealth />
-                <div className=' mt-16  border-2  mx-auto  w-[700px]'>
-                </div>
+         
                 <Transaction />
-                <Footer />
+                {/* <Footer /> */}
             </CloakContext.Provider>
         </div>
     )
