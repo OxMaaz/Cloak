@@ -81,7 +81,7 @@ const Cloak = () => {
 
 
     return (
-        <div >
+        <div className='bg-[#FFF7F7] '>
             <CloakContext.Provider value={contextValue}>
                 <ToastContainer position="top-center"
                     autoClose={5000}
