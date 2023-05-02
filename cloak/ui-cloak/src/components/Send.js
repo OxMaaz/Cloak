@@ -5,6 +5,7 @@ import { base58, keccak256 } from 'ethers/lib/utils.js';
 import EllipticCurve from 'elliptic';
 import { AiOutlineArrowDown } from "react-icons/ai";
 import abi from '../build/contracts/EphKeys.json';
+import Tron from '../assets/trx.png'
 import tronWeb from 'tronweb'
 import loading2 from '../assets/loading2.gif'
 import { ToastContainer, toast } from 'react-toastify';
@@ -30,6 +31,7 @@ const Send = () => {
     const [amount, setamount] = useState('')
     const [show, setshow] = useState(false)
     const [bydefault, setbydefault] = useState('TRX')
+    const [bydefaultimg, setbydefaultimg] = useState(Tron)
     const [trxid, settrxid] = useState('')
     const [running, setrunning] = useState(false)
 
@@ -103,6 +105,7 @@ const Send = () => {
         setshow(!show)
         setbydefault(t.name)
         settoken(t.address)
+        setbydefaultimg(t.symbol)
 
     }
 
@@ -196,7 +199,7 @@ const Send = () => {
     }
 
     const opentab = () => {
- 
+
         if (trxid !== '') {
             window.open(trxid, '_blank')
         }
@@ -213,7 +216,9 @@ const Send = () => {
             <div className='absolute w-72 '>
                 <ul className='hover:shadow-md border rounded-md' onClick={() => setshow(!show)}>
                     <li className='rounded-md px-2 p-1 text-gray-500 font-semibold   cursor-pointer flex space-x-2  justify-between text-md  border border-gray-400' >
-                        <p>{bydefault}</p>
+                        <div className='flex flex-row   justify-around  items-center'>
+                            <img src={bydefaultimg} alt="" height={1} width={20} />
+                            <p className='ml-1'>{bydefault}</p></div>
                         <AiOutlineArrowDown className='float-right' color='grey' size={18} />
                     </li>
 
@@ -222,7 +227,7 @@ const Send = () => {
                     <div className={show === true && 'max-h-32 overflow-y-scroll scrollbar cursor-pointer     scrollbar-thumb-[#FF5757] scrollbar-w-[7px] scrollbar-h-3 scrollbar-thumb-rounded-full scrollbar-track-gray-100 '}>
 
                         {show && Tokens.map((t) =>
-                            <div className='bg-[#FFF7F7] hover:shadow-md text-sm  '>
+                            <div className='bg-[#fdf4f4]  hover:shadow-md text-sm  '>
                                 <li
                                     className='px-2 p-3 cursor-pointer text-gray-500 font-semibold
                          hover:bg-[#FF5757] hover:text-white montserrat-small 
@@ -263,14 +268,15 @@ const Send = () => {
                 >
 
                     <h2 className=''>{running === true ? 'sending' : 'send'}</h2>
-                    {running === true ? <img height={35} width={35} src={loading2} alt="" /> : ''}
+                    {running === true ? <img height={30} width={30} src={loading2} alt="" /> : ''}
                 </div>
 
 
             </div>
-            <p onClick={opentab} className='montserrat-subtitle text-gray-500 font-semibold underline underline-offset-8 decoration-[#FF5757] cursor-pointer'>{trxid !== '' ? trxid.slice(0, 58) : ''}</p>
-            <p className='montserrat-subtitle text-[#FF5757] font-semibold'>{error}</p>
-
+            <div className='pt-1 pb-4'>
+                <p onClick={opentab} className='montserrat-subtitle  text-gray-500 font-semibold underline underline-offset-8 decoration-[#FF5757] cursor-pointer'>{trxid !== '' ? trxid.slice(8, 58) : ''}</p>
+                <p className='montserrat-subtitle  text-[#FF5757] font-semibold'>{error}</p>
+            </div>
 
             {/* {console.log(token)} */}
 
