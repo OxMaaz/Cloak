@@ -81,7 +81,7 @@ const Cloak = () => {
 
 
     return (
-        <div>
+        <div >
             <CloakContext.Provider value={contextValue}>
                 <ToastContainer position="top-center"
                     autoClose={5000}
