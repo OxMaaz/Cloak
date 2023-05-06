@@ -1,22 +1,22 @@
-import React from 'react'
-import Send from './Send'
-import Receive from './Receive'
-import { useState } from 'react'
+import React from "react";
+import Send from "./Send";
+import Receive from "./Receive";
+import { useState } from "react";
 
 const Transaction = () => {
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false);
   return (
-    <div className="flex flex-col pt-6 space-y-6 mt-8">
-      <div className="flex font-semibold space-x-16 mx-auto">
+    <div className="flex flex-col pt-2 space-y-4 ">
+      <div className="flex font-semibold space-x-16 mx-auto border-b pb-2 border-gray-300">
         <h4
-          className={`montserrat-subheading text-4xl cursor-pointer ml-7 text-gray-600 hover:text-[#FF5757] 
+          className={` montserrat-subheading text-4xl cursor-pointer ml-7 text-gray-500 dark:text-gray-300 hover:text-[#FF5757] 
             }`}
           onClick={() => setShow(false)}
         >
           Send
         </h4>
         <h4
-          className={`montserrat-subheading text-4xl cursor-pointer hover:text-gray-600 text-[#FF5757] 
+          className={`  montserrat-subheading text-4xl cursor-pointer text-[#FF5757] 
             }`}
           onClick={() => setShow(true)}
         >
@@ -25,7 +25,7 @@ const Transaction = () => {
       </div>
       <div className="">{show === false ? <Send /> : <Receive />}</div>
     </div>
-  )
-}
+  );
+};
 
-export default Transaction
+export default Transaction;

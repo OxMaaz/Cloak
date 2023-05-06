@@ -1,31 +1,43 @@
+.theme-btn:hover .dark {
+  display: inline-block;
+}
+
+.light {
+  display: inline-block;
+}
+
+.theme-btn:hover .light {
+  display: none;
+}
+
 @font-face {
   font-family: Montserrat;
-  src: url('../public/Fonts/Montserrat-MediumItalic.ttf');
+  src: url("../public/Fonts/Montserrat-MediumItalic.ttf");
 }
 
 @font-face {
   font-family: MontserratHeading;
-  src: url('../public/Fonts/Montserrat-Regular.ttf');
+  src: url("../public/Fonts/Montserrat-Regular.ttf");
 }
 
 @font-face {
   font-family: MontserratSubHeading;
-  src: url('../public/Fonts/Montserrat-SemiBold.ttf');
+  src: url("../public/Fonts/Montserrat-SemiBold.ttf");
 }
 
 @font-face {
   font-family: MontserraTitle;
-  src: url('../public/Fonts/Montserrat-BoldItalic.ttf');
+  src: url("../public/Fonts/Montserrat-BoldItalic.ttf");
 }
 
 @font-face {
   font-family: MontserraSubTitle;
-  src: url('../public/Fonts/Montserrat-Light.ttf');
+  src: url("../public/Fonts/Montserrat-Light.ttf");
 }
 
 @font-face {
   font-family: MontserratSmall;
-  src: url('../public/Fonts/Montserrat-Light.ttf');
+  src: url("../public/Fonts/Montserrat-Light.ttf");
 }
 
 .montserrat-subtitle {
@@ -91,4 +103,3 @@
     transform: rotate(360deg);
   }
 }
-
