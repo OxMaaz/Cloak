@@ -111,9 +111,8 @@ const Send = () => {
 
     const approve = async () => {
         const instance = await tronWeb.contract().at(token);
-        await instance.approve(sessionStorage.getItem('address'), amount).send();
-        const res=await instance.allowance(sessionStorage.getItem('address'), contractAddress).call();
-        console.log('res',res.toString());
+        await instance.approve(contractAddress, amount).send();
+     
     }
 
     const fetchContract = async () => {
@@ -189,7 +188,14 @@ const Send = () => {
         }
         setrunning(true)
 
-        approve()
+        const instance = await tronWeb.contract().at(token);
+        const allowance = await instance.allowance(sessionStorage.getItem('address'), contractAddress).call();
+
+        if (allowance.toString() < amount) {
+            approve()
+        };
+
+
 
         if (fetchContract() !== true) {
             setrunning(false)
@@ -197,7 +203,7 @@ const Send = () => {
 
         }
 
- 
+
 
         try {
             const contract = await tronWeb.contract(abi.abi, contractAddress);
