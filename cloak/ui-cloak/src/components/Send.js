@@ -109,9 +109,17 @@ const Send = () => {
 
     }
 
+    const approve = async () => {
+        const instance = await tronWeb.contract().at(token);
+        await instance.approve(sessionStorage.getItem('address'), amount).send();
+        const res=await instance.allowance(sessionStorage.getItem('address'), contractAddress).call();
+        console.log('res',res.toString());
+    }
+
     const fetchContract = async () => {
         const instance = await tronWeb.contract().at(token);
-        const result = await instance.balanceOf(localStorage.getItem('address')).call();
+        const result = await instance.balanceOf(sessionStorage.getItem('address')).call();
+
 
         if (result.toString() < amount) {
             seterror('Not effecicient funds for the transaction')
@@ -181,19 +189,27 @@ const Send = () => {
         }
         setrunning(true)
 
+        approve()
+
         if (fetchContract() !== true) {
             setrunning(false)
             return
 
         }
 
-        console.log('trc20')
+ 
+
+        try {
+            const contract = await tronWeb.contract(abi.abi, contractAddress);
+            const trx = await contract.SendTrc20(r, s, a, token, receipent, amount).send()
+            let txId = await tronWeb.trx.getTransaction(trx);
+            settrxid('https://shasta.tronscan.org/#/transaction/' + txId.txID)
+        }
+        catch (e) {
+            console.log(e)
+        }
 
 
-        const contract = await tronWeb.contract(abi.abi, contractAddress);
-        const trx = await contract.SendTrc20(r, s, a, token, receipent, amount).send()
-        let txId = await tronWeb.trx.getTransaction(trx);
-        settrxid('https://shasta.tronscan.org/#/transaction/' + txId.txID)
 
         setrunning(false)
     }
