@@ -13,13 +13,13 @@ const Qna = () => {
   return (
     <div
       id="faq"
-      className="p-5 py-10 flex flex-col items-center justify-center bg-[#FF5757]"
+      className="p-5 py-10 flex flex-col items-center justify-center dark:bg-[#1d1d1d] bg-[#FF5757]"
     >
-      <h1 className="montserrat-subheading text-2xl mb-6 text-white border-b pb-2 border-gray-200">
+      <h1 className="montserrat-subheading text-2xl mb-6 text-white dark:text-[#FF5757] border-b pb-2 border-gray-200">
         FAQ
       </h1>
       <div
-        className="xl:p-14 bg-[#FFF7F7] lg:w-[900px] md:w-[850px] p-5 rounded-md shadow-lg flex flex-col
+        className="xl:p-14 bg-[#FFF7F7] dark:bg-[#1d1d1d] lg:w-[900px] md:w-[850px] p-5 rounded-md shadow-lg flex flex-col
        items-start justify-center"
       >
         <h4

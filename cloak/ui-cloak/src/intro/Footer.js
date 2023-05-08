@@ -3,7 +3,7 @@ import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <div class="dark:bg-[#2D2F31] p-4">
+    <div class="dark:bg-[#1d1d1d] p-4">
       <ul class="flex justify-center space-x-4">
         <li class="p-2">
           <a href="/">
