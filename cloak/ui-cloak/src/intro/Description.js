@@ -7,10 +7,10 @@ import { BsCurrencyExchange } from "react-icons/bs";
 
 const Description = () => {
   return (
-    <div className="dark:bg-[#2D2F31] dark:text-gray-100 p-10 px-8 montserrat-medium">
+    <div className="dark:bg-[#1d1d1d] dark:text-gray-100 p-10 px-8 montserrat-medium">
       <div className="flex items-start flex-col px-4">
         {/* Heading */}
-        <h2 className="montserrat-heading font-semibold self-left text-3xl  text-gray-600 dark:text-gray-200">
+        <h2 className="montserrat-heading font-semibold self-left text-3xl text-gray-600 dark:text-[#FF5757]">
           How it works ?
         </h2>
 
@@ -77,20 +77,20 @@ const Description = () => {
 
       <div class="rounded-lg p-8">
         <div class="mx-auto">
-          <h2 class="montserrat-heading text-gray-600 text-3xl font-semibold mb-2 mt-4 ">
+          <h2 class="montserrat-heading text-gray-600 dark:text-[#FF5757] text-3xl font-semibold mb-2 mt-4 ">
             Features
           </h2>
-          <div className="border-b w-[50%] pb-2 border-[#ff8080] mx-auto mb-4 "></div>
+          <div className="border-b w-[50%] pb-2 border-[#ff8080] dark:border-gray-200 mx-auto mb-4 "></div>
           <div class="sm:p-6 cursor-default mx-auto max-w-[1100px] px-15 p-6 grid grid-cols-2 gap-8">
             <div class="col-span-2 md:col-span-1 ">
-              <div class="bg-[#fdf4f4]  shadow-md hover:shadow-lg rounded-lg p-10 space-y-4 h-full ">
+              <div class="bg-[#fddede]  shadow-md hover:shadow-lg rounded-lg p-10 space-y-4 h-full ">
                 <div className="flex space-x-2 items-center justify-center ">
                   <MdPrivacyTip color="#ff8080" className="text-xl mb-2 " />
-                  <h3 class="montserrat-subheading text-xl text-gray-600 font-semibold mb-2">
+                  <h3 class="montserrat-subheading text-xl text-gray-600 dark:text-gray-800 font-semibold mb-2">
                     Privacy
                   </h3>
                 </div>
-                <p class=" text-gray-400 font-semibold montserrat-heading">
+                <p class=" text-gray-400 dark:text-gray-600 font-semibold montserrat-heading">
                   Cloak app prioritizes user privacy by generating a unique
                   cloak address for every transaction, thereby making it
                   difficult to track or trace the transaction history of a
@@ -103,14 +103,14 @@ const Description = () => {
               </div>
             </div>
             <div class="col-span-2 md:col-span-1">
-              <div class="bg-[#fdf4f4] shadow-md hover:shadow-lg rounded-lg p-10 space-y-4 h-full">
+              <div class="bg-[#fddede] shadow-md hover:shadow-lg rounded-lg p-10 space-y-4 h-full">
                 <div className="flex space-x-2 items-center justify-center">
                   <MdOutlineSecurity color="#ff8080" className="text-xl mb-2" />
-                  <h3 class="montserrat-subheading text-xl text-gray-600 font-semibold mb-2">
+                  <h3 class="montserrat-subheading text-xl text-gray-600 dark:text-gray-800 font-semibold mb-2">
                     Security
                   </h3>
                 </div>
-                <p class=" text-gray-400 font-semibold montserrat-heading">
+                <p class=" text-gray-400 dark:text-gray-600 font-semibold montserrat-heading">
                   Cloak app employs robust security measures to ensure that
                   users' funds and information are safe. The random number
                   generated during the cloak address creation serves as a secret
@@ -124,18 +124,18 @@ const Description = () => {
               </div>
             </div>
             <div class="col-span-2 md:col-span-1">
-              <div class="bg-[#fdf4f4] shadow-md hover:shadow-lg rounded-lg p-10 space-y-4 h-full">
+              <div class="bg-[#fddede] shadow-md hover:shadow-lg rounded-lg p-10 space-y-4 h-full">
                 <div className="flex space-x-2 items-center justify-center">
                   <AiOutlineTransaction
                     color="#ff8080"
                     className="text-xl mb-2"
                   />
 
-                  <h3 class="montserrat-subheading text-xl text-gray-600 font-semibold mb-2">
+                  <h3 class="montserrat-subheading text-xl text-gray-600 dark:text-gray-800 font-semibold mb-2">
                     Ease to use
                   </h3>
                 </div>
-                <p class="text-gray-400 font-semibold montserrat-heading">
+                <p class="text-gray-400 dark:text-gray-600 font-semibold montserrat-heading">
                   Cloak app is designed to be user-friendly, with a simple and
                   intuitive interface that allows users to generate, send, and
                   match cloak addresses in one click. The app's step-by-step
@@ -147,18 +147,18 @@ const Description = () => {
               </div>
             </div>
             <div class="col-span-2 md:col-span-1">
-              <div class="bg-[#fdf4f4] shadow-md hover:shadow-lg rounded-lg p-10 space-y-4 h-full">
+              <div class="bg-[#fddede] shadow-md hover:shadow-lg rounded-lg p-10 space-y-4 h-full">
                 <div className="flex space-x-2 items-center justify-center">
                   <BsCurrencyExchange
                     color="#ff8080"
                     className="text-xl mb-2"
                   />
 
-                  <h3 class="montserrat-subheading text-xl text-gray-600 font-semibold mb-2">
+                  <h3 class="montserrat-subheading text-xl text-gray-600 dark:text-gray-800 font-semibold mb-2">
                     Scalability
                   </h3>
                 </div>
-                <p class=" text-gray-400 font-semibold montserrat-heading">
+                <p class=" text-gray-400 dark:text-gray-600 font-semibold montserrat-heading">
                   Cloak app allows for fast and seamless transactions, with
                   funds being sent and received almost instantly. This means
                   that users do not have to wait for an extended period to

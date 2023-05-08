@@ -62,7 +62,7 @@ const Cloak = () => {
   };
 
   return (
-    <div className="bg-[#FFF7F7] dark:bg-[#2D2F31] h-[100vh] ">
+    <div className="bg-[#FFF7F7] dark:bg-[#1d1d1d] h-[100vh] ">
       <CloakContext.Provider value={contextValue}>
         <ToastContainer
           position="top-center"

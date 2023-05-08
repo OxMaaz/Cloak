@@ -51,7 +51,7 @@ const Header = () => {
           {/* theme button */}
           <div
             onClick={() => setDarkTheme(!darkTheme)}
-            className="cursor-pointer dark:bg-gray-600 dark:hover:bg-gray-500 bg-[#FF5757] hover:bg-[#fc9393] 
+            className="cursor-pointer dark:bg-[#1d1d1d] dark:hover:bg-[#fa9d9d] bg-[#FF5757] hover:bg-[#1d1d1d] 
             p-2 rounded-full border dark:border-gray-300 border-gray-200"
           >
             <button className="transition-all theme-btn text-gray-200">
@@ -81,7 +81,8 @@ const Header = () => {
         </p>
         <div className="pt-1">
           <button
-            className="border-1 montserrat-subheading  hover:text-white hover:bg-[#FF5757] hover:shadow-xl p-2 px-4 rounded-full bg-[#FDF0EF] text-[#FF5757] font-semibold hover:border-white border-red-500 border text-lg"
+            className="border-1 montserrat-subheading  hover:text-white hover:bg-[#FF5757] hover:shadow-xl p-2 px-4 rounded-full
+             bg-[#FDF0EF] dark:bg-[#252525] text-[#FF5757] font-semibold hover:border-white border-red-500 dark:border-gray-900 border text-lg"
             onClick={Valid}
           >
             Launch app

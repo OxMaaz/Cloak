@@ -79,7 +79,7 @@ const Connect = () => {
           <button
             onClick={data.connectwallet}
             className="montserrat-subtitle border-1 p-1 sm:text-[1rem] text-[0.8rem]
-                     text-[#FF5757] bg-[#FDF0EF] border
+                     text-[#FF5757] bg-[#FDF0EF] dark:bg-[#FF5757] dark:text-gray-900 dark:hover:text-black border
                      shadow-sm hover:shadow-md px-2 sm:px-4 rounded-md
                     hover:bg-[#FF5757] hover:text-[white] font-bold border-pink-200 dark:border-gray-800"
           >
