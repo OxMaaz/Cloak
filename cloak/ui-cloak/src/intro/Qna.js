@@ -4,6 +4,7 @@ import {IoAddSharp} from 'react-icons/io5';
 
 
 const Qna = () => {
+  
   const [showAnswers, setShowAnswers] = useState([]);
 
   const toggleAnswer = (index) => {
@@ -12,8 +13,9 @@ const Qna = () => {
     setShowAnswers(updatedShowAnswers);
   };
 
+
   return (
-    <div className='p-5 py-10 flex flex-col items-center justify-center bg-[#FF5757]'>
+    <div id="faq" className='p-5 py-10 flex flex-col items-center justify-center bg-[#FF5757]'>
       <h1 className='montserrat-subheading text-2xl mb-6 text-white border-b pb-2 border-gray-200'>FAQ</h1>
       <div className='xl:p-14 xl:px-s20 bg-[#FFF7F7] lg:w-[900px] p-5 rounded-md shadow-lg flex flex-col
        items-start justify-center'>

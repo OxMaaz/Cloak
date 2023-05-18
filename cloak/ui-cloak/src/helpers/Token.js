@@ -5,6 +5,7 @@ import usdj from '../assets/usdj.png'
 import sun from '../assets/sun.png'
 import usdt from '../assets/usdt.png'
 import trx from '../assets/trx.png'
+import nft from '../assets/nftOfficial.jpeg'
 
 export const Tokens = [
     { "name": "TRX", "address": '', "symbol": trx },
@@ -13,7 +14,8 @@ export const Tokens = [
     { "name": "JST", "address": 'TBzrkFBjgzowt7nHkaYkbLBfcLTvg2qe6a', "symbol": just },
     { "name": "USDJ", "address": 'TLxqc8tQpftjyW8n4TpNTEhdzPK8vSgeRA', "symbol": usdj },
     { "name": "SUN", "address": 'TWkUvS8uP7GiLxqeiUhwC1CLpc8TuVhgcm', "symbol": sun },
-    { "name": "USDT", "address": 'TDZDd58a44n5Bvg7pFpcdWhZpv7XsT9PsU', "symbol": usdt }
+    { "name": "USDT", "address": 'TDZDd58a44n5Bvg7pFpcdWhZpv7XsT9PsU', "symbol": usdt },
+    { "name": "NFTS", "address": 'nft', "symbol": nft }
 ]
 
 

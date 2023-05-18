@@ -29,7 +29,7 @@ const Description = () => {
             <ul class="list-disc list-inside space-y-6">
               <li className="mb-2 text-left text-gray-600">
                 <span className="font-semibold text-gray-600 break-words">Step 1 : </span>
-                Generate a unique "cloak address" by clicking the generate button. The "DontRevealMe(DRM)" key generated will serve as your secret key, so be sure to save it in a secure location.
+                Generate a unique "cloak address" by clicking the generate button. The "DRM" key generated will serve as your secret key, so be sure to save it in a secure location.
               </li>
               <li class="mb-2 text-left text-gray-600">
                 <span class="font-semibold text-gray-600">Step 2 : </span> Send the cloak address to the intended sender.
@@ -38,7 +38,7 @@ const Description = () => {
                 <span class="font-semibold text-gray-600">Step 3 : </span> The sender will create an address from your cloak address and send funds to it using the "send" button.
               </li>
               <li class="mb-2 text-left text-gray-600">
-                <span class="font-semibold text-gray-600">Step 4 : </span> After the funds have been sent, click on "match" or paste your DontRevealMe(DRM) key (optional) to retrieve your private key and access the specific address on which the funds have been sent.
+                <span class="font-semibold text-gray-600">Step 4 : </span> After the funds have been sent, click on "match" or paste your (DRM) key (optional) to retrieve your private key and access the specific address on which the funds have been sent.
               </li>
               <li class="mb-2 text-left text-gray-600">
                 <span class="font-semibold text-gray-600">Summary : </span> By following these steps, you can easily and securely transfer funds using our app. Should you have any queries or concerns, please do not hesitate to contact us by our discord for assistance..

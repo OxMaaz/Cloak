@@ -5,21 +5,16 @@ import { useState, useEffect, useContext } from 'react'
 import EllipticCurve from 'elliptic';
 import { AiOutlineCopy } from "react-icons/ai";
 import { CloakContext } from './Cloak';
-// import { Tokens } from "../helpers/Token";
 const ec = new EllipticCurve.ec('secp256k1');
-
-
 
 
 const Stealth = () => {
 
+
   const data = useContext(CloakContext);
-  let key;
-
   const [stealthmeta, setstealthmeta] = useState('')
-  const [storedspendingkey, setstoredspendingkey] = useState('')
   const [note, setnote] = useState(false)
-
+  let key;
 
 
   const generatestealthmetaaddress = () => {
@@ -28,9 +23,9 @@ const Stealth = () => {
 
       key = ec.genKeyPair();
 
-      const skey = localStorage.setItem('DontRevealMe', key.getPrivate().toString(16));
+      sessionStorage.setItem('DRM key', key.getPrivate().toString(16));
       const spendingkey = ec.keyFromPrivate(key.getPrivate().toString(16), 'hex');
-      setstoredspendingkey(skey)
+  
 
 
       const data = Uint8Array.from(
@@ -42,7 +37,7 @@ const Stealth = () => {
       addr.set(data);
       addr.set(crc, data.length);
       const M = 'T' + base58.encode(addr);
-      localStorage.setItem('meta', M);
+      sessionStorage.setItem('cloak address', M);
       setstealthmeta(M);
     }
 
@@ -57,7 +52,7 @@ const Stealth = () => {
     const element = document.createElement("a");
     const file = new Blob([text], { type: 'text/plain' });
     element.href = URL.createObjectURL(file);
-    element.download = "DontRevealMe.txt";
+    element.download = "DRM.txt";
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
@@ -71,13 +66,13 @@ const Stealth = () => {
 
     }, 5000);
 
-
   }
+
 
   const oncopy = () => {
 
     navigator.clipboard.writeText(stealthmeta)
-    downloadFile(localStorage.getItem('DontRevealMe'))
+    downloadFile(sessionStorage.getItem('DRM key'))
     revealnot()
 
   }
@@ -88,23 +83,23 @@ const Stealth = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center p-14 rounded-t-md">
+      <div className="flex flex-col items-center p-14 rounded-t-md ">
 
-        <div className="pb-6 flex flex-col space-y-4 items-center border-b w-full">
-          <h1
-            className="mx-auto w-[45%] montserrat-subtitle text-gray-500 md:text-3xl 
-      text-4xl  font-bold"
-          > Unlock
-            <span className="montserrat-subtitle md:text-3xl 
-      text-4xl font-extrabold text-gray-500 "> the true potential of privacy</span> with Cloak Protocol</h1>
+        <div className="pb-6 flex flex-col space-y-4 items-center   w-full">
+          <h2
+            className="mx-auto w-[75%] montserrat-subheading text-gray-500 md:text-4xl 
+      text-4xl  font-extrabold "
+          >  Experience ultimate privacy with 
+            <span className="montserrat-subheading md:text-4xl  
+      text-4xl font-extrabold  "> cLoak </span> responsibly  pushing boundaries </h2>
 
           {note === true &&
             <p
-              className="montserrat-small text-gray-500 font-semibold font-mono w-[60%]">
-              Guard the key, unleash the cloak. Never reveal the 'DontRevealMe key' , only share your secure 'Cloak address' for confidential transactions. </p>}
+              className="montserrat-small text-gray-500 pt-4   font-semibold font-mono w-[60%]">
+              Guard the key, unleash the cloak. Never reveal the 'DRM key' , only share your secure 'Cloak address' for confidential transactions </p>}
         </div>
 
-        <div className="my-6 flex gap-4 items-center p-2 px-3 rounded-md  bg-[#fceeee]">
+        <div className="my-2 flex gap-4 items-center p-2 px-2 rounded-md  bg-[#fceeee]">
           <p className="montserrat-small  font-semibold text-gray-500">
             <span className="text-[#435864] font-semibold">#tronCloak-</span>
             {stealthmeta}</p>
@@ -112,9 +107,10 @@ const Stealth = () => {
         </div>
 
         <button
-          className="montserrat-subtitle border-1 p-1 montserrat-subtitle   text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md  font-semibold   hover:bg-[#FDF0EF] hover:text-[#FF5757]  hover:border-white border-red-500 border"
+          className="montserrat-subtitle my-3 border-1 p-1 montserrat-subtitle   text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md  font-semibold   hover:bg-[#FDF0EF] hover:text-[#FF5757]  hover:border-white "
           onClick={generatestealthmetaaddress}>Generate</button>
       </div>
+      <div className=" border-b w-[80%] m-auto mb-6 "></div>
     </>
   )
 }

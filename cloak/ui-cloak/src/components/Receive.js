@@ -5,7 +5,7 @@ import EllipticCurve from 'elliptic';
 import { AiOutlineCopy } from "react-icons/ai";
 import { GiKangaroo } from "react-icons/gi";
 import { AiOutlineArrowsAlt, AiOutlineShrink } from "react-icons/ai";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const ec = new EllipticCurve.ec('secp256k1');
 
@@ -16,7 +16,7 @@ const Receive = () => {
   const [rootspendingkey, setrootspendingkey] = useState('')
   const [privatekey, setprivatekey] = useState('')
   const [hide, sethide] = useState(true)
-  const [matching, setmatchingkey] = useState(false)
+  // const [matching, setmatchingkey] = useState(false)
   const [err, seterr] = useState(false)
   const [reveal, setreveal] = useState(false)
   const [founded, setfounded] = useState('founded')
@@ -38,7 +38,7 @@ const Receive = () => {
         for (let i = 0; i < limit.toString(); i++) {
           await contract.keys(i).call((err, result) => {
             zkeys.push(`T${result.ss.replace('0x', '')}04${result.x.slice(2)}${result.y.slice(2)}`)
-            localStorage.setItem('ephkeys', JSON.stringify(zkeys))
+            sessionStorage.setItem('ephkeys', JSON.stringify(zkeys))
 
           });
 
@@ -51,20 +51,20 @@ const Receive = () => {
     }
     fetchData();
 
-
   }, []);
 
 
   const generaterootspendingkey = () => {
+
     if (!tronWeb) {
-      toast('Please initialze tronlink')
+      toast.warning('Please initialze tronlink')
       return
     }
-    setmatchingkey(true)
+    // setmatchingkey(true)
 
     var Spendingkey;
     if (rootspendingkey === '') {
-      Spendingkey = ec.keyFromPrivate(localStorage.getItem('DontRevealMe'), 'hex');
+      Spendingkey = ec.keyFromPrivate(sessionStorage.getItem('DRM key'), 'hex');
 
     }
 
@@ -73,36 +73,36 @@ const Receive = () => {
     }
 
     var ephPublicKey;
-    var RSharedsecret;
-    var RHashedsecret;
+    var Sharedsecret;
+    var Hashedsecret;
     var _sharedSecret;
 
-    const ephkeys = localStorage.getItem('ephkeys');
+    const ephkeys = sessionStorage.getItem('ephkeys');
     const registry = JSON.parse(ephkeys);
     console.log(registry)
 
     registry.forEach((z) => {
       if (registry === '') {
-        alert('empty')
+        toast.warning('Plz wait try again')
         return
       }
 
       ephPublicKey = ec.keyFromPublic(z.slice(3), 'hex');
-      RSharedsecret = Spendingkey.derive(ephPublicKey.getPublic()); // 
-      RHashedsecret = ec.keyFromPrivate(keccak256(RSharedsecret.toArray()));
-      _sharedSecret = '0x' + RSharedsecret.toArray()[0].toString(16).padStart(2, '0')
-      // console.log(z.slice(1, 3).toString() , _sharedSecret.toString().slice(2, 4))
+      Sharedsecret = Spendingkey.derive(ephPublicKey.getPublic()); // 
+      Hashedsecret = ec.keyFromPrivate(keccak256(Sharedsecret.toArray()));
+      _sharedSecret = '0x' + Sharedsecret.toArray()[0].toString(16).padStart(2, '0')
+      console.log(z.slice(1, 3).toString() , _sharedSecret.toString().slice(2, 4))
 
 
       try {
         if (_sharedSecret.toString().slice(2, 4) === z.slice(1, 3).toString()) {
-          const _key = Spendingkey.getPrivate().add(RHashedsecret.getPrivate());
+          const _key = Spendingkey.getPrivate().add(Hashedsecret.getPrivate());
           const pk = _key.mod(ec.curve.n);
           console.log('Private key to open wallet', pk.toString(16, 32))
           setprivatekey(pk.toString(16, 32))
           setreveal(true)
           setrootspendingkey('')
-          setfounded('founded')
+          setfounded('')
 
         }
         return
@@ -113,21 +113,28 @@ const Receive = () => {
         seterr(e.message)
       }
 
-
     })
-    setmatchingkey(false)
+
+    if(founded==='founded'){
+      seterr('Try again')
+    }
+    else{
+      toast.success('matched')
+    }
+
 
 
   }
 
   const copykey = () => {
+
     navigator.clipboard.writeText(privatekey)
     setiscopied('Copied')
   }
 
   return (
     <>
-      <div className="py-2 flex space-x-4 justify-center ml-11">
+      <div className="py-3 flex space-x-4 justify-center ml-11">
         {hide !== true && (
           <input
             type="text"
@@ -167,13 +174,12 @@ const Receive = () => {
           onClick={generaterootspendingkey}
         >
           <GiKangaroo size={26} />
-          <h2 className='montserrat-small'>Match Key</h2>
+          <h2 className='montserrat-small'>Match</h2>
         </div>
       </div>
 
       {/* message */}
       <div className="p-4  text-red-400 font-semibold">
-        {matching === true ? <p>Running.....</p> : false}
         {reveal === true ? (
           <div className="flex ml-60  justify-center space-x-3 montserrat-small">
             <p>{iscopied}</p>
@@ -181,8 +187,7 @@ const Receive = () => {
           </div>
         ) : (
           <>
-            <p>{founded !== 'founded' && 'Key doesnt exist'}</p>
-            <p>{err && 'Error : ' + err}</p>
+            <p className="montserrat-subtitle  text-[#FF5757] font-semibold">{err && 'Not Match : ' + err}</p>
           </>
         )}
       </div>
