@@ -43,7 +43,7 @@ const Receive = () => {
           });
 
         }
-   
+
 
       } catch (e) {
         console.error(e);
@@ -59,7 +59,7 @@ const Receive = () => {
     if (!tronWeb) {
       toast('Please initialze tronlink')
       return
-  }
+    }
     setmatchingkey(true)
 
     var Spendingkey;
@@ -82,6 +82,10 @@ const Receive = () => {
     console.log(registry)
 
     registry.forEach((z) => {
+      if (registry === '') {
+        alert('empty')
+        return
+      }
 
       ephPublicKey = ec.keyFromPublic(z.slice(3), 'hex');
       RSharedsecret = Spendingkey.derive(ephPublicKey.getPublic()); // 

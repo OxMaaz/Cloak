@@ -38,12 +38,12 @@ const Connect= () => {
                     <p className='text-gray-400'><a href="/https://discord.gg/qupF3BrP"><FaDiscord size={20} /></a></p>
                     <p className='text-gray-400'><a href="https://github.com/ScriptKiddii/Cloak"><FaGithub size={20} /></a></p>
                     <p className='text-gray-400'><a href="https://twitter.com/TronCloak"><FaTwitter size={20} /></a></p>
-                    <p className="sm:text-[1rem] montserrat-small  text-gray-500  font-semibold text-[0.8rem]">{sessionStorage.getItem('address') === null || false ? '' : `${sessionStorage.getItem('address').slice(0, 17)}...`}</p>
-                    <button onClick={data.connectwallet}
+                    <p className="sm:text-[1rem] montserrat-small  text-gray-500  font-semibold text-[0.8rem]">{sessionStorage.getItem('address') === null || false  ? '' : `${sessionStorage.getItem('address').slice(0, 17)}...`}</p>
+                    <button onClick={data.connectwallet} 
                         className="montserrat-subtitle border-1 p-1 sm:text-[1rem] text-[0.8rem]
                      text-[#FF5757] bg-[#FDF0EF]
                      shadow-md hover:shadow-lg px-2 sm:px-4 rounded-md hover:bg-[#FF5757] hover:text-[white] font-bold border-white ">
-                           {(sessionStorage.getItem('address') === null || false) && sessionStorage.getItem('balance') === null  ? 'connect wallet' : 'Connected'}
+                           {(sessionStorage.getItem('address') !== null || false)   ? 'Connected' : 'Connect wallet'}
                     </button>
                 </div>
             </div>
