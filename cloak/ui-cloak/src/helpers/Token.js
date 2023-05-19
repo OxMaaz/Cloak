@@ -15,7 +15,7 @@ export const Tokens = [
     { "name": "USDJ", "address": 'TLxqc8tQpftjyW8n4TpNTEhdzPK8vSgeRA', "symbol": usdj },
     { "name": "SUN", "address": 'TWkUvS8uP7GiLxqeiUhwC1CLpc8TuVhgcm', "symbol": sun },
     { "name": "USDT", "address": 'TDZDd58a44n5Bvg7pFpcdWhZpv7XsT9PsU', "symbol": usdt },
-    { "name": "NFTS", "address": 'nft', "symbol": nft }
+    { "name": "NFTS", "address": '', "symbol": nft }
 ]
 
 

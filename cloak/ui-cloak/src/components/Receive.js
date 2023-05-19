@@ -1,12 +1,15 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState,  } from 'react'
 import { keccak256 } from 'ethers/lib/utils.js';
 import EllipticCurve from 'elliptic';
-import { AiOutlineCopy } from "react-icons/ai";
+// import { AiOutlineCopy } from "react-icons/ai";
 import { GiKangaroo } from "react-icons/gi";
 import { AiOutlineArrowsAlt, AiOutlineShrink } from "react-icons/ai";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { contractAddress } from './Cloak';
+import copy from '../assets/copykey.jpg'
+import kangaroo from '../assets/kangaroo.png'
 const ec = new EllipticCurve.ec('secp256k1');
 
 
@@ -20,14 +23,14 @@ const Receive = () => {
   const [err, seterr] = useState(false)
   const [reveal, setreveal] = useState(false)
   const [founded, setfounded] = useState('founded')
-  const [iscopied, setiscopied] = useState('Copy PrivateKey')
+  const [iscopied, setiscopied] = useState('Copy')
+ 
   let zkeys = []
 
-  const contractAddress = 'TG94Q4jtD184Bwzf2Pc2kmHz8twvacjyM5'
   const { tronWeb } = window
 
 
-  useEffect(() => {
+
 
     const fetchData = async () => {
       try {
@@ -36,10 +39,11 @@ const Receive = () => {
         console.log(limit.toString())
 
         for (let i = 0; i < limit.toString(); i++) {
-          await contract.keys(i).call((err, result) => {
-            zkeys.push(`T${result.ss.replace('0x', '')}04${result.x.slice(2)}${result.y.slice(2)}`)
+          await contract.logs(i).call((err, result) => {
+            zkeys.push(`T${result.ss.replace('0x', '')}04${result.r.slice(2)}${result.s.slice(2)}`)
             sessionStorage.setItem('ephkeys', JSON.stringify(zkeys))
-
+            // console.log('hey',`T${result.ss.replace('0x', '')}04${result.r.slice(2)}${result.s.slice(2)}`)
+          
           });
 
         }
@@ -49,19 +53,16 @@ const Receive = () => {
         console.error(e);
       }
     }
+
+
+
+
+
+  const generaterootspendingkey = async() => {
+
     fetchData();
-
-  }, []);
-
-
-  const generaterootspendingkey = () => {
-
-    if (!tronWeb) {
-      toast.warning('Please initialze tronlink')
-      return
-    }
-    // setmatchingkey(true)
-
+  
+    
     var Spendingkey;
     if (rootspendingkey === '') {
       Spendingkey = ec.keyFromPrivate(sessionStorage.getItem('DRM key'), 'hex');
@@ -79,14 +80,15 @@ const Receive = () => {
 
     const ephkeys = sessionStorage.getItem('ephkeys');
     const registry = JSON.parse(ephkeys);
-    console.log(registry)
+    console.log('registry',zkeys)
 
+    if (registry === null) {
+      toast.warning('No data right now')
+      return
+    }
+    
     registry.forEach((z) => {
-      if (registry === '') {
-        toast.warning('Plz wait try again')
-        return
-      }
-
+   
       ephPublicKey = ec.keyFromPublic(z.slice(3), 'hex');
       Sharedsecret = Spendingkey.derive(ephPublicKey.getPublic()); // 
       Hashedsecret = ec.keyFromPrivate(keccak256(Sharedsecret.toArray()));
@@ -116,7 +118,12 @@ const Receive = () => {
     })
 
     if(founded==='founded'){
-      seterr('Try again')
+      seterr(' Oops Try again')
+      setTimeout(() => {
+        seterr('')
+        
+      }, 3000);
+     
     }
     else{
       toast.success('matched')
@@ -134,11 +141,11 @@ const Receive = () => {
 
   return (
     <>
-      <div className="py-3 flex space-x-4 justify-center ml-11">
+      <div className="py-2 flex space-x-4 justify-center items-center ml-4 ">
         {hide !== true && (
           <input
             type="text"
-            className="bg-[#fffafa] font-semibold text-gray-700 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[340px]"
+            className="bg-[#fff7f7] ml-5 font-semibold text-gray-700 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[85%]"
             value={rootspendingkey}
             onChange={(e) => {
               setrootspendingkey(e.target.value);
@@ -147,34 +154,34 @@ const Receive = () => {
           />
         )}
         {hide && (
-          <p className="text-gray-500 p-1 px-2 font-semibold montserrat-small ">
-            Expand to enter the saved Key ( optional )
+          <p className="text-gray-500 p-1 px-2 font-semibold montserrat-small ml-6 ">
+            Expand to enter the saved Key 
           </p>
         )}
         {/* expand icon (toggle of input button) */}
         {hide ? (
           <AiOutlineArrowsAlt
             className="cursor-pointer text-gray-500"
-            size={25}
+            size={22}
             onClick={() => sethide(!hide)}
           />
         ) : (
           <AiOutlineShrink
             className="cursor-pointer text-gray-500"
-            size={25}
+            size={22}
             onClick={() => sethide(!hide)}
           />
         )}
       </div>
 
       {/* Match key */}
-      <div className="flex justify-center pt-4">
+      <div className="flex justify-center  items-center pt-2 px-2 ml-1 ">
         <div
-          className="flex items-center cursor-pointer space-x-1 border-1 p-1 text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
+          className="flex items-center justify-center cursor-pointer space-x-1 border-1 p-1 text-[#fff7f7]  bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-3xl hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
           onClick={generaterootspendingkey}
         >
-          <GiKangaroo size={26} />
-          <h2 className='montserrat-small'>Match</h2>
+          <GiKangaroo size={30} />
+          {/* <h2 className='montserrat-small'>Match</h2> */}
         </div>
       </div>
 
@@ -183,11 +190,20 @@ const Receive = () => {
         {reveal === true ? (
           <div className="flex ml-60  justify-center space-x-3 montserrat-small">
             <p>{iscopied}</p>
-            <AiOutlineCopy size={25} className='cursor-pointer text-gray-500 ' onClick={copykey} />
+            <img
+              height={20}
+              width={20}
+              src={copy}
+              onClick={copykey}
+              className="cursor-pointer"
+              alt=""
+            />
+        
           </div>
         ) : (
           <>
-            <p className="montserrat-subtitle  text-[#FF5757] font-semibold">{err && 'Not Match : ' + err}</p>
+          <div className=" flex justify-center items-center text-[#FF5757] font-semibold">{err && <img height={30} width={30} src={kangaroo} alt="" />} <p className='montserrat-subtitle'>{err}</p></div>
+
           </>
         )}
       </div>

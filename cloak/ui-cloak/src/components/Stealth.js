@@ -83,23 +83,23 @@ const Stealth = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center p-14 rounded-t-md ">
+      <div className="flex flex-col items-center p-6 rounded-t-md ">
 
-        <div className="pb-6 flex flex-col space-y-4 items-center   w-full">
+        <div className="pb-6 flex flex-col space-y-4 items-center w-full">
           <h2
-            className="mx-auto w-[75%] montserrat-subheading text-gray-500 md:text-4xl 
+            className="mx-auto w-full montserrat-subheading text-gray-500 md:text-4xl 
       text-4xl  font-extrabold "
           >  Experience ultimate privacy with 
             <span className="montserrat-subheading md:text-4xl  
-      text-4xl font-extrabold  "> cLoak </span> responsibly  pushing boundaries </h2>
+      text-4xl font-extrabold  "> us </span> responsibly  pushing boundaries </h2>
 
           {note === true &&
             <p
-              className="montserrat-small text-gray-500 pt-4   font-semibold font-mono w-[60%]">
+              className="montserrat-small text-gray-500 pt-5   font-semibold font-mono w-[60%]">
               Guard the key, unleash the cloak. Never reveal the 'DRM key' , only share your secure 'Cloak address' for confidential transactions </p>}
         </div>
 
-        <div className="my-2 flex gap-4 items-center p-2 px-2 rounded-md  bg-[#fceeee]">
+        <div className="my-3 flex gap-4 items-center p-2 px-2 rounded-md  bg-[#fceeee]">
           <p className="montserrat-small  font-semibold text-gray-500">
             <span className="text-[#435864] font-semibold">#tronCloak-</span>
             {stealthmeta}</p>

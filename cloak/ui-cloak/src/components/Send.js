@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Tokens } from "../helpers/Token";
 import { useState } from "react";
 import { base58, keccak256 } from "ethers/lib/utils.js";
@@ -9,18 +9,20 @@ import Tron from "../assets/trx.png";
 import loading2 from "../assets/loading2.gif";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { contractAddress } from "./Cloak";
+import tronWeb from "tronweb";
 const ec = new EllipticCurve.ec("secp256k1");
 
 const Send = () => {
 
-  const TRCABI = [
-    "function balanceOf(address) view returns (uint)",
-    "function transfer(address to, uint amount) returns (bool)",
-    "function symbol() external view returns (string memory)",
-    "function name() external view returns (string memory)",
-    "function approve(address owner, uint256 amount) external returns (bool)",
-    "function allowance(address owner, address spender) view returns (uint)",
-  ];
+  // const TRCABI = [
+  //   "function balanceOf(address) view returns (uint)",
+  //   "function transfer(address to, uint amount) returns (bool)",
+  //   "function symbol() external view returns (string memory)",
+  //   "function name() external view returns (string memory)",
+  //   "function approve(address owner, uint256 amount) external returns (bool)",
+  //   "function allowance(address owner, address spender) view returns (uint)",
+  // ];
 
 
 
@@ -38,8 +40,8 @@ const Send = () => {
   const [toggleInput, settoggleInput] = useState(false);
 
 
+
   //helpers
-  const contractAddress = "TG94Q4jtD184Bwzf2Pc2kmHz8twvacjyM5";
 
   const { tronWeb } = window;
 
@@ -52,7 +54,11 @@ const Send = () => {
   let receipent;
 
 
-  const handlemetaaddress = (e) => {
+
+
+  //middleware functions
+
+  const handlecloakaddress = (e) => {
 
     if ((e.target.value[0] !== "T" && e.target.value !== "") ||
       (e.target.value.length > 48 || e.target.value.length < 47)) {
@@ -65,6 +71,84 @@ const Send = () => {
     setStealthmetaAddress(e.target.value);
   };
 
+
+  const handletronweb = () => {
+    if (!tronWeb) {
+      toast("Please install Tron wallet");
+    }
+    return
+
+  }
+
+  const changedefault = (t) => {
+    setshow(!show);
+    setbydefault(t.name);
+    settoken(t.address);
+    setbydefaultimg(t.symbol);
+    if (t.name === 'NFTS') {
+      settoggleInput(true)
+    }
+    else {
+      settoggleInput(false)
+    }
+
+  };
+
+  const fetchContract = async () => {
+
+    const instance = await tronWeb.contract().at(token);
+    const result = await instance.balanceOf(msgSender).call();
+    console.log('balance', result.toString())
+
+    if (result.toString() < amount) {
+      seterror("Not effecicient funds for the transaction");
+      toast.error("Not effecicient funds for the transaction");
+      setTimeout(() => {
+        seterror("");
+      }, 4000);
+      return
+    }
+    approve()
+
+  };
+
+  const checkOwner = async () => {
+
+
+    console.log('i m here')
+    let result;
+    try {
+      const instance = await tronWeb.contract().at(token);
+      console.log(token)
+      result = await instance.ownerOf(amount).call();
+
+    }
+    catch (e) {
+      seterror(e.mesage)
+    }
+
+
+    if (result !== msgSender) {
+      seterror("You are not the owner");
+      toast.error("You are not the owner");
+      setTimeout(() => {
+        seterror("");
+      }, 4000);
+      return
+    }
+
+  };
+
+
+  const validation = () => {
+    if (StealthmetaAddress === "" || amount === "") {
+      seterror("Please enter the address and amount");
+      setTimeout(() => {
+        seterror("");
+      }, 4000);
+      return;
+    }
+  }
 
 
   const initializer = () => {
@@ -87,8 +171,8 @@ const Send = () => {
     } catch (e) {
       seterror(e.message);
     }
-    try {
 
+    try {
       const sharedsecret = ephKey.derive(meta.getPublic());
       const hashed = ec.keyFromPrivate(keccak256(sharedsecret.toArray()));
       const publicKey = meta
@@ -111,70 +195,33 @@ const Send = () => {
     }
 
     return true;
-  };
-
-
-
-
-
-  const changedefault = (t) => {
-    setshow(!show);
-    setbydefault(t.name);
-    settoken(t.address);
-    setbydefaultimg(t.symbol);
-    if (t.address === 'nft') {
-      settoggleInput(true)
-    }
-    else{
-      settoggleInput(false)
-    }
 
   };
-
-  const fetchContract = async () => {
-
-    const instance = await tronWeb.contract().at(token);
-    const result = await instance.balanceOf(msgSender).call();
-    console.log('res', result.toString())
-    if (result.toString() < amount) {
-      seterror("Not effecicient funds for the transaction");
-      toast.error("Not effecicient funds for the transaction");
-      setTimeout(() => {
-        seterror("");
-      }, 4000);
-      return
-    }
-
-  };
-
 
 
 
 
   const sendTrx = async () => {
 
-    if (!tronWeb) {
-      toast("Please initialze tronlink");
-      return;
-    }
+    //checking is tronweb connected
+    handletronweb()
 
-    if (StealthmetaAddress === "" || amount === "") {
-      seterror("Please enter the address and amount");
-      setTimeout(() => {
-        seterror("");
-      }, 4000);
-      return;
-    }
+    //validating the inputs
+    validation()
+
 
     setrunning(true);
-    initializer();
+
+
+    //calculating stealth address
+    initializer()
 
     console.log("tron");
-
 
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
       const trx = await contract.SendTron(r, s, a, receipent).send({ callValue: tronWeb.toSun(amount) });
+      console.log(r, s, a, receipent)
       let txId = await tronWeb.trx.getTransaction(trx);
       settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
     }
@@ -184,24 +231,26 @@ const Send = () => {
 
 
     setrunning(false);
+
+
   };
 
   const sendTrc20 = async () => {
 
-    if (!tronWeb) {
-      toast("Please install Tron wallet");
-    }
 
-    if (StealthmetaAddress === "" || amount === "") {
-      seterror("Please enter the address and amount");
-      setTimeout(() => {
-        seterror("");
-      }, 4000);
-      return;
-    }
+    //checking is tronweb connected
+    handletronweb()
+
+    //validating the inputs
+    validation()
+
     setrunning(true);
 
-    fetchContract()
+    //confirming the balance
+  
+
+    //calculating stealth address
+    initializer()
 
     console.log("trc20");
 
@@ -219,29 +268,122 @@ const Send = () => {
     setrunning(false);
   };
 
+
+  const sendTrc721 = async () => {
+
+
+    //checking is tronweb connected
+    handletronweb()
+
+    //validating the inputs
+    validation()
+
+    setrunning(true);
+    console.log('hello nft')
+
+    //confirming the balance
+    checkOwner()
+
+    //calculating stealth address
+    initializer()
+
+    console.log("trc721");
+
+
+    try {
+      const contract = await tronWeb.contract(abi.abi, contractAddress);
+      const trx = await contract.SendTrc721(r, s, a, token, receipent, amount).send();
+      let txId = await tronWeb.trx.getTransaction(trx);
+      settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
+    }
+    catch (e) {
+      seterror(e.message);
+    }
+
+    setrunning(false);
+  };
+
   async function approve() {
 
-    const contract = await tronWeb.contract().at(token);
-    const allowance = await contract.allowance(msgSender, contractAddress).call();
-    console.log('allowance', allowance.toString())
+    console.log(token)
+    let contract;
+
+    try {
+      contract = await tronWeb.contract().at(token);
+    }
+    catch (e) {
+      seterror(e.message)
+    }
 
 
-    if (allowance.toString() < amount) {
-      const approve = await contract.approve(contractAddress, amount).send();
-      await approve.wait();
-      sendTrc20()
+    let allowance;
+
+    if (toggleInput === true) {
+      try {
+        const getapproved = await contract.getapproved(amount).call();
+        if (getapproved !== contractAddress) {
+          try {
+            const approve = await contract.approve(contractAddress, amount).send();
+            approve.wait();
+            sendTrc721()
+          }
+          catch (err) {
+            seterror(err.message)
+          }
+
+        }
+        else {
+          sendTrc721()
+        }
+
+      }
+      catch (e) {
+        seterror(e.message)
+      }
 
     }
     else {
-      sendTrc20()
+      try {
+        allowance = await contract.allowance(msgSender, contractAddress).call();
+        console.log('allowance', allowance.toString())
+      }
+      catch (e) {
+        seterror(e.message)
+      }
+      if (allowance.toString() < amount) {
+        try {
+          const approve = await contract.approve(contractAddress, amount).send();
+          approve.wait();
+          sendTrc20()
+        }
+        catch (e) {
+          seterror(e.message)
+        }
+
+      }
+      else {
+        sendTrc20()
+      }
     }
 
+
+
+
   }
+
+
+
+
+
 
 
   const opentab = () => {
     if (trxid !== "") {
       window.open(trxid, "_blank");
+      setTimeout(() => {
+        settrxid('')
+        
+      }, 3000);
     }
   };
 
@@ -249,7 +391,7 @@ const Send = () => {
     <div className=" flex flex-col items-center space-y-2 mt-4 ">
       {/* tokens dropdown */}
 
-      <div className="absolute w-72 ">
+      <div className="absolute w-80 ">
         <ul
           className="hover:shadow-md border border-gray-400 rounded-md"
           onClick={() => setshow(!show)}
@@ -292,41 +434,46 @@ const Send = () => {
 
       </div>
 
-      <div className="pt-10  text-gray-100 font-extralight">
-        {(toggleInput===true )?
+      <div className="w-[88%] ">
+        <div className="pt-9  text-gray-100 font-extralight">
+          {(toggleInput === true) ?
+            <input
+              className="bg-[#fff7f7]  font-semibold text-gray-700 montserrat-subtitle outline-none border rounded-md p-1 px-2 w-[100%] border-1 border-gray-400"
+              type="text"
+              onChange={(e) => settoken(e.target.value)}
+              placeholder=" Non fungible address"
+            /> : <div></div>
+          }
+
+        </div>
+        <div className=" flex items-center justify-between py-2 
+       ">
           <input
-            className="bg-[#fff7f7]  font-semibold text-gray-700 montserrat-subtitle outline-none border rounded-md p-1 px-2 w-[287px] border-1 border-gray-400"
+            className="bg-[#fff7f7]  font-semibold text-gray-700 montserrat-subtitle outline-none border  rounded-md p-1 px-2 w-[80%] border-1 border-gray-400"
             type="text"
-            onChange={handlemetaaddress}
-            placeholder=" Non fungible address"
-          /> :<div></div>
-        }
-
-      </div>
-      <div className="pt-1 flrx-row justify-around  items-center gap-6 flex">
-        <input
-          className="bg-[#fff7f7]  font-semibold text-gray-700 montserrat-subtitle outline-none border  rounded-md p-1 px-2 w-[300px] border-1 border-gray-400"
-          type="text"
-          onChange={handlemetaaddress}
-          placeholder=" Receipent's Cloak address "
-        />
+            onChange={handlecloakaddress}
+            placeholder=" Receipent's Cloak address "
+          />
 
 
-        {/* Amount*/}
-        <input
-          className="bg-[#fff7f7]  font-semibold text-gray-700 montserrat-subtitle outline-none    p-1 px-2 h-9 w-[60px] border-b border-gray-400"
-          value={amount}
-          type="text"
-          placeholder="0 trx"
-          onChange={(e) => setamount(e.target.value)}
-        />
+          {/* Amount*/}
+
+          <input
+            className="bg-[#fff7f7] w-[15%]   font-semibold text-gray-700 montserrat-subtitle outline-none rounded-md p-2 px-2 h-9  border border-gray-400"
+            value={amount}
+            type="text"
+            placeholder=" 0 "
+            onChange={(e) => setamount(e.target.value)}
+          />
+
+        </div>
       </div>
       {/* send button */}
 
-      <div className="  pt-4 ml-2">
+      <div className="  pt-2 ml-2">
         <div
           className=" cursor-pointer flex justify-around items-center  montserrat-subtitle border-1 p-1  text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md  font-semibold  border-red-500 border"
-          onClick={token === "" ? sendTrx : approve}
+          onClick={token === "" ? sendTrx : fetchContract}
         >
           <h2 className="">{running === true ? <img height={30} width={30} src={loading2} alt="" /> : "Transfer"}</h2>
 
@@ -344,7 +491,7 @@ const Send = () => {
         </p>
       </div>
 
-      {/* {console.log(token)} */}
+
     </div>
   );
 };

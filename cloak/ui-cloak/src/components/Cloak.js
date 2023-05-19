@@ -1,63 +1,78 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, } from 'react'
 import Connect from './Connect'
 import Stealth from './Stealth'
 import Transaction from './Transaction'
 import { createContext } from 'react'
 import { useState } from 'react'
-import TronWeb from 'tronweb';
-import querystring from 'querystring';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Demo from './Demo';
 
 
 export const CloakContext = createContext(null)
+export const contractAddress = "TFLwjm3o4zwseqbYYzgMuT8oWvWsAU9PFD";
 
 
 
 
 const Cloak = () => {
+
     const { tronWeb } = window
-
-
-    const [balance, setBalance] = useState()
+    const [show, setShow] = useState(false)
+    const [totalTrx, setTotalTrx] = useState(false)
 
 
     const renderAddress = async () => {
         const address = await tronWeb.defaultAddress.base58;
         sessionStorage.setItem('address', address)
-        const balanceInSun = await tronWeb.trx.getBalance(address);
-        const balanceInTrx = tronWeb.fromSun(balanceInSun);
-        sessionStorage.setItem('balance', `${balanceInTrx} TRX`)
-        setBalance(balanceInTrx)
 
     }
 
+    // const fetchdata = async () => {
+    //     try {
+    //         const contract = await tronWeb.contract().at(contractAddress);
+    //         const limit = await contract.getLimit().call();
+    //         console.log(limit.toString())
+    //         setTotalTrx(limit.toString())
+    //     }
 
-    useEffect(() => {
+    //     catch (e) {
+    //         console.error(e);
+    //     }
+    // }
 
+    // useEffect(() => {
+    //     if (!tronWeb) {
+    //         toast.error('Please install Tron wallet');
+    //         return
+
+    //     }
+    //     fetchdata()
+
+    // }, [])
+
+
+
+
+    useMemo(() => {
         if (tronWeb) {
-
             tronWeb.on('addressChanged', () => {
                 renderAddress()
+                window.location.reload();
             })
 
             if (!tronWeb.defaultAddress.base58) {
                 toast.warning('Please open TronLink and connect to the Shasta network');
 
             }
-    
+
         }
-        return () => {}
-    
-    },[])
- 
-   
+    }, [])
 
 
 
 
     async function connectwallet() {
-
         if (tronWeb) {
             window.tronLink.request({ method: 'tron_requestAccounts' })
             renderAddress()
@@ -66,7 +81,7 @@ const Cloak = () => {
         else {
             toast.warning('Please install Tron wallet');
         }
-        console.log(sessionStorage.getItem('address'))
+
     }
 
 
@@ -75,13 +90,13 @@ const Cloak = () => {
     const [error, seterror] = useState('')
 
     const contextValue = {
-        error, seterror, connectwallet, balance
+        error, seterror, connectwallet, show, setShow, totalTrx, setTotalTrx
     }
 
 
     return (
-        <div className='bg-[#FFF7F7] '>
-            <CloakContext.Provider value={contextValue}>
+        <CloakContext.Provider value={contextValue}>
+            <div className='bg-[#FFF7F7] min-h-[100vh] max-h-max '>
                 <ToastContainer position="top-center"
                     autoClose={5000}
                     hideProgressBar={false}
@@ -93,12 +108,17 @@ const Cloak = () => {
                     pauseOnHover
                     theme="light" />
                 <Connect />
-                <Stealth />
+                <div className=' className="md:w-[95%] max-w-[1160px] mx-auto
+                  py-8 p-4"'>  <Stealth />
 
-                <Transaction />
-                {/* <Footer /> */}
-            </CloakContext.Provider>
-        </div>
+                    <div className="flex flex-col-reverse space-y-4 sm:flex-row justify-center p-3 py-1">
+                        <Demo />
+                        <Transaction />
+                    </div>
+
+                </div>
+            </div>
+        </CloakContext.Provider>
     )
 }
 

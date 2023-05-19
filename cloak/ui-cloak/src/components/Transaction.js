@@ -1,37 +1,58 @@
-import React from 'react'
-import Send from './Send'
-import Receive from './Receive'
-import { useState } from 'react'
+import React, { useState } from "react";
+import Send from "./Send";
+import Receive from "./Receive";
+import { useContext } from "react";
+import { CloakContext } from "./Cloak";
+
+
 
 const Transaction = () => {
-  const [show, setShow] = useState(false)
+  const cloak = useContext(CloakContext);
+  const [showSend, setShowSend] = useState(true);
+
+  const handleSendClick = () => {
+    cloak.setShow(true);
+    setShowSend(true);
+ 
+  };
+
+  const handleReceiveClick = () => {
+    cloak.setShow(false);
+    setShowSend(false);
+  
+  };
+
   return (
     <div
-      className="flex flex-col sm:p-5 sm:px-8 backdrop-blur-[50px] hover:backdrop-blur-lg
-   h-full"
+      className="flex flex-col sm:p-5 sm:px-8 backdrop-blur-[50px] 
+      max-w-[500px] hover:backdrop-blur-lg 
+     h-full"
     >
       <div
         className="max-w-[400px] xl:space-x-36 mx-auto flex space-x-32 mb-2  montserrat-subtitle
-      text-[1.4rem] border-b-2 pb-2 border-gray-300 font-bold"
+        text-[1.4rem] border-b-2 pb-2 border-gray-300 font-bold my-5"
       >
-        <h4
-          className={` montserrat-subtitle text-3xl cursor-pointer font-bold ml-7 text-gray-500 hover:text-[#FF5757] 
-            }`}
-          onClick={() => setShow(false)}
+        <button
+          onClick={handleSendClick}
+          className={`px-3 
+        text-${showSend ? "[#FF5757]" : "[#6c8492]"}`}
         >
-          Send
-        </h4>
-        <h4
-          className={`  montserrat-subtitle text-3xl cursor-pointer font-bold hover:text-gray-500 text-[#FF5757] 
-            }`}
-          onClick={() => setShow(true)}
+        Transfer
+        </button>
+        <button
+          onClick={handleReceiveClick}
+          className={`px-3 
+        text-${!showSend ? "[#FF5757]" : "[#6c8492]"}`}
         >
-          Accept
-        </h4>
+         Accept
+        </button>
       </div>
-      <div className="">{show === false ? <Send /> : <Receive />}</div>
+      {/* below buttons */}
+      <div className="p-4 xl:w-[400px] w-[340px]">
+        {showSend ? <Send /> : <Receive />}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Transaction
+export default Transaction;
