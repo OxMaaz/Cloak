@@ -60,7 +60,7 @@ const Connect= () => {
 
                 {/* rigt side */}
                 <div className="sm:flex-row flex-co flex space-x-3 items-center">
-                    <p className='text-gray-400'><a href="/https://discord.gg/qupF3BrP"><FaDiscord size={20} /></a></p>
+                    <p className='text-gray-400'><a href="https://discord.gg/dqCdk5JJ"><FaDiscord size={20} /></a></p>
                     <p className='text-gray-400'><a href="https://github.com/ScriptKiddii/Cloak"><FaGithub size={20} /></a></p>
                     <p className='text-gray-400'><a href="https://twitter.com/TronCloak"><FaTwitter size={20} /></a></p>
                     <p className="sm:text-[1rem] montserrat-small  text-gray-500  font-semibold text-[0.8rem]">{sessionStorage.getItem('address') === null || false  ? '' : `${sessionStorage.getItem('address').slice(0, 17)}...`}</p>

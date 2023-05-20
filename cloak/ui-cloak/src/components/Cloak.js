@@ -1,4 +1,4 @@
-import React, { useEffect, } from 'react'
+import React, {  } from 'react'
 import Connect from './Connect'
 import Stealth from './Stealth'
 import Render from './Render'
@@ -24,26 +24,16 @@ const Cloak = () => {
     const renderAddress = async () => {
         const address = tronWeb.defaultAddress.base58;
         sessionStorage.setItem('address', address)
+        window.location.reload()
 
     }
 
-
-
     if (tronWeb) {
-        tronWeb.on('addressChanged', () => {
-            renderAddress()
-            window.location.reload();
-        
-        })
+        tronWeb.on('addressChanged', renderAddress)
    
     }
 
-
     async function connectwallet() {
-
-        // if (!tronWeb) {
-        //     toast("Please install Tron wallet");
-        // }
 
         if (!tronWeb.defaultAddress.base58) {
             // TronLink is not connected
@@ -55,10 +45,7 @@ const Cloak = () => {
             renderAddress()
         }
 
-
     }
-
-
 
 
     const [error, seterror] = useState('')

@@ -83,7 +83,7 @@ const Receive = () => {
     console.log('registry',zkeys)
 
     if (registry === null) {
-      toast.error('No data right now')
+      toast.error('Problem fetching')
       return
     }
     
