@@ -103,7 +103,7 @@ const Stealth = () => {
           <p className="montserrat-small  font-semibold text-gray-500">
             <span className="text-[#435864] font-semibold">#tronCloak-</span>
             {stealthmeta}</p>
-          <AiOutlineCopy className='font-bold text-2xl text-gray-500' onClick={oncopy} />
+          <AiOutlineCopy className='font-bold text-2xl text-gray-500 cursor-pointer' onClick={oncopy} />
         </div>
 
         <button

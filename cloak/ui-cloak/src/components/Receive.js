@@ -118,7 +118,7 @@ const Receive = () => {
     })
 
     if(founded==='founded'){
-      seterr(' Oops Try again')
+      seterr(' Oops.. Plz try again')
       setTimeout(() => {
         seterr('')
         

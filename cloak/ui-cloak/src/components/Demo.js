@@ -1,7 +1,7 @@
 import { MdVerifiedUser } from "react-icons/md";
 
 
-const Demo = ({show ,totalTrx}) => {
+const Demo = ({show ,totalTrx,totalFunds}) => {
 
   return (
     <>
@@ -53,7 +53,7 @@ const Demo = ({show ,totalTrx}) => {
               <div className="flex space-x-2">
                 <MdVerifiedUser color="#FF5757" size={32} />
                 <p className="flex 1">
-                  Click on the "Match" button or optionally paste your "DRM
+                  Click on the "kangaroo" button or optionally paste your "DRM
                   key"
                 </p>
               </div>
@@ -66,8 +66,8 @@ const Demo = ({show ,totalTrx}) => {
               </div>
             </div>
             <div className="montserrat-heading  text-[#4d606d] ">
-              <h4 className="font-semibold text-[1.1rem]">0</h4>
-              <p>More than 0 Funds have been received</p>
+              <h4 className="font-semibold text-[1.1rem]">{totalFunds}</h4>
+              <p>More than {totalFunds} Funds have been received</p>
             </div>
           </div>
         )}

@@ -34,14 +34,14 @@ const Transaction = ({ setShow }) => {
         <button
           onClick={handleSendClick}
           className={`px-3 
-        text-${showSend ? "[#FF5757]" : "[#6c8492]"}`}
+        text-${showSend ? "[#FF5757]" : "[#4d606d]"}`}
         >
           Transfer
         </button>
         <button
           onClick={handleReceiveClick}
           className={`px-3 
-        text-${!showSend ? "[#FF5757]" : "[#6c8492]"}`}
+        text-${!showSend ? "[#FF5757]" : "[#4d606d]"}`}
         >
           Accept
         </button>

@@ -106,24 +106,25 @@ const Send = () => {
 
     const instance = await tronWeb.contract().at(token);
     const result = await instance.balanceOf(msgSender).call();
-    console.log('balance', result.toString())
+    console.log('balance', tronWeb.fromSun(result.toString()))
 
-    if (result.toString() < amount) {
-      seterror("Not effecicient funds for the transaction");
+    if (tronWeb.fromSun(result.toString()) < amount) {
+      seterror("Not efficient funds for the transaction");
       toast.error("Not effecicient funds for the transaction");
       setTimeout(() => {
         seterror("");
       }, 4000);
       return
     }
-    approve()
+    else {
+      approve()
+    }
+
 
   };
 
   const checkOwner = async () => {
 
-
-    console.log('i m here')
     let result;
     try {
       const instance = await tronWeb.contract().at(token);
@@ -137,8 +138,8 @@ const Send = () => {
 
 
     if (result !== msgSender) {
-      seterror("You are not the owner");
-      toast.error("You are not the owner");
+      seterror("You are not the owner of this nft");
+      toast.error("You are not the owner of this nft");
       setTimeout(() => {
         seterror("");
       }, 4000);
@@ -254,9 +255,6 @@ const Send = () => {
 
     setrunning(true);
 
-    //confirming the balance
-  
-
     //calculating stealth address
     initializer()
 
@@ -313,7 +311,7 @@ const Send = () => {
 
   async function approve() {
 
-    console.log(token)
+    // console.log(token)
     let contract;
 
     try {
@@ -358,7 +356,7 @@ const Send = () => {
       catch (e) {
         seterror(e.message)
       }
-      if (allowance.toString() < amount) {
+      if (tronWeb.fromSun(allowance.toString()) < amount) {
         try {
           const approve = await contract.approve(contractAddress, amount).send();
           approve.wait();
@@ -380,20 +378,18 @@ const Send = () => {
   }
 
 
-
-
-
-
-
   const opentab = () => {
     if (trxid !== "") {
       window.open(trxid, "_blank");
-      setTimeout(() => {
-        settrxid('')
-        
-      }, 3000);
+
     }
   };
+
+  setTimeout(() => {
+    settrxid(" ")
+
+  }, 3000);
+
 
   return (
     <div className=" flex flex-col items-center space-y-2 mt-4 ">
@@ -482,7 +478,7 @@ const Send = () => {
       <div className="  pt-2 ml-2">
         <div
           className=" cursor-pointer flex justify-around items-center  montserrat-subtitle border-1 p-1  text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md  font-semibold  border-red-500 border"
-          onClick={token === "" ? sendTrx : fetchContract}
+          onClick={token === "" ? sendTrx : (toggleInput === true ? checkOwner : fetchContract)}
         >
           <h2 className="">{running === true ? <img height={30} width={30} src={loading2} alt="" /> : "Transfer"}</h2>
 

@@ -4,7 +4,7 @@ import { CloakContext } from "./Cloak";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa";
-import { IoMdHome } from "react-icons/io";
+import { IoMdHome,IoMdRefresh } from "react-icons/io";
 import { HiQuestionMarkCircle } from "react-icons/hi";
 
 
@@ -12,6 +12,10 @@ import { HiQuestionMarkCircle } from "react-icons/hi";
 const Connect= () => {
 
     const navigate = useNavigate();
+
+    const refresh=()=>{
+      window.location.reload();
+    }
 
     const data = useContext(CloakContext);
 
@@ -66,6 +70,7 @@ const Connect= () => {
                      shadow-md hover:shadow-lg px-2 sm:px-4 rounded-md hover:bg-[#FF5757] hover:text-[white]  font-extrabold border-white ">
                            {(sessionStorage.getItem('address') !== null || false)   ? 'Connected' : 'Connect wallet'}
                     </button>
+                    <IoMdRefresh size={25} className="cursor-pointer text-gray-400 " onClick={refresh} />
                 </div>
             </div>
         </div>

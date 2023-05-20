@@ -27,33 +27,36 @@ const Cloak = () => {
     }
 
 
- 
+
+    if (tronWeb) {
+        tronWeb.on('addressChanged', () => {
+            renderAddress()
+            window.location.reload();
+        })
+
+    }
+
+    // useEffect(() => {
+    //     if (!tronWeb) {
+    //         toast("Please install Tron wallet");
+    //     }
+    // }, [])
+
+
+
+
+    async function connectwallet() {
+
+        if (!tronWeb.defaultAddress.base58) {
+            // TronLink is not connected
+            toast.warning("Please open TronLink and connect to the Shasta network");
+        }
+
         if (tronWeb) {
-            tronWeb.on('addressChanged', () => {
-                renderAddress()
-                window.location.reload();
-            })
-
-        }
-
-
-
-
-    async function connectwallet(e) {
-        if (!tronWeb) {
-            toast.warning('Please install Tron wallet');   
-
-        }
-        if (tronWeb.defaultAddress.base58) {
-            window.tronLink.request({ method: 'tron_requestAccounts' })
+            window.tronLink.request({ method: "tron_requestAccounts" });
             renderAddress()
         }
-        else {
-            toast.warning('Please open TronLink and connect to the Shasta network');
-        }
- 
-   
-    
+
 
     }
 

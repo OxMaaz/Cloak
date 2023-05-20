@@ -7,6 +7,7 @@ const Render = () => {
     const contractAddress = "TFLwjm3o4zwseqbYYzgMuT8oWvWsAU9PFD";
     const [show, setShow] = useState(false)
     const [totalTrx, setTotalTrx] = useState(false)
+    const [totalFunds, setTotalFunds] = useState(false)
 
     const {tronWeb} = window
 
@@ -14,8 +15,9 @@ const Render = () => {
         try {
             const contract = await tronWeb.contract().at(contractAddress);
             const limit = await contract.getLimit().call();
-            // console.log(limit.toString())
+            const funds = await contract.getTotalFunds().call();
             setTotalTrx(limit.toString())
+            setTotalFunds(tronWeb.fromSun(funds.toString()))
         }
 
         catch (e) {
@@ -33,7 +35,7 @@ const Render = () => {
 
     return (
         <div className="flex flex-col-reverse space-y-4 sm:flex-row justify-center p-3 py-1">
-            <Demo totalTrx={totalTrx}  show={show}  />
+            <Demo totalTrx={totalTrx}  show={show} totalFunds={totalFunds}  />
             <Transaction setShow={setShow} />
         </div>
     )
