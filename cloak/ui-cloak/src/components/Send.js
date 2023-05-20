@@ -60,10 +60,9 @@ const Send = () => {
 
   const handleChange = (e) => {
     const value = e.target.value;
-    // Use regular expression to check if value is a positive number
-    if (/^\d+$/.test(value) || value === '') {
-      setamount(e.target.value)
-    }
+  
+      setamount(value.replace(/[^0-9.]/g, ''));
+ 
   };
 
   const handlecloakaddress = (e) => {
