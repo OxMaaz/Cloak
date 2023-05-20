@@ -21,7 +21,7 @@ const Cloak = () => {
 
 
     const renderAddress = async () => {
-        const address = await tronWeb.defaultAddress.base58;
+        const address = tronWeb.defaultAddress.base58;
         sessionStorage.setItem('address', address)
 
     }
@@ -32,20 +32,17 @@ const Cloak = () => {
         tronWeb.on('addressChanged', () => {
             renderAddress()
             window.location.reload();
+        
         })
-
+   
     }
-
-    // useEffect(() => {
-    //     if (!tronWeb) {
-    //         toast("Please install Tron wallet");
-    //     }
-    // }, [])
-
-
 
 
     async function connectwallet() {
+
+        // if (!tronWeb) {
+        //     toast("Please install Tron wallet");
+        // }
 
         if (!tronWeb.defaultAddress.base58) {
             // TronLink is not connected

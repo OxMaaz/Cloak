@@ -6,8 +6,8 @@ import { useState ,useEffect } from 'react';
 const Render = () => {
     const contractAddress = "TFLwjm3o4zwseqbYYzgMuT8oWvWsAU9PFD";
     const [show, setShow] = useState(false)
-    const [totalTrx, setTotalTrx] = useState(false)
-    const [totalFunds, setTotalFunds] = useState(false)
+    const [totalTrx, setTotalTrx] = useState('')
+    const [totalFunds, setTotalFunds] = useState('')
 
     const {tronWeb} = window
 
@@ -31,7 +31,7 @@ const Render = () => {
         }
      
 
-    }, [])
+    }, [show])
 
     return (
         <div className="flex flex-col-reverse space-y-4 sm:flex-row justify-center p-3 py-1">

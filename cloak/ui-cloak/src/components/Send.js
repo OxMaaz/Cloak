@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {  } from "react";
 import { Tokens } from "../helpers/Token";
 import { useState } from "react";
 import { base58, keccak256 } from "ethers/lib/utils.js";
@@ -10,7 +10,7 @@ import loading2 from "../assets/loading2.gif";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { contractAddress } from "./Cloak";
-import tronWeb from "tronweb";
+// import tronWeb from "tronweb";
 const ec = new EllipticCurve.ec("secp256k1");
 
 const Send = () => {
@@ -102,7 +102,24 @@ const Send = () => {
 
   };
 
+  const validation = () => {
+    if (StealthmetaAddress === "" || amount === "") {
+      seterror("Please enter the address and amount");
+      setTimeout(() => {
+        seterror("");
+      }, 4000);
+      return;
+    }
+  }
+
+
   const fetchContract = async () => {
+
+    //checking is tronweb connected
+    handletronweb()
+
+    //validating the inputs
+    validation()
 
     const instance = await tronWeb.contract().at(token);
     const result = await instance.balanceOf(msgSender).call();
@@ -125,10 +142,14 @@ const Send = () => {
 
   const checkOwner = async () => {
 
+    handletronweb()
+
+    //validating the inputs
+    validation()
+
     let result;
     try {
       const instance = await tronWeb.contract().at(token);
-      console.log(token)
       result = await instance.ownerOf(amount).call();
 
     }
@@ -145,19 +166,13 @@ const Send = () => {
       }, 4000);
       return
     }
+    else {
+      approve()
+    }
 
   };
 
 
-  const validation = () => {
-    if (StealthmetaAddress === "" || amount === "") {
-      seterror("Please enter the address and amount");
-      setTimeout(() => {
-        seterror("");
-      }, 4000);
-      return;
-    }
-  }
 
 
   const initializer = () => {
@@ -246,13 +261,6 @@ const Send = () => {
 
   const sendTrc20 = async () => {
 
-
-    //checking is tronweb connected
-    handletronweb()
-
-    //validating the inputs
-    validation()
-
     setrunning(true);
 
     //calculating stealth address
@@ -285,10 +293,6 @@ const Send = () => {
     validation()
 
     setrunning(true);
-    console.log('hello nft')
-
-    //confirming the balance
-    checkOwner()
 
     //calculating stealth address
     initializer()
@@ -311,7 +315,6 @@ const Send = () => {
 
   async function approve() {
 
-    // console.log(token)
     let contract;
 
     try {

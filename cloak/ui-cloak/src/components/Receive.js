@@ -83,7 +83,7 @@ const Receive = () => {
     console.log('registry',zkeys)
 
     if (registry === null) {
-      toast.warning('No data right now')
+      toast.error('No data right now')
       return
     }
     
@@ -103,6 +103,7 @@ const Receive = () => {
           console.log('Private key to open wallet', pk.toString(16, 32))
           setprivatekey(pk.toString(16, 32))
           setreveal(true)
+          toast.success('matched')
           setrootspendingkey('')
           setfounded('')
 
@@ -119,15 +120,14 @@ const Receive = () => {
 
     if(founded==='founded'){
       seterr(' Oops.. Plz try again')
+      toast.error('Problem fetching data')
       setTimeout(() => {
         seterr('')
         
       }, 3000);
      
     }
-    else{
-      toast.success('matched')
-    }
+   
 
 
 
