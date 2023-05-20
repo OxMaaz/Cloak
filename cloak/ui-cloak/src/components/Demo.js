@@ -1,11 +1,8 @@
-import { useContext } from "react";
-import { CloakContext } from "./Cloak";
 import { MdVerifiedUser } from "react-icons/md";
 
 
+const Demo = ({show ,totalTrx}) => {
 
-const Demo = () => {
-  const {show ,totalTrx} = useContext(CloakContext);
   return (
     <>
       <div className="   max-w-[600px] ">
@@ -33,7 +30,7 @@ const Demo = () => {
               <div className="flex space-x-2">
                 <MdVerifiedUser color="#FF5757" size={29} />
                 <p className="flex-1">
-                  Securely initiate transfer with "send" button, ensuring prompt
+                  Securely initiate transfer with "Transfer" button, ensuring prompt
                   delivery of funds to the recipient's designated address.
                 </p>
               </div>

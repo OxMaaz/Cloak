@@ -1,25 +1,24 @@
 import React, { useState } from "react";
 import Send from "./Send";
 import Receive from "./Receive";
-import { useContext } from "react";
-import { CloakContext } from "./Cloak";
 
 
 
-const Transaction = () => {
-  const cloak = useContext(CloakContext);
+
+const Transaction = ({ setShow }) => {
+
   const [showSend, setShowSend] = useState(true);
 
   const handleSendClick = () => {
-    cloak.setShow(true);
+    setShow(false);
     setShowSend(true);
- 
+
   };
 
   const handleReceiveClick = () => {
-    cloak.setShow(false);
+    setShow(true);
     setShowSend(false);
-  
+
   };
 
   return (
@@ -37,14 +36,14 @@ const Transaction = () => {
           className={`px-3 
         text-${showSend ? "[#FF5757]" : "[#6c8492]"}`}
         >
-        Transfer
+          Transfer
         </button>
         <button
           onClick={handleReceiveClick}
           className={`px-3 
         text-${!showSend ? "[#FF5757]" : "[#6c8492]"}`}
         >
-         Accept
+          Accept
         </button>
       </div>
       {/* below buttons */}

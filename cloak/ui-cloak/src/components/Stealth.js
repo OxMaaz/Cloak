@@ -64,7 +64,7 @@ const Stealth = () => {
     setTimeout(() => {
       setnote(false)
 
-    }, 5000);
+    }, 6000);
 
   }
 
@@ -96,7 +96,7 @@ const Stealth = () => {
           {note === true &&
             <p
               className="montserrat-small text-gray-500 pt-5   font-semibold font-mono w-[60%]">
-              Guard the key, unleash the cloak. Never reveal the 'DRM key' , only share your secure 'Cloak address' for confidential transactions </p>}
+              Guard the key, unleash the cloak. Never reveal the 'DRM key', only share your secure 'Cloak address' for confidential transactions </p>}
         </div>
 
         <div className="my-3 flex gap-4 items-center p-2 px-2 rounded-md  bg-[#fceeee]">

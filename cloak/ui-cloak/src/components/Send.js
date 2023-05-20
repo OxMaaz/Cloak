@@ -58,6 +58,14 @@ const Send = () => {
 
   //middleware functions
 
+  const handleChange = (e) => {
+    const value = e.target.value;
+    // Use regular expression to check if value is a positive number
+    if (/^\d+$/.test(value) || value === '') {
+      setamount(e.target.value)
+    }
+  };
+
   const handlecloakaddress = (e) => {
 
     if ((e.target.value[0] !== "T" && e.target.value !== "") ||
@@ -451,6 +459,7 @@ const Send = () => {
           <input
             className="bg-[#fff7f7]  font-semibold text-gray-700 montserrat-subtitle outline-none border  rounded-md p-1 px-2 w-[80%] border-1 border-gray-400"
             type="text"
+            value={StealthmetaAddress}
             onChange={handlecloakaddress}
             placeholder=" Receipent's Cloak address "
           />
@@ -463,7 +472,7 @@ const Send = () => {
             value={amount}
             type="text"
             placeholder=" 0 "
-            onChange={(e) => setamount(e.target.value)}
+            onChange={handleChange}
           />
 
         </div>
