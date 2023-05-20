@@ -6,6 +6,7 @@ import { createContext } from 'react'
 import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from './Footer'
 
 
 
@@ -84,6 +85,7 @@ const Cloak = () => {
                 <div className=' className="md:w-[95%] max-w-[1160px] mx-auto
                   py-8 p-4"'>  <Stealth />
                     <Render />
+                    <Footer/>
                 </div>
             </div>
         </CloakContext.Provider>

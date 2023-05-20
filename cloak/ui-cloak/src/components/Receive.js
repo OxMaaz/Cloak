@@ -120,7 +120,6 @@ const Receive = () => {
 
     if(founded==='founded'){
       seterr(' Oops.. Plz try again')
-      toast.error('Problem fetching data')
       setTimeout(() => {
         seterr('')
         

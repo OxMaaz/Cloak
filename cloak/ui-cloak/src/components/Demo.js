@@ -9,10 +9,10 @@ const Demo = ({show ,totalTrx,totalFunds}) => {
         {!show ? (
           <div className="flex text-left flex-col gap-3 w-[90%]">
           
-            <h1 className="montserrat-subheading  text-[#4d606d] font-bold text-[1.5rem]">
+            <h1 className="montserrat-heading  text-[#4e6777] font-bold text-[1.5rem]">
               Transfer
             </h1>
-            <div className="py-4 montserrat-heading text-[#4d606d] flex flex-col gap-4 items-center">
+            <div className="py-4 montserrat-heading text-[#4e6777] font-medium  flex flex-col gap-4 items-center">
               <div className="flex space-x-2 ">
                 <MdVerifiedUser color="#FF5757" size={29} />
                 <p className="flex-1">
@@ -35,8 +35,8 @@ const Demo = ({show ,totalTrx,totalFunds}) => {
                 </p>
               </div>
             </div>
-            <div className="montserrat-heading  text-[#4d606d]">
-              <h4 className="font-semibold text-[#4d606d] text-[1.1rem]">
+            <div className="montserrat-heading  text-[#4e6777] font-medium">
+              <h4 className="font-bold text-[#4e6777] text-[1.1rem]">
            {totalTrx}
               </h4>
               <p>More than {totalTrx} stealth addresses have been generated</p>
@@ -46,10 +46,10 @@ const Demo = ({show ,totalTrx,totalFunds}) => {
           <div className="flex text-left flex-col gap-3 w-[90%]">
             {" "}
             {/* on Accept */}
-            <h1 className="montserrat-subheading  text-[#4d606d] font-bold text-[1.5rem]">
+            <h1 className="montserrat-heading  text-[#4e6777] font-bold text-[1.5rem]">
               Accept
             </h1>
-            <div className="py-4 montserrat-heading text-[#4d606d] flex flex-col gap-4 items-center">
+            <div className="py-4 montserrat-heading text-[#4e6777] font-medium flex flex-col gap-4 items-center">
               <div className="flex space-x-2">
                 <MdVerifiedUser color="#FF5757" size={32} />
                 <p className="flex 1">
@@ -65,8 +65,8 @@ const Demo = ({show ,totalTrx,totalFunds}) => {
                 </p>
               </div>
             </div>
-            <div className="montserrat-heading  text-[#4d606d] ">
-              <h4 className="font-semibold text-[1.1rem]">{totalFunds}</h4>
+            <div className="montserrat-heading  text-[#4e6777] font-medium ">
+              <h4 className="font-bold text-[1.1rem]">{totalFunds}</h4>
               <p>More than {totalFunds} Funds have been received</p>
             </div>
           </div>

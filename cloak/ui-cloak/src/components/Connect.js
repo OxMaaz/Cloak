@@ -37,7 +37,7 @@ const Connect= () => {
             <div className="flex items-center space-x-4">
               <div
                 onClick={navigate("/")}
-                className="flex items-end space-x-1 sm:ml-14 ml-6 hover:text-gray-800 text-[#58707e]  montserrat-subtitle underline-offset-8 font-bold hover:underline decoration-[#FF5757]  sm:text-[1rem] text-[1rem]"
+                className="flex items-end space-x-1 sm:ml-14 ml-6 hover:text-gray-800 text-[#8098a7]  montserrat-subtitle underline-offset-8 font-bold hover:underline decoration-[#FF5757]  sm:text-[1rem] text-[1rem]"
               >
                 <IoMdHome
                   size={28}
@@ -47,7 +47,7 @@ const Connect= () => {
               </div>
               <div
                 onClick={navigate("/")}
-                className="flex items-end space-x-1 sm:ml-14 ml-6 hover:text-gray-800 text-[#58707e]  montserrat-subtitle underline-offset-8 font-bold hover:underline decoration-[#FF5757]  sm:text-[1rem] text-[1rem]"
+                className="flex items-end space-x-1 sm:ml-14 ml-6 hover:text-gray-800 text-[#8098a7]  montserrat-subtitle underline-offset-8 font-bold hover:underline decoration-[#FF5757]  sm:text-[1rem] text-[1rem]"
               >
                 <HiQuestionMarkCircle
                   size={28}
