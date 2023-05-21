@@ -1,6 +1,6 @@
-import React, {  } from 'react'
+import React, { useEffect,} from 'react'
 import Connect from './Connect'
-import Stealth from './Stealth'
+import CloakId from './CloakId'
 import Render from './Render'
 import { createContext } from 'react'
 import { useState } from 'react'
@@ -16,7 +16,7 @@ export const contractAddress = "TFLwjm3o4zwseqbYYzgMuT8oWvWsAU9PFD";
 
 
 
-const Cloak = () => {
+const Wrapper = () => {
 
     const { tronWeb } = window
 
@@ -24,25 +24,40 @@ const Cloak = () => {
     const renderAddress = async () => {
         const address = tronWeb.defaultAddress.base58;
         sessionStorage.setItem('address', address)
-        window.location.reload()
+
 
     }
 
-    if (tronWeb) {
-        tronWeb.on('addressChanged', renderAddress)
-   
-    }
-
-    async function connectwallet() {
-
-        if (!tronWeb.defaultAddress.base58) {
-            // TronLink is not connected
-            toast.warning("Please open TronLink and connect to the Shasta network");
-        }
+    useEffect(() => {
 
         if (tronWeb) {
-            window.tronLink.request({ method: "tron_requestAccounts" });
+
             renderAddress()
+
+        }
+    }, [])
+
+
+    if (tronWeb) {
+
+        tronWeb.on('addressChanged', renderAddress)
+
+    }
+
+
+
+    async function connectwallet() {
+        if (tronWeb) {
+            if (!tronWeb.defaultAddress.base58) {
+                // TronLink is not connected
+                toast.warning("Please open TronLink and connect to the Shasta network");
+                return
+            }
+
+            window.tronLink.request({ method: "tron_requestAccounts" });
+            const address = tronWeb.defaultAddress.base58;
+            sessionStorage.setItem('address', address)
+            window.location.reload()
         }
 
     }
@@ -70,13 +85,13 @@ const Cloak = () => {
                     theme="light" />
                 <Connect />
                 <div className=' className="md:w-[95%] max-w-[1160px] mx-auto
-                  py-8 p-4"'>  <Stealth />
+                  py-8 p-4"'>  <CloakId />
                     <Render />
-                    <Footer/>
+                    <Footer />
                 </div>
             </div>
         </CloakContext.Provider>
     )
 }
 
-export default Cloak
+export default Wrapper

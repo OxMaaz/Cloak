@@ -7,7 +7,7 @@ import { GiKangaroo } from "react-icons/gi";
 import { AiOutlineArrowsAlt, AiOutlineShrink } from "react-icons/ai";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { contractAddress } from './Cloak';
+import { contractAddress } from './Wrapper';
 import copy from '../assets/copykey.jpg'
 import kangaroo from '../assets/kangaroo.png'
 const ec = new EllipticCurve.ec('secp256k1');
@@ -16,7 +16,7 @@ const ec = new EllipticCurve.ec('secp256k1');
 
 const Receive = () => {
 
-  const [rootspendingkey, setrootspendingkey] = useState('')
+  const [rootprivatekey, setrootprivatekey] = useState('')
   const [privatekey, setprivatekey] = useState('')
   const [hide, sethide] = useState(true)
   // const [matching, setmatchingkey] = useState(false)
@@ -25,7 +25,7 @@ const Receive = () => {
   const [founded, setfounded] = useState('founded')
   const [iscopied, setiscopied] = useState('Copy')
  
-  let zkeys = []
+  let ephPubKeys = []
 
   const { tronWeb } = window
 
@@ -40,9 +40,8 @@ const Receive = () => {
 
         for (let i = 0; i < limit.toString(); i++) {
           await contract.logs(i).call((err, result) => {
-            zkeys.push(`T${result.ss.replace('0x', '')}04${result.r.slice(2)}${result.s.slice(2)}`)
-            sessionStorage.setItem('ephkeys', JSON.stringify(zkeys))
-            // console.log('hey',`T${result.ss.replace('0x', '')}04${result.r.slice(2)}${result.s.slice(2)}`)
+            ephPubKeys.push(`T${result.ss.replace('0x', '')}04${result.r.slice(2)}${result.s.slice(2)}`)
+            sessionStorage.setItem('ephkeys', JSON.stringify(ephPubKeys))  
           
           });
 
@@ -58,19 +57,19 @@ const Receive = () => {
 
 
 
-  const generaterootspendingkey = async() => {
+  const generaterootprivatekey = async() => {
 
     fetchData();
   
     
-    var Spendingkey;
-    if (rootspendingkey === '') {
-      Spendingkey = ec.keyFromPrivate(sessionStorage.getItem('DRM key'), 'hex');
+    var privatekey;
+    if (rootprivatekey === '') {
+      privatekey = ec.keyFromPrivate(sessionStorage.getItem('DRM key'), 'hex');
 
     }
 
     else {
-      Spendingkey = ec.keyFromPrivate(rootspendingkey, 'hex');
+      privatekey = ec.keyFromPrivate(rootprivatekey, 'hex');
     }
 
     var ephPublicKey;
@@ -80,7 +79,7 @@ const Receive = () => {
 
     const ephkeys = sessionStorage.getItem('ephkeys');
     const registry = JSON.parse(ephkeys);
-    console.log('registry',zkeys)
+    console.log('registry',ephPubKeys)
 
     if (registry === null) {
       toast.error('Problem fetching')
@@ -90,7 +89,7 @@ const Receive = () => {
     registry.forEach((z) => {
    
       ephPublicKey = ec.keyFromPublic(z.slice(3), 'hex');
-      Sharedsecret = Spendingkey.derive(ephPublicKey.getPublic()); // 
+      Sharedsecret = privatekey.derive(ephPublicKey.getPublic()); // 
       Hashedsecret = ec.keyFromPrivate(keccak256(Sharedsecret.toArray()));
       _sharedSecret = '0x' + Sharedsecret.toArray()[0].toString(16).padStart(2, '0')
       console.log(z.slice(1, 3).toString() , _sharedSecret.toString().slice(2, 4))
@@ -98,13 +97,13 @@ const Receive = () => {
 
       try {
         if (_sharedSecret.toString().slice(2, 4) === z.slice(1, 3).toString()) {
-          const _key = Spendingkey.getPrivate().add(Hashedsecret.getPrivate());
+          const _key = privatekey.getPrivate().add(Hashedsecret.getPrivate());
           const pk = _key.mod(ec.curve.n);
           console.log('Private key to open wallet', pk.toString(16, 32))
           setprivatekey(pk.toString(16, 32))
           setreveal(true)
           toast.success('matched')
-          setrootspendingkey('')
+          setrootprivatekey('')
           setfounded('')
 
         }
@@ -145,9 +144,9 @@ const Receive = () => {
           <input
             type="text"
             className="bg-[#fff7f7] ml-5 font-semibold text-gray-700 montserrat-subtitle outline-none border rounded-md p-1 px-2 border-1 border-gray-400 w-[85%]"
-            value={rootspendingkey}
+            value={rootprivatekey}
             onChange={(e) => {
-              setrootspendingkey(e.target.value);
+              setrootprivatekey(e.target.value);
             }}
             placeholder="DontRevealMe key (optional)"
           />
@@ -177,7 +176,7 @@ const Receive = () => {
       <div className="flex justify-center  items-center pt-2 px-2 ml-1 ">
         <div
           className="flex items-center justify-center cursor-pointer space-x-1 border-1 p-1 text-[#fff7f7]  bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-3xl hover:bg-[#FDF0EF] hover:text-[#FF5757] font-semibold hover:border-white border-red-500 border"
-          onClick={generaterootspendingkey}
+          onClick={generaterootprivatekey}
         >
           <GiKangaroo size={30} />
           {/* <h2 className='montserrat-small'>Match</h2> */}

@@ -9,7 +9,7 @@ import Tron from "../assets/trx.png";
 import loading2 from "../assets/loading2.gif";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { contractAddress } from "./Cloak";
+import { contractAddress } from "./Wrapper";
 // import tronWeb from "tronweb";
 const ec = new EllipticCurve.ec("secp256k1");
 

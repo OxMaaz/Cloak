@@ -1,7 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Container from './intro/Container';
-import Cloak from './components/Cloak';
+import Wrapper from './components/Wrapper';
 
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Container />} />
-          <Route path="/cloak" element={<Cloak/>}  />
+          <Route path="/cloak" element={<Wrapper/>}  />
         </Routes>
       </Router>
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { useContext } from "react";
-import { CloakContext } from "./Cloak";
+import { CloakContext } from "./Wrapper";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa";

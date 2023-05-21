@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 
 contract EphKeys {
+    
     struct PublicKeys {
         bytes32 r;
         bytes32 s;

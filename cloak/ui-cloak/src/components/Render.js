@@ -1,10 +1,11 @@
 import React from 'react'
 import Transaction from './Transaction'
 import Demo from './Demo';
+import contractAddress  from './Wrapper';
 import { useState ,useEffect } from 'react';
 
 const Render = () => {
-    const contractAddress = "TFLwjm3o4zwseqbYYzgMuT8oWvWsAU9PFD";
+
     const [show, setShow] = useState(false)
     const [totalTrx, setTotalTrx] = useState('')
     const [totalFunds, setTotalFunds] = useState('')

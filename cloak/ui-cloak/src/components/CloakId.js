@@ -4,20 +4,20 @@ import React from 'react'
 import { useState, useEffect, useContext } from 'react'
 import EllipticCurve from 'elliptic';
 import { AiOutlineCopy } from "react-icons/ai";
-import { CloakContext } from './Cloak';
+import { CloakContext } from './Wrapper';
 const ec = new EllipticCurve.ec('secp256k1');
 
 
-const Stealth = () => {
+const CloakId = () => {
 
 
   const data = useContext(CloakContext);
-  const [stealthmeta, setstealthmeta] = useState('')
+  const [cloakid, setcloakid] = useState('')
   const [note, setnote] = useState(false)
   let key;
 
 
-  const generatestealthmetaaddress = () => {
+  const generateCloakId = () => {
 
     try {
 
@@ -25,7 +25,6 @@ const Stealth = () => {
 
       sessionStorage.setItem('DRM key', key.getPrivate().toString(16));
       const spendingkey = ec.keyFromPrivate(key.getPrivate().toString(16), 'hex');
-  
 
 
       const data = Uint8Array.from(
@@ -38,7 +37,7 @@ const Stealth = () => {
       addr.set(crc, data.length);
       const M = 'T' + base58.encode(addr);
       sessionStorage.setItem('cloak address', M);
-      setstealthmeta(M);
+      setcloakid(M);
     }
 
     catch (e) {
@@ -71,14 +70,14 @@ const Stealth = () => {
 
   const oncopy = () => {
 
-    navigator.clipboard.writeText(stealthmeta)
+    navigator.clipboard.writeText(cloakid)
     downloadFile(sessionStorage.getItem('DRM key'))
     revealnot()
 
   }
 
   useEffect(() => {
-    generatestealthmetaaddress();
+    generateCloakId();
   }, []);
 
   return (
@@ -89,9 +88,7 @@ const Stealth = () => {
           <h2
             className="mx-auto w-full montserrat-subheading text-gray-500 md:text-4xl 
       text-4xl  font-extrabold "
-          >  Experience ultimate privacy with 
-            <span className="montserrat-subheading md:text-4xl  
-      text-4xl font-extrabold  "> us </span> responsibly  pushing boundaries </h2>
+          >  Experience ultimate privacy with us responsibly  pushing boundaries </h2>
 
           {note === true &&
             <p
@@ -102,19 +99,19 @@ const Stealth = () => {
         <div className="my-3 flex gap-4 items-center p-2 px-2 rounded-md  bg-[#fceeee]">
           <p className="montserrat-heading  font-semibold text-gray-500">
             <span className="text-[#435864] font-semibold">#tronCloak-</span>
-            {stealthmeta}</p>
+            {cloakid}</p>
           <AiOutlineCopy className='font-bold text-2xl text-gray-500 cursor-pointer' onClick={oncopy} />
         </div>
 
         <button
           className="montserrat-subtitle my-3 border-1 p-1 montserrat-subtitle   text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md  font-semibold   hover:bg-[#FDF0EF] hover:text-[#FF5757]  hover:border-white "
-          onClick={generatestealthmetaaddress}>Generate</button>
+          onClick={generateCloakId}>Generate</button>
       </div>
       <div className=" border-b w-[80%] m-auto mb-6 "></div>
     </>
   )
 }
 
-export default Stealth
+export default CloakId
 
 
