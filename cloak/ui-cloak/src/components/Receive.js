@@ -116,15 +116,23 @@ const Receive = () => {
     <>
       <div className="ml-4 flex items-center justify-center space-x-4 py-2 ">
         {hide !== true && (
-          <input
-            type="text"
-            className="montserrat-subtitle border-1 ml-5 w-[85%] rounded-md border border-gray-400 bg-[#fff7f7] p-1 px-2 font-semibold text-gray-700 outline-none"
-            value={rootprivatekey}
-            onChange={(e) => {
-              setrootprivatekey(e.target.value);
-            }}
-            placeholder="DontRevealMe key (optional)"
-          />
+          <div
+            className="border-1 flex w-[100%] items-center
+          space-x-2 rounded-md border border-gray-300 bg-[#ffffff] 
+            px-3 py-2 hover:shadow-sm"
+          >
+            <input
+              type="text"
+              className="montserrat-subtitle w-full rounded-md
+            px-1 text-[0.9rem] font-semibold text-gray-600
+             outline-none"
+              value={rootprivatekey}
+              onChange={(e) => {
+                setrootprivatekey(e.target.value);
+              }}
+              placeholder="DontRevealMe key (optional)"
+            />
+          </div>
         )}
         {hide && (
           <p className="montserrat-small ml-6 p-1 px-2 font-semibold text-gray-500 ">

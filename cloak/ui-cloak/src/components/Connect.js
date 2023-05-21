@@ -34,20 +34,20 @@ const Connect = () => {
           <div className="flex items-center space-x-4">
             <div
               onClick={navigate("/")}
-              className="montserrat-subtitle ml-6 flex flex-col items-center space-x-1 text-[1rem] font-bold text-[#8098a7] decoration-[#FF5757]  underline-offset-8 transition-all ease-linear  hover:font-bold hover:text-gray-800 hover:underline sm:ml-14  sm:text-[1rem] md:flex-row"
+              className="montserrat-subtitle ml-6 flex items-center space-x-1 text-[1rem] font-bold text-[#8098a7] decoration-[#FF5757]  underline-offset-8 transition-all ease-linear  hover:font-bold hover:text-gray-800 hover:underline sm:ml-14  sm:text-[1rem]"
             >
-              <IoMdHome size={28} className="text-gray-400 md:self-start " />
-              <p>Home</p>
+              <IoMdHome size={28} className="self-start text-gray-400 " />
+              <p className="hidden sm:inline-block">Home</p>
             </div>
             <div
               onClick={navigate("/")}
-              className="montserrat-subtitle ml-6 flex flex-col items-center space-x-1 text-[1rem] font-bold text-[#8098a7] decoration-[#FF5757]  underline-offset-8 transition-all ease-linear  hover:font-bold hover:text-gray-800 hover:underline sm:ml-14  sm:text-[1rem] md:flex-row"
+              className="montserrat-subtitle ml-6 flex items-center space-x-1 text-[1rem] font-bold text-[#8098a7] decoration-[#FF5757]  underline-offset-8 transition-all ease-linear  hover:font-bold hover:text-gray-800 hover:underline sm:ml-14  sm:text-[1rem]"
             >
               <HiQuestionMarkCircle
                 size={28}
-                className="text-gray-400 md:self-start "
+                className="self-start text-gray-400 "
               />
-              <p>QnA</p>
+              <p className="hidden sm:inline-block">QnA</p>
             </div>
           </div>
         </div>

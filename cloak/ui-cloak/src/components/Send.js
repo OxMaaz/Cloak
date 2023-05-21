@@ -341,14 +341,14 @@ const Send = () => {
     <div className=" mt-4 flex flex-col items-center space-y-6 ">
       {/* tokens dropdown */}
 
-      <div className="absolute w-80">
+      <div className="absolute w-[320px] bg-white">
         <ul
           className="rounded-md hover:shadow-md"
           onClick={() => setshow(!show)}
         >
           <li
             className="text-md flex cursor-pointer items-center justify-between space-x-2 rounded-md border 
-            border-gray-300 p-2 px-3  font-semibold text-gray-500
+            border-gray-300 p-3  font-semibold text-gray-500
             transition-all ease-in"
           >
             <div className="flex flex-row items-center justify-around">
@@ -372,7 +372,7 @@ const Send = () => {
           >
             {show &&
               Tokens.map((t) => (
-                <div className="bg-[#fdf4f4] text-sm hover:shadow-md  ">
+                <div className="rounded-md bg-[#ffffff] text-sm hover:shadow-md">
                   <li
                     className="montserrat-small flex cursor-pointer justify-between space-x-8 p-3 px-2
                          font-semibold text-gray-500 transition-all 
@@ -389,28 +389,37 @@ const Send = () => {
         </ul>
       </div>
 
-      <div className="">
-        <div className="pt-9 font-extralight text-gray-100">
+      {/* address and amount container */}
+
+      <div className="w-[320px]">
+        <div className="mb-3 mt-12 font-extralight text-gray-100">
           {toggleInput === true ? (
+                    <div
+                    className="border-1 mb-3 mt-12 flex w-[100%] items-center
+                  space-x-2 rounded-md border border-gray-300 bg-[#ffffff] 
+                    px-3 py-2 hover:shadow-sm"
+                  >
             <input
-              className="montserrat-subtitle  border-1 w-[100%] rounded-md border border-gray-400 bg-[#fff7f7] p-1 px-2 font-semibold text-gray-700 outline-none"
+              className="montserrat-subtitle  border-1 w-[100%] rounded-md
+               px-2 font-semibold text-gray-600 outline-none"
               type="text"
               onChange={(e) => settoken(e.target.value)}
               placeholder=" Non fungible address"
             />
+            </div>
           ) : (
             <div></div>
           )}
         </div>
         <div
-          class="border-1 relative flex w-[100%] items-center
-        space-x-2 rounded-md border border-gray-300 bg-[#fffafa] 
+          class="border-1 flex w-[100%] items-center
+        space-x-2 rounded-md border border-gray-300 bg-[#ffffff] 
           px-3 py-2 hover:shadow-sm"
         >
           <input
-            className="montserrat-subtitle border-1 flex-1 rounded-md bg-[#fffafa]
-             px-2 font-semibold 
-             text-gray-700 outline-none"
+            className="montserrat-subtitle border-1 flex-1 rounded-md
+            p-1 px-1 text-[0.9rem] font-semibold
+            text-gray-600 outline-none"
             type="text"
             value={StealthmetaAddress}
             onChange={handlecloakaddress}
@@ -420,9 +429,9 @@ const Send = () => {
           {/* Amount*/}
 
           <input
-            className="montserrat-subtitle w-[20%] rounded-md border-l bg-[#fffafa]
-            p-1 px-2 text-center font-semibold 
-             text-gray-700 outline-none"
+            className="montserrat-subtitle w-[20%] rounded-md border-l
+            p-1 px-2 text-center text-[0.9rem] font-semibold
+             text-gray-600 outline-none"
             value={amount}
             type="text"
             placeholder=" 0 "
