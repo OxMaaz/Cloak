@@ -21,7 +21,7 @@ const Qna = () => {
       <div
         className="flex flex-col items-start justify-center rounded-md bg-[#FFF7F7] p-5
          shadow-lg transition-all 
-       md:w-[850px] lg:w-[900px] xl:p-14"
+       md:w-[90%] lg:w-[900px] xl:p-14"
       >
         <h4
           onClick={() => toggleAnswer(0)}

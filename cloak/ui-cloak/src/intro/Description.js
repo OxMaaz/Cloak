@@ -7,12 +7,12 @@ import { BsCurrencyExchange } from "react-icons/bs";
 
 const Description = () => {
   return (
-    <div className=" montserrat-medium p-10 px-8">
+    <div className=" montserrat-medium px-8 pb-10">
       <div className="flex flex-col items-start px-4">
         {/* Heading */}
-        <h2 className="montserrat-heading self-left text-3xl font-semibold  text-gray-600">
+        {/* <h2 className="montserrat-heading self-left text-3xl font-semibold  text-gray-600">
           How it works ?
-        </h2>
+        </h2> */}
 
         {/* image */}
         <div className="flex flex-col xl:flex-row-reverse xl:items-center xl:justify-between">

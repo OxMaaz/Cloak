@@ -394,18 +394,18 @@ const Send = () => {
       <div className="w-[320px]">
         <div className="mb-3 mt-12 font-extralight text-gray-100">
           {toggleInput === true ? (
-                    <div
-                    className="border-1 mb-3 mt-12 flex w-[100%] items-center
+            <div
+              className="border-1 mb-3 mt-12 flex w-[100%] items-center
                   space-x-2 rounded-md border border-gray-300 bg-[#ffffff] 
                     px-3 py-2 hover:shadow-sm"
-                  >
-            <input
-              className="montserrat-subtitle  border-1 w-[100%] rounded-md
+            >
+              <input
+                className="montserrat-subtitle  border-1 w-[100%] rounded-md
                px-2 font-semibold text-gray-600 outline-none"
-              type="text"
-              onChange={(e) => settoken(e.target.value)}
-              placeholder=" Non fungible address"
-            />
+                type="text"
+                onChange={(e) => settoken(e.target.value)}
+                placeholder=" Non fungible address"
+              />
             </div>
           ) : (
             <div></div>
@@ -429,8 +429,8 @@ const Send = () => {
           {/* Amount*/}
 
           <input
-            className="montserrat-subtitle w-[20%] rounded-md border-l
-            p-1 px-2 text-center text-[0.9rem] font-semibold
+            className="montserrat-subtitle w-[20%] border-l-2 
+            border-gray-300 p-1 px-2 text-center text-[0.9rem] font-semibold
              text-gray-600 outline-none"
             value={amount}
             type="text"
