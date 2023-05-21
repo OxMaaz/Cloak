@@ -82,9 +82,10 @@ const Connect = () => {
                      p-1 px-2
                      text-[0.8rem] font-extrabold text-[#FF5757] shadow-md shadow-gray-100 hover:bg-[#FF5757] hover:text-[white] hover:shadow-lg  sm:px-4 sm:text-[1rem] "
           >
-            {sessionStorage.getItem("address") !== null || false
-              ? "Connected"
-              : "Connect wallet"}
+            {(sessionStorage.getItem("address") === null || false) &&
+            sessionStorage.getItem("balance") === null
+              ? "connect wallet"
+              : "Connected"}
           </button>
           <IoMdRefresh
             size={25}
