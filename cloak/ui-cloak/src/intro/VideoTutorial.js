@@ -2,22 +2,21 @@ import React from "react";
 // import ReactPlayer from 'react-player';
 import ReactPlayer from "react-player/lazy";
 
-
-
 const Tutorial = () => {
   return (
     <>
       <div
         id="howitworks"
-        className="flex flex-col py-10 items-center justify-center"
+        className="flex flex-col items-center justify-center py-10"
       >
         <h1
-          className="montserrat-heading py-4 font-semibold text-3xl
-          text-[#435864] dark:text-[#9aacb8] border-b border-gray-400"
+          className="montserrat-heading
+           py-4 text-3xl font-semibold text-gray-600"
         >
           See how it works
         </h1>
-        <div className="py-5 flex justify-center md:h-[580px] h-[300px] xl:w-[60%] w-full">
+        <div className="mx-auto mb-4 border-b border-[#ff8080] pb-2 sm:w-[550px] "></div>
+        <div className="flex h-[300px] w-full justify-center py-5 md:h-[580px] xl:w-[60%]">
           <ReactPlayer
             width="90%"
             height="95%"
@@ -25,7 +24,6 @@ const Tutorial = () => {
             url="https://youtu.be/MlRNRg_JSkc"
           />
         </div>
-
       </div>
     </>
   );

@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
 
 const Footer = () => {
   return (
-    <div className='mx-auto text-center montserrat-heading text-[#8098a7] mt-1 text-[1rem] font-semibold '>
-    © 2023 TeamCloak. All rights reserved.
+    <div className="montserrat-heading mx-auto mt-6 pt-10 text-center text-[1rem] font-semibold text-[#8098a7] sm:pt-0 ">
+      © 2023 TeamCloak. All rights reserved.
     </div>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

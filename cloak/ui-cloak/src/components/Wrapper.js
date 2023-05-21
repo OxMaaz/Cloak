@@ -69,10 +69,11 @@ const Wrapper = () => {
 
     const [error, seterror] = useState('')
 
-    const contextValue = {
-        error, seterror, connectwallet
-    }
-
+  const contextValue = {
+    error,
+    seterror,
+    connectwallet,
+  };
 
     return (
         <CloakContext.Provider value={contextValue}>
@@ -88,8 +89,8 @@ const Wrapper = () => {
                     pauseOnHover
                     theme="light" />
                 <Connect />
-                <div className=' className="md:w-[95%] max-w-[1160px] mx-auto
-                  py-8 p-4"'>  <CloakId />
+                <div className='mx-auto mb-5 max-w-[1160px]
+                  px-4 pt-8 sm:pb-0 md:w-[95%]'>  <CloakId />
                     <Render />
                     <Footer />
                 </div>
