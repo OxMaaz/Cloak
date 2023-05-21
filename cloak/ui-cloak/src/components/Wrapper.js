@@ -1,4 +1,4 @@
-import React, { useEffect,} from 'react'
+import React, { useEffect, } from 'react'
 import Connect from './Connect'
 import CloakId from './CloakId'
 import Render from './Render'
@@ -11,7 +11,7 @@ import Footer from './Footer'
 
 
 export const CloakContext = createContext(null)
-export const contractAddress = "TFLwjm3o4zwseqbYYzgMuT8oWvWsAU9PFD";
+export const contractAddress = "TG1FPSLf7N3qqutaPkAT9E5JUazNNrcqoL";
 
 
 
@@ -21,47 +21,51 @@ const Wrapper = () => {
     const { tronWeb } = window
 
 
+
+    //render cfunctions
     const renderAddress = async () => {
+        window.tronLink.request({ method: "tron_requestAccounts" });
         const address = tronWeb.defaultAddress.base58;
         sessionStorage.setItem('address', address)
 
 
     }
 
+    const renderTronweb = async () => {
+        if (!tronWeb.defaultAddress.base58) {
+            // TronLink is not connected
+            toast.warning("Please open TronLink and connect to the Shasta network");
+            return
+        }
+    }
+
     useEffect(() => {
 
         if (tronWeb) {
+            tronWeb.on('addressChanged', function (newAddress) {
+                // Update the default address
+                window.tronLink.request({ method: "tron_requestAccounts" });
+                sessionStorage.setItem('address', newAddress.base58);
+                window.location.reload()
+            });
 
-            renderAddress()
 
         }
     }, [])
 
-
     if (tronWeb) {
-
-        tronWeb.on('addressChanged', renderAddress)
-
+        renderTronweb()
     }
-
-
-
     async function connectwallet() {
         if (tronWeb) {
-            if (!tronWeb.defaultAddress.base58) {
-                // TronLink is not connected
-                toast.warning("Please open TronLink and connect to the Shasta network");
-                return
-            }
 
-            window.tronLink.request({ method: "tron_requestAccounts" });
-            const address = tronWeb.defaultAddress.base58;
-            sessionStorage.setItem('address', address)
-            window.location.reload()
+            renderTronweb()
+            renderAddress()
+
+
         }
 
     }
-
 
     const [error, seterror] = useState('')
 

@@ -5,6 +5,7 @@ import { useState, useEffect, useContext } from 'react'
 import EllipticCurve from 'elliptic';
 import { AiOutlineCopy } from "react-icons/ai";
 import { CloakContext } from './Wrapper';
+import { downloadFile } from "../helpers/DownloadFile";
 const ec = new EllipticCurve.ec('secp256k1');
 
 
@@ -47,15 +48,6 @@ const CloakId = () => {
 
   }
 
-  const downloadFile = (text) => {
-    const element = document.createElement("a");
-    const file = new Blob([text], { type: 'text/plain' });
-    element.href = URL.createObjectURL(file);
-    element.download = "DRM.txt";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-  }
 
 
   const revealnot = () => {

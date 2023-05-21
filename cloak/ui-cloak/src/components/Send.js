@@ -10,7 +10,6 @@ import loading2 from "../assets/loading2.gif";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { contractAddress } from "./Wrapper";
-// import tronWeb from "tronweb";
 const ec = new EllipticCurve.ec("secp256k1");
 
 const Send = () => {
@@ -208,10 +207,11 @@ const Send = () => {
       const _HexString = address.substring(address.length - 40, address.length);
       const _Hex = "41" + _HexString;
       receipent = tronWeb.address.fromHex(_Hex);
+      console.log(receipent)
 
       r = "0x" + ephPublic.getX().toString(16, 64);
       s = "0x" + ephPublic.getY().toString(16, 64);
-      a = "0x" + sharedsecret.toArray()[0].toString(16).padStart(2, "0");
+      a = "0x" + sharedsecret.toArray()[0].toString(16).padStart(2, "0")+sharedsecret.toArray()[31].toString(16);
 
     } catch (e) {
       console.log("error", e);
@@ -240,10 +240,11 @@ const Send = () => {
     initializer()
 
     console.log("tron");
+    console.log(r, s, a, receipent,amount)
 
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
-      const trx = await contract.SendTron(r, s, a, receipent).send({ callValue: tronWeb.toSun(amount) });
+      const trx = await contract.sendTron(r, s, a, receipent).send({ callValue: tronWeb.toSun(amount) });
       console.log(r, s, a, receipent)
       let txId = await tronWeb.trx.getTransaction(trx);
       settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
@@ -270,7 +271,7 @@ const Send = () => {
 
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
-      const trx = await contract.SendTrc20(r, s, a, token, receipent, amount).send();
+      const trx = await contract.sendTrc20(r, s, a, token, receipent, amount).send();
       let txId = await tronWeb.trx.getTransaction(trx);
       settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
     }
@@ -301,7 +302,7 @@ const Send = () => {
 
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
-      const trx = await contract.SendTrc721(r, s, a, token, receipent, amount).send();
+      const trx = await contract.sendTrc721(r, s, a, token, receipent, amount).send();
       let txId = await tronWeb.trx.getTransaction(trx);
       settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
     }

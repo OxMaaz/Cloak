@@ -1,7 +1,7 @@
 import React from 'react'
 import Transaction from './Transaction'
 import Demo from './Demo';
-import contractAddress  from './Wrapper';
+import {contractAddress}  from './Wrapper';
 import { useState ,useEffect } from 'react';
 
 const Render = () => {

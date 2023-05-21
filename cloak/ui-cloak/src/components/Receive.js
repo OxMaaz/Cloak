@@ -1,8 +1,6 @@
-import React from 'react'
-import { useState,  } from 'react'
+import { useState, } from 'react'
 import { keccak256 } from 'ethers/lib/utils.js';
 import EllipticCurve from 'elliptic';
-// import { AiOutlineCopy } from "react-icons/ai";
 import { GiKangaroo } from "react-icons/gi";
 import { AiOutlineArrowsAlt, AiOutlineShrink } from "react-icons/ai";
 import { toast } from 'react-toastify';
@@ -16,52 +14,51 @@ const ec = new EllipticCurve.ec('secp256k1');
 
 const Receive = () => {
 
+  const { tronWeb } = window
+
   const [rootprivatekey, setrootprivatekey] = useState('')
   const [privatekey, setprivatekey] = useState('')
   const [hide, sethide] = useState(true)
-  // const [matching, setmatchingkey] = useState(false)
   const [err, seterr] = useState(false)
   const [reveal, setreveal] = useState(false)
-  const [founded, setfounded] = useState('founded')
+  const [founded, setfounded] = useState('matched')
   const [iscopied, setiscopied] = useState('Copy')
- 
+
   let ephPubKeys = []
 
-  const { tronWeb } = window
 
 
+  const fetchData = async () => {
+    try {
+      const contract = await tronWeb.contract().at(contractAddress);
+      const limit = await contract.getLimit().call();
+      // console.log(limit.toString())
 
+      for (let i = 0; i < limit.toString(); i++) {
+        await contract.logs(i).call((err, result) => {
+          ephPubKeys.push(`T${result.a.replace('0x', '')}04${result.r.slice(2)}${result.s.slice(2)}`)
+          sessionStorage.setItem('ephkeys', JSON.stringify(ephPubKeys))
 
-    const fetchData = async () => {
-      try {
-        const contract = await tronWeb.contract().at(contractAddress);
-        const limit = await contract.getLimit().call();
-        console.log(limit.toString())
+        });
 
-        for (let i = 0; i < limit.toString(); i++) {
-          await contract.logs(i).call((err, result) => {
-            ephPubKeys.push(`T${result.ss.replace('0x', '')}04${result.r.slice(2)}${result.s.slice(2)}`)
-            sessionStorage.setItem('ephkeys', JSON.stringify(ephPubKeys))  
-          
-          });
-
-        }
-
-
-      } catch (e) {
-        console.error(e);
       }
+
+
+    } catch (e) {
+      console.error(e);
+      seterr(e.message)
     }
+  }
 
 
 
 
 
-  const generaterootprivatekey = async() => {
+  const generaterootprivatekey = async () => {
 
     fetchData();
-  
-    
+
+
     var privatekey;
     if (rootprivatekey === '') {
       privatekey = ec.keyFromPrivate(sessionStorage.getItem('DRM key'), 'hex');
@@ -79,24 +76,24 @@ const Receive = () => {
 
     const ephkeys = sessionStorage.getItem('ephkeys');
     const registry = JSON.parse(ephkeys);
-    console.log('registry',ephPubKeys)
+    console.log('registry', ephPubKeys)
 
     if (registry === null) {
       toast.error('Problem fetching')
       return
     }
-    
+
     registry.forEach((z) => {
-   
-      ephPublicKey = ec.keyFromPublic(z.slice(3), 'hex');
+
+      ephPublicKey = ec.keyFromPublic(z.slice(5), 'hex');
       Sharedsecret = privatekey.derive(ephPublicKey.getPublic()); // 
       Hashedsecret = ec.keyFromPrivate(keccak256(Sharedsecret.toArray()));
-      _sharedSecret = '0x' + Sharedsecret.toArray()[0].toString(16).padStart(2, '0')
-      console.log(z.slice(1, 3).toString() , _sharedSecret.toString().slice(2, 4))
+      _sharedSecret = 'T' + Sharedsecret.toArray()[0].toString(16).padStart(1, '0')+Sharedsecret.toArray()[31].toString(16)
+      console.log(z.slice(1, 5).toString(), _sharedSecret.toString().slice(1, 5))
 
 
       try {
-        if (_sharedSecret.toString().slice(2, 4) === z.slice(1, 3).toString()) {
+        if (_sharedSecret.toString().slice(1, 5) === z.slice(1, 5).toString()) {
           const _key = privatekey.getPrivate().add(Hashedsecret.getPrivate());
           const pk = _key.mod(ec.curve.n);
           console.log('Private key to open wallet', pk.toString(16, 32))
@@ -117,15 +114,15 @@ const Receive = () => {
 
     })
 
-    if(founded==='founded'){
+    if (founded === 'matched') {
       seterr(' Oops.. Plz try again')
       setTimeout(() => {
         seterr('')
-        
+
       }, 3000);
-     
+
     }
-   
+
 
 
 
@@ -153,7 +150,7 @@ const Receive = () => {
         )}
         {hide && (
           <p className="text-gray-500 p-1 px-2 font-semibold montserrat-small ml-6 ">
-            Expand to enter the saved Key 
+            Expand to enter the saved Key
           </p>
         )}
         {/* expand icon (toggle of input button) */}
@@ -196,11 +193,11 @@ const Receive = () => {
               className="cursor-pointer"
               alt=""
             />
-        
+
           </div>
         ) : (
           <>
-          <div className=" flex justify-center items-center text-[#FF5757] font-semibold">{err && <img height={30} width={30} src={kangaroo} alt="" />} <p className='montserrat-subtitle'>{err}</p></div>
+            <div className=" flex justify-center items-center text-[#FF5757] font-semibold">{err && <img height={30} width={30} src={kangaroo} alt="" />} <p className='montserrat-subtitle'>{err}</p></div>
 
           </>
         )}
