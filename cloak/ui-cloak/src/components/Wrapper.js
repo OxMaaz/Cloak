@@ -1,9 +1,8 @@
-import React, { useEffect, } from 'react'
 import Connect from './Connect'
 import CloakId from './CloakId'
 import Render from './Render'
 import { createContext } from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from './Footer'
@@ -21,49 +20,40 @@ const Wrapper = () => {
     const { tronWeb } = window
 
 
-
-    //render cfunctions
     const renderAddress = async () => {
-        window.tronLink.request({ method: "tron_requestAccounts" });
         const address = tronWeb.defaultAddress.base58;
         sessionStorage.setItem('address', address)
 
-
     }
 
-    const renderTronweb = async () => {
-        if (!tronWeb.defaultAddress.base58) {
-            // TronLink is not connected
-            toast.warning("Please open TronLink and connect to the Shasta network");
-            return
-        }
-    }
 
-    useEffect(() => {
-
-        if (tronWeb) {
-            tronWeb.on('addressChanged', function (newAddress) {
-                // Update the default address
-                window.tronLink.request({ method: "tron_requestAccounts" });
-                sessionStorage.setItem('address', newAddress.base58);
-                window.location.reload()
-            });
-
-
-        }
-    }, [])
 
     if (tronWeb) {
-        renderTronweb()
+        tronWeb.on('addressChanged', (address) => {
+            sessionStorage.setItem('address', address.base58)
+            console.log('address',address.base58)
+            window.location.reload()
+        })
     }
+
+
+
+
     async function connectwallet() {
-        if (tronWeb) {
 
-            renderTronweb()
-            renderAddress()
-
-
+        if (sessionStorage.getItem('address')===null || false) {
+            toast.error('Open tronlink and connect with shasta network')
+            return
         }
+
+        else{
+            window.tronLink.request({ method: "tron_requestAccounts" });
+            renderAddress()
+            window.location.reload();
+    
+        }
+
+   
 
     }
 
