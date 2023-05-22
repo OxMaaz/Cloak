@@ -42,6 +42,7 @@ const Wrapper = () => {
 
     }
 
+<<<<<<< HEAD
 
     useEffect(() => {
         function handleTronLink() {
@@ -81,6 +82,26 @@ const Wrapper = () => {
                 <Connect />
                 <div
                     className="mx-auto max-w-[1160px] p-4
+=======
+  return (
+    <CloakContext.Provider value={contextValue}>
+      <div className="max-h-max min-h-[100vh] w-[100w] bg-[#FFF7F7]">
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <Connect />
+        <div
+          className="mx-auto max-w-[1160px] p-4
+>>>>>>> 549e7ba75858557e8693e0a7d3b3f9f87f06a293
                   py-8 md:w-[95%]"
                 >
                     {" "}

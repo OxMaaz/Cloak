@@ -18,7 +18,7 @@ const Transaction = ({ setShow }) => {
   return (
     <div
       className="flex h-full max-w-[500px] flex-col 
-      backdrop-blur-[50px] hover:backdrop-blur-lg sm:p-5
+      sm:p-5
      sm:px-8"
     >
       <div
