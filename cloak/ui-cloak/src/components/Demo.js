@@ -1,23 +1,20 @@
 import { MdVerifiedUser } from "react-icons/md";
 
-
-const Demo = ({show ,totalTrx,totalFunds}) => {
-
+const Demo = ({ show, totalTrx, totalFunds }) => {
   return (
     <>
-      <div className="   max-w-[600px] ">
+      <div className="max-w-[600px]">
         {!show ? (
-          <div className="flex text-left flex-col gap-3 w-[90%]">
-          
-            <h1 className="montserrat-heading  text-[#4e6777] font-bold text-[1.5rem]">
+          <div className="flex w-[90%] flex-col gap-3 text-left">
+            <h1 className="montserrat-heading  text-[1.5rem] font-bold text-[#4e6777]">
               Transfer
             </h1>
-            <div className="py-4 montserrat-heading text-[#4e6777] font-medium  flex flex-col gap-4 items-center">
+            <div className="montserrat-heading flex flex-col items-center  gap-4 py-4 font-medium text-[#4e6777]">
               <div className="flex space-x-2 ">
                 <MdVerifiedUser color="#FF5757" size={29} />
                 <p className="flex-1">
-                  Safely insert the recipient's "Cloak address" into the designated
-                  field.
+                  Safely insert the recipient's "Cloak address" into the
+                  designated field.
                 </p>
               </div>
               <div className="flex space-x-2">
@@ -30,43 +27,44 @@ const Demo = ({show ,totalTrx,totalFunds}) => {
               <div className="flex space-x-2">
                 <MdVerifiedUser color="#FF5757" size={29} />
                 <p className="flex-1">
-                  Securely initiate transfer with "Transfer" button, ensuring prompt
-                  delivery of funds to the recipient's designated address.
+                  Securely initiate transfer with "Transfer" button, ensuring
+                  prompt delivery of funds to the recipient's designated
+                  address.
                 </p>
               </div>
             </div>
-            <div className="montserrat-heading  text-[#4e6777] font-medium">
-              <h4 className="font-bold text-[#4e6777] text-[1.1rem]">
-           {totalTrx}
+            <div className="montserrat-heading  font-medium text-[#4e6777]">
+              <h4 className="text-[1.1rem] font-bold text-[#4e6777]">
+                {totalTrx}
               </h4>
               <p>More than {totalTrx} stealth addresses have been generated</p>
             </div>
           </div>
         ) : (
-          <div className="flex text-left flex-col gap-3 w-[90%]">
+          <div className="flex w-[90%] flex-col gap-3 text-left">
             {" "}
             {/* on Accept */}
-            <h1 className="montserrat-heading  text-[#4e6777] font-bold text-[1.5rem]">
+            <h1 className="montserrat-heading  text-[1.5rem] font-bold text-[#4e6777]">
               Accept
             </h1>
-            <div className="py-4 montserrat-heading text-[#4e6777] font-medium flex flex-col gap-4 items-center">
+            <div className="montserrat-heading flex flex-col items-center gap-4 py-4 font-medium text-[#4e6777]">
               <div className="flex space-x-2">
-                <MdVerifiedUser color="#FF5757" size={32} />
-                <p className="flex 1">
+                <MdVerifiedUser color="#FF5757" size={29} />
+                <p className="flex-1">
                   Click on the "kangaroo" button or optionally paste your "DRM
                   key"
                 </p>
               </div>
               <div className="flex space-x-2">
-                <MdVerifiedUser color="#FF5757" size={32} />
-                <p className="flex 1">
+                <MdVerifiedUser color="#FF5757" size={29} />
+                <p className="flex-1">
                   Gain access to the specific address where funds have been
                   sent.
                 </p>
               </div>
             </div>
-            <div className="montserrat-heading  text-[#4e6777] font-medium ">
-              <h4 className="font-bold text-[1.1rem]">{totalFunds}</h4>
+            <div className="montserrat-heading  font-medium text-[#4e6777] ">
+              <h4 className="text-[1.1rem] font-bold">{totalFunds}</h4>
               <p>More than {totalFunds} Funds have been received</p>
             </div>
           </div>

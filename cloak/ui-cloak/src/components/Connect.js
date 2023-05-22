@@ -31,7 +31,7 @@ const Connect = () => {
             </h1>
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="hidden items-center space-x-4 sm:flex">
             <div
               onClick={navigate("/")}
               className="montserrat-subtitle ml-6 flex items-center space-x-1 text-[1rem] font-bold text-[#8098a7] decoration-[#FF5757]  underline-offset-8 transition-all ease-linear  hover:font-bold hover:text-gray-800 hover:underline sm:ml-14  sm:text-[1rem]"
@@ -71,7 +71,7 @@ const Connect = () => {
               </a>
             </p>
           </div>
-          <p className="montserrat-small text-[0.8rem]  font-semibold  text-gray-500 sm:text-[1rem]">
+          <p className="montserrat-small relative left-2 text-[0.7rem] font-semibold text-gray-500 sm:left-0 sm:text-[1rem]">
             {sessionStorage.getItem("address") === null || false
               ? ""
               : `${sessionStorage.getItem("address").slice(0, 17)}...`}
