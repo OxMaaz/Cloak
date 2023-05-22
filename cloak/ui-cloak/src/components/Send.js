@@ -1,4 +1,4 @@
-import React, {  } from "react";
+import React from "react";
 import { Tokens } from "../helpers/Token";
 import { useState } from "react";
 import { base58, keccak256 } from "ethers/lib/utils.js";
@@ -13,7 +13,6 @@ import { contractAddress } from "./Wrapper";
 const ec = new EllipticCurve.ec("secp256k1");
 
 const Send = () => {
-
   // const TRCABI = [
   //   "function balanceOf(address) view returns (uint)",
   //   "function transfer(address to, uint amount) returns (bool)",
@@ -22,10 +21,6 @@ const Send = () => {
   //   "function approve(address owner, uint256 amount) external returns (bool)",
   //   "function allowance(address owner, address spender) view returns (uint)",
   // ];
-
-
-
-
 
   const [token, settoken] = useState("");
   const [StealthmetaAddress, setStealthmetaAddress] = useState("");
@@ -38,8 +33,6 @@ const Send = () => {
   const [running, setrunning] = useState(false);
   const [toggleInput, settoggleInput] = useState(false);
 
-
-
   //helpers
 
   const { tronWeb } = window;
@@ -48,26 +41,24 @@ const Send = () => {
   var s;
   var a;
 
-  const msgSender = sessionStorage.getItem("address")
+  const msgSender = sessionStorage.getItem("address");
 
   let receipent;
-
-
-
 
   //middleware functions
 
   const handleChange = (e) => {
     const value = e.target.value;
-  
-      setamount(value.replace(/[^0-9.]/g, ''));
- 
+
+    setamount(value.replace(/[^0-9.]/g, ""));
   };
 
   const handlecloakaddress = (e) => {
-
-    if ((e.target.value[0] !== "T" && e.target.value !== "") ||
-      (e.target.value.length > 48 || e.target.value.length < 47)) {
+    if (
+      (e.target.value[0] !== "T" && e.target.value !== "") ||
+      e.target.value.length > 48 ||
+      e.target.value.length < 47
+    ) {
       seterror("Invalid address");
       setTimeout(() => {
         seterror("");
@@ -77,27 +68,23 @@ const Send = () => {
     setStealthmetaAddress(e.target.value);
   };
 
-
   const handletronweb = () => {
     if (!tronWeb) {
       toast("Please install Tron wallet");
     }
-    return
-
-  }
+    return;
+  };
 
   const changedefault = (t) => {
     setshow(!show);
     setbydefault(t.name);
     settoken(t.address);
     setbydefaultimg(t.symbol);
-    if (t.name === 'NFTS') {
-      settoggleInput(true)
+    if (t.name === "NFTS") {
+      settoggleInput(true);
+    } else {
+      settoggleInput(false);
     }
-    else {
-      settoggleInput(false)
-    }
-
   };
 
   const validation = () => {
@@ -108,20 +95,18 @@ const Send = () => {
       }, 4000);
       return;
     }
-  }
-
+  };
 
   const fetchContract = async () => {
-
     //checking is tronweb connected
-    handletronweb()
+    handletronweb();
 
     //validating the inputs
-    validation()
+    validation();
 
     const instance = await tronWeb.contract().at(token);
     const result = await instance.balanceOf(msgSender).call();
-    console.log('balance', tronWeb.fromSun(result.toString()))
+    console.log("balance", tronWeb.fromSun(result.toString()));
 
     if (tronWeb.fromSun(result.toString()) < amount) {
       seterror("Not efficient funds for the transaction");
@@ -129,32 +114,25 @@ const Send = () => {
       setTimeout(() => {
         seterror("");
       }, 4000);
-      return
+      return;
+    } else {
+      approve();
     }
-    else {
-      approve()
-    }
-
-
   };
 
   const checkOwner = async () => {
-
-    handletronweb()
+    handletronweb();
 
     //validating the inputs
-    validation()
+    validation();
 
     let result;
     try {
       const instance = await tronWeb.contract().at(token);
       result = await instance.ownerOf(amount).call();
-
+    } catch (e) {
+      seterror(e.mesage);
     }
-    catch (e) {
-      seterror(e.mesage)
-    }
-
 
     if (result !== msgSender) {
       seterror("You are not the owner of this nft");
@@ -162,19 +140,13 @@ const Send = () => {
       setTimeout(() => {
         seterror("");
       }, 4000);
-      return
+      return;
+    } else {
+      approve();
     }
-    else {
-      approve()
-    }
-
   };
 
-
-
-
   const initializer = () => {
-
     var meta;
     var ephPublic;
 
@@ -207,106 +179,95 @@ const Send = () => {
       const _HexString = address.substring(address.length - 40, address.length);
       const _Hex = "41" + _HexString;
       receipent = tronWeb.address.fromHex(_Hex);
-      console.log(receipent)
+      console.log(receipent);
 
       r = "0x" + ephPublic.getX().toString(16, 64);
       s = "0x" + ephPublic.getY().toString(16, 64);
-      a = "0x" + sharedsecret.toArray()[0].toString(16).padStart(2, "0")+sharedsecret.toArray()[31].toString(16);
-
+      a =
+        "0x" +
+        sharedsecret.toArray()[0].toString(16).padStart(2, "0") +
+        sharedsecret.toArray()[31].toString(16);
     } catch (e) {
       console.log("error", e);
     }
 
     return true;
-
   };
 
-
-
-
   const sendTrx = async () => {
-
     //checking is tronweb connected
-    handletronweb()
+    handletronweb();
 
     //validating the inputs
-    validation()
-
+    validation();
 
     setrunning(true);
 
-
     //calculating stealth address
-    initializer()
+    initializer();
 
     console.log("tron");
-    console.log(r, s, a, receipent,amount)
+    console.log(r, s, a, receipent, amount);
 
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
-      const trx = await contract.sendTron(r, s, a, receipent).send({ callValue: tronWeb.toSun(amount) });
-      console.log(r, s, a, receipent)
+      const trx = await contract
+        .sendTron(r, s, a, receipent)
+        .send({ callValue: tronWeb.toSun(amount) });
+      console.log(r, s, a, receipent);
       let txId = await tronWeb.trx.getTransaction(trx);
       settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
+    } catch (err) {
+      seterror(err);
     }
-    catch (err) {
-      seterror(err)
-    }
-
 
     setrunning(false);
-
-
   };
 
   const sendTrc20 = async () => {
-
     setrunning(true);
 
     //calculating stealth address
-    initializer()
+    initializer();
 
     console.log("trc20");
 
-
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
-      const trx = await contract.sendTrc20(r, s, a, token, receipent, amount).send();
+      const trx = await contract
+        .sendTrc20(r, s, a, token, receipent, amount)
+        .send();
       let txId = await tronWeb.trx.getTransaction(trx);
       settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
-    }
-    catch (e) {
+    } catch (e) {
       seterror(e.message);
     }
 
     setrunning(false);
   };
 
-
   const sendTrc721 = async () => {
-
-
     //checking is tronweb connected
-    handletronweb()
+    handletronweb();
 
     //validating the inputs
-    validation()
+    validation();
 
     setrunning(true);
 
     //calculating stealth address
-    initializer()
+    initializer();
 
     console.log("trc721");
 
-
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
-      const trx = await contract.sendTrc721(r, s, a, token, receipent, amount).send();
+      const trx = await contract
+        .sendTrc721(r, s, a, token, receipent, amount)
+        .send();
       let txId = await tronWeb.trx.getTransaction(trx);
       settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
-    }
-    catch (e) {
+    } catch (e) {
       seterror(e.message);
     }
 
@@ -314,16 +275,13 @@ const Send = () => {
   };
 
   async function approve() {
-
     let contract;
 
     try {
       contract = await tronWeb.contract().at(token);
+    } catch (e) {
+      seterror(e.message);
     }
-    catch (e) {
-      seterror(e.message)
-    }
-
 
     let allowance;
 
@@ -332,79 +290,68 @@ const Send = () => {
         const getapproved = await contract.getapproved(amount).call();
         if (getapproved !== contractAddress) {
           try {
-            const approve = await contract.approve(contractAddress, amount).send();
+            const approve = await contract
+              .approve(contractAddress, amount)
+              .send();
             approve.wait();
-            sendTrc721()
+            sendTrc721();
+          } catch (err) {
+            seterror(err.message);
           }
-          catch (err) {
-            seterror(err.message)
-          }
-
+        } else {
+          sendTrc721();
         }
-        else {
-          sendTrc721()
-        }
-
+      } catch (e) {
+        seterror(e.message);
       }
-      catch (e) {
-        seterror(e.message)
-      }
-
-    }
-    else {
+    } else {
       try {
         allowance = await contract.allowance(msgSender, contractAddress).call();
-        console.log('allowance', allowance.toString())
-      }
-      catch (e) {
-        seterror(e.message)
+        console.log("allowance", allowance.toString());
+      } catch (e) {
+        seterror(e.message);
       }
       if (tronWeb.fromSun(allowance.toString()) < amount) {
         try {
-          const approve = await contract.approve(contractAddress, amount).send();
+          const approve = await contract
+            .approve(contractAddress, amount)
+            .send();
           approve.wait();
-          sendTrc20()
+          sendTrc20();
+        } catch (e) {
+          seterror(e.message);
         }
-        catch (e) {
-          seterror(e.message)
-        }
-
-      }
-      else {
-        sendTrc20()
+      } else {
+        sendTrc20();
       }
     }
-
-
-
-
   }
-
 
   const opentab = () => {
     if (trxid !== "") {
       window.open(trxid, "_blank");
-
     }
   };
 
   setTimeout(() => {
-    settrxid(" ")
-
+    settrxid(" ");
   }, 3000);
 
-
   return (
-    <div className=" flex flex-col items-center space-y-2 mt-4 ">
+    <div className=" mt-4 flex flex-col items-center space-y-6 ">
       {/* tokens dropdown */}
 
-      <div className="absolute w-80 ">
+      <div className="absolute w-[320px] bg-white">
         <ul
-          className="hover:shadow-md border border-gray-400 rounded-md"
+          className="rounded-md hover:shadow-md"
           onClick={() => setshow(!show)}
         >
-          <li className="rounded-md px-2 p-1  text-gray-500 font-semibold   cursor-pointer flex space-x-2  justify-between text-md  border border-gray-400 dark:border-none">
-            <div className="flex flex-row   justify-around  items-center">
+          <li
+            className="text-md flex cursor-pointer items-center justify-between space-x-2 rounded-md border 
+            border-gray-300 p-3  font-semibold text-gray-500
+            transition-all ease-in"
+          >
+            <div className="flex flex-row items-center justify-around">
               <img src={bydefaultimg} alt="" height={1} width={20} />
               <p className="ml-1">{bydefault}</p>
             </div>
@@ -418,16 +365,18 @@ const Send = () => {
           <div
             className={
               show === true &&
-              "max-h-32 overflow-y-scroll scrollbar cursor-pointer     scrollbar-thumb-[#FF5757] scrollbar-w-[7px] scrollbar-h-3 scrollbar-thumb-rounded-full scrollbar-track-gray-100 "
+              `max-h-32 cursor-pointer overflow-y-scroll scrollbar
+               scrollbar-track-gray-100 scrollbar-thumb-[#FF5757]
+                scrollbar-thumb-rounded-full scrollbar-w-[7px] scrollbar-h-3 `
             }
           >
             {show &&
               Tokens.map((t) => (
-                <div className="bg-[#fdf4f4]  hover:shadow-md text-sm  ">
+                <div className="rounded-md bg-[#ffffff] text-sm hover:shadow-md">
                   <li
-                    className="px-2 p-3 cursor-pointer text-gray-500 font-semibold
-                         hover:bg-[#FF5757] hover:text-white montserrat-small 
-                         flex space-x-8 justify-between"
+                    className="montserrat-small flex cursor-pointer justify-between space-x-8 p-3 px-2
+                         font-semibold text-gray-500 transition-all 
+                         ease-in hover:bg-[#FF5757] hover:text-white"
                     key={t.name}
                     onClick={() => changedefault(t)}
                   >
@@ -438,68 +387,91 @@ const Send = () => {
               ))}
           </div>
         </ul>
-
       </div>
 
-      <div className="w-[88%] ">
-        <div className="pt-9  text-gray-100 font-extralight">
-          {(toggleInput === true) ?
-            <input
-              className="bg-[#fff7f7]  font-semibold text-gray-700 montserrat-subtitle outline-none border rounded-md p-1 px-2 w-[100%] border-1 border-gray-400"
-              type="text"
-              onChange={(e) => settoken(e.target.value)}
-              placeholder=" Non fungible address"
-            /> : <div></div>
-          }
+      {/* address and amount container */}
 
+      <div className="w-[320px]">
+        <div className="mb-3 mt-12 font-extralight text-gray-100">
+          {toggleInput === true ? (
+            <div
+              className="border-1 mb-3 mt-12 flex w-[100%] items-center
+                  space-x-2 rounded-md border border-gray-300 bg-[#ffffff] 
+                    px-3 py-2 hover:shadow-sm"
+            >
+              <input
+                className="montserrat-subtitle  border-1 w-[100%] rounded-md
+               px-2 font-semibold text-gray-600 outline-none"
+                type="text"
+                onChange={(e) => settoken(e.target.value)}
+                placeholder=" Non fungible address"
+              />
+            </div>
+          ) : (
+            <div></div>
+          )}
         </div>
-        <div className=" flex items-center justify-between py-2 
-       ">
+        <div
+          class="border-1 flex w-[100%] items-center
+        space-x-2 rounded-md border border-gray-300 bg-[#ffffff] 
+          px-3 py-2 hover:shadow-sm"
+        >
           <input
-            className="bg-[#fff7f7]  font-semibold text-gray-700 montserrat-subtitle outline-none border  rounded-md p-1 px-2 w-[80%] border-1 border-gray-400"
+            className="montserrat-subtitle border-1 flex-1 rounded-md
+            p-1 px-1 text-[0.9rem] font-semibold
+            text-gray-600 outline-none"
             type="text"
             value={StealthmetaAddress}
             onChange={handlecloakaddress}
-            placeholder=" Receipent's Cloak address "
+            placeholder=" Receipent's Cloak address"
           />
-
 
           {/* Amount*/}
 
           <input
-            className="bg-[#fff7f7] w-[15%]   font-semibold text-gray-700 montserrat-subtitle outline-none rounded-md p-2 px-2 h-9  border border-gray-400"
+            className="montserrat-subtitle w-[20%] border-l-2 
+            border-gray-300 p-1 px-2 text-center text-[0.9rem] font-semibold
+             text-gray-600 outline-none"
             value={amount}
             type="text"
             placeholder=" 0 "
             onChange={handleChange}
           />
-
         </div>
       </div>
       {/* send button */}
 
-      <div className="  pt-2 ml-2">
+      <div className="  ml-2 pt-2">
         <div
-          className=" cursor-pointer flex justify-around items-center  montserrat-subtitle border-1 p-1  text-white bg-[#FF5757] hover:shadow-xl px-6 text-center rounded-md  font-semibold  border-red-500 border"
-          onClick={token === "" ? sendTrx : (toggleInput === true ? checkOwner : fetchContract)}
+          className=" montserrat-subtitle border-1 flex cursor-pointer  items-center justify-around rounded-md  border border-red-500 bg-[#FF5757] p-1 px-6 text-center  font-semibold  text-white hover:shadow-md"
+          onClick={
+            token === ""
+              ? sendTrx
+              : toggleInput === true
+              ? checkOwner
+              : fetchContract
+          }
         >
-          <h2 className="">{running === true ? <img height={30} width={30} src={loading2} alt="" /> : "Transfer"}</h2>
-
+          <h2 className="">
+            {running === true ? (
+              <img height={30} width={30} src={loading2} alt="" />
+            ) : (
+              "Transfer"
+            )}
+          </h2>
         </div>
       </div>
-      <div className="pt-1 pb-4">
+      <div className="pb-4 pt-1">
         <p
           onClick={opentab}
-          className="montserrat-subtitle  text-gray-500 font-semibold underline underline-offset-8 decoration-[#FF5757] cursor-pointer"
+          className="montserrat-subtitle  cursor-pointer font-semibold text-gray-500 underline decoration-[#FF5757] underline-offset-8"
         >
           {trxid !== "" ? trxid.slice(8, 58) : ""}
         </p>
-        <p className="montserrat-subtitle  text-[#FF5757] font-semibold">
+        <p className="montserrat-subtitle  font-semibold text-[#FF5757]">
           {error}
         </p>
       </div>
-
-
     </div>
   );
 };

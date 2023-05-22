@@ -2,34 +2,28 @@ import React, { useState } from "react";
 import Send from "./Send";
 import Receive from "./Receive";
 
-
-
-
 const Transaction = ({ setShow }) => {
-
   const [showSend, setShowSend] = useState(true);
 
   const handleSendClick = () => {
     setShow(false);
     setShowSend(true);
-
   };
 
   const handleReceiveClick = () => {
     setShow(true);
     setShowSend(false);
-
   };
 
   return (
     <div
-      className="flex flex-col sm:p-5 sm:px-8 backdrop-blur-[50px] 
-      max-w-[500px] hover:backdrop-blur-lg 
-     h-full"
+      className="flex h-full max-w-[500px] flex-col 
+      backdrop-blur-[50px] hover:backdrop-blur-lg sm:p-5
+     sm:px-8"
     >
       <div
-        className="max-w-[400px] xl:space-x-36 mx-auto flex space-x-32 mb-2  montserrat-subtitle
-        text-[1.4rem] border-b-2 pb-2 border-gray-300 font-bold my-5"
+        className="montserrat-subtitle mx-auto my-5 mb-2 flex max-w-[400px]  space-x-32
+        border-b-2 border-gray-300 pb-2 text-[1.4rem] font-extrabold xl:space-x-36"
       >
         <button
           onClick={handleSendClick}
@@ -47,7 +41,7 @@ const Transaction = ({ setShow }) => {
         </button>
       </div>
       {/* below buttons */}
-      <div className="p-4 xl:w-[400px] w-[340px]">
+      <div className="mx-auto w-[340px] p-4 xl:w-[400px]">
         {showSend ? <Send /> : <Receive />}
       </div>
     </div>

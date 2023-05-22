@@ -1,31 +1,31 @@
 @font-face {
   font-family: Montserrat;
-  src: url('../public/Fonts/Montserrat-MediumItalic.ttf');
+  src: url("../public/Fonts/Montserrat-MediumItalic.ttf");
 }
 
 @font-face {
   font-family: MontserratHeading;
-  src: url('../public/Fonts/Montserrat-Regular.ttf');
+  src: url("../public/Fonts/Montserrat-Regular.ttf");
 }
 
 @font-face {
   font-family: MontserratSubHeading;
-  src: url('../public/Fonts/Montserrat-SemiBold.ttf');
+  src: url("../public/Fonts/Montserrat-SemiBold.ttf");
 }
 
 @font-face {
   font-family: MontserraTitle;
-  src: url('../public/Fonts/Montserrat-BoldItalic.ttf');
+  src: url("../public/Fonts/Montserrat-BoldItalic.ttf");
 }
 
 @font-face {
   font-family: MontserraSubTitle;
-  src: url('../public/Fonts/Montserrat-Light.ttf');
+  src: url("../public/Fonts/Montserrat-Light.ttf");
 }
 
 @font-face {
   font-family: MontserratSmall;
-  src: url('../public/Fonts/Montserrat-Light.ttf');
+  src: url("../public/Fonts/Montserrat-Light.ttf");
 }
 
 .montserrat-subtitle {
@@ -55,6 +55,8 @@
 
 .App {
   text-align: center;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .App-logo {
@@ -91,4 +93,3 @@
     transform: rotate(360deg);
   }
 }
-

@@ -53,6 +53,8 @@
     ]
   },
   "devDependencies": {
+    "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.3.0",
     "querystring-es3": "^0.2.1",
     "tailwindcss": "^3.3.1"
   }

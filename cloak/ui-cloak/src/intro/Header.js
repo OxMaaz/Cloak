@@ -1,6 +1,6 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
-import logo from '../assets/IntroLogo.png';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import logo from "../assets/IntroLogo.png";
 import { Link } from "react-scroll";
 
 const Header = () => {
@@ -9,43 +9,50 @@ const Header = () => {
     //   alert('Please Install Tron Wallet')
     //   return
     // }
-    navigate('/cloak')
-
-  }
+    navigate("/cloak");
+  };
 
   const navigate = useNavigate();
   return (
-    <div className='p-4 bg-[#FF5757] px-7'>
-      <div className='pb-3 border-b border-[#FDF0EF] border-b-1 px-5 flex justify-between items-center'>
+    <div className="bg-[#FF5757] p-4 px-7">
+      <div className="border-b-1 flex items-center justify-between border-b border-[#FDF0EF] px-5 pb-3">
         {/* logo on the left side */}
-        <div className='flex items-center'>
-          <img
-            className='sm:w-20 w-16 font-bold'
-            src={logo}
-            alt='' />
-          <h1 className='montserrat-subtitle sm:text-[1.5rem] font-semibold text-[1.2rem] text-[#FDF0EF]'>Cloak</h1>
+        <div className="flex items-center">
+          <img className="w-16 font-bold sm:w-20" src={logo} alt="" />
+          <h1 className="montserrat-subtitle text-[1.2rem] font-semibold text-[#FDF0EF] sm:text-[1.5rem]">
+            Cloak
+          </h1>
         </div>
         {/* "how it works" on the right side*/}
         <Link to="faq" spy={true} smooth={true} offset={50}>
-            <h4
-              className="montserrat-subtitle cursor-pointer sm:text-[1.2rem] font-semibold  hover:font-bold hover:text-white text-[#FDF0EF] "
-              onClick={() => navigate("/")}
-            >
-              FAQ?
-            </h4>
-          </Link>
-
+          <h4
+            className="montserrat-subtitle cursor-pointer font-semibold text-[#FDF0EF]  hover:font-bold hover:text-white sm:text-[1.2rem] "
+            onClick={() => navigate("/")}
+          >
+            FAQ?
+          </h4>
+        </Link>
       </div>
       {/* at the bottom of the logo */}
-      <div className='sm:p-16 p-10 flex flex-col items-start space-y-4'>
-        <h2 className='montserrat-subtitle font-bold sm:text-[1.9rem] text-[1.7rem] text-[#FDF0EF]'>Stay Anonymous & secure.</h2>
-        <p className='montserrat-small text-[#FDF0EF] text-left break-words  max-w-[400px]'>Exchange TRX and tokens with utmost privacy, your address remains a secret!.</p>
-        <div className='pt-1'>
-          <button className='border-1 montserrat-subheading  hover:text-white hover:bg-[#FF5757] hover:shadow-xl p-2 px-4 rounded-full bg-[#FDF0EF] text-[#FF5757] font-semibold hover:border-white border-red-500 border text-lg' onClick={Valid}>Launch app</button>
+      <div className="flex flex-col items-start space-y-4 p-10 sm:p-16">
+        <h2 className="montserrat-subtitle text-[1.7rem] font-bold text-[#FDF0EF] sm:text-[1.9rem]">
+          Stay Anonymous & secure.
+        </h2>
+        <p className="montserrat-small max-w-[400px] break-words text-left  text-[#FDF0EF]">
+          Exchange TRX and tokens with utmost privacy, your address remains a
+          secret!.
+        </p>
+        <div className="pt-1">
+          <button
+            className="border-1 montserrat-subheading  rounded-full border border-red-500 bg-[#FDF0EF] p-2 px-4 text-lg font-semibold text-[#FF5757] hover:border-white hover:bg-[#FF5757] hover:text-white hover:shadow-xl"
+            onClick={Valid}
+          >
+            Launch app
+          </button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
