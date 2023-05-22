@@ -104,11 +104,13 @@ const Send = () => {
     //validating the inputs
     validation();
 
+    //BigInt(value) / BigInt(10 ** 18)
     const instance = await tronWeb.contract().at(token);
     const result = await instance.balanceOf(msgSender).call();
-    console.log("balance", tronWeb.fromSun(result.toString()));
+    console.log("balance", tronWeb.fromSun(result),amount);
+    console.log((result)/(10 ** 18) );
 
-    if (tronWeb.fromSun(result.toString()) < amount) {
+    if (amount>(result)/(10 ** 18) ) {
       seterror("Not efficient funds for the transaction");
       toast.error("Not effecicient funds for the transaction");
       setTimeout(() => {
@@ -239,6 +241,7 @@ const Send = () => {
         .send();
       let txId = await tronWeb.trx.getTransaction(trx);
       settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
+      console.log('hey')
     } catch (e) {
       seterror(e.message);
     }
@@ -247,11 +250,7 @@ const Send = () => {
   };
 
   const sendTrc721 = async () => {
-    //checking is tronweb connected
-    handletronweb();
-
-    //validating the inputs
-    validation();
+  
 
     setrunning(true);
 
@@ -307,16 +306,19 @@ const Send = () => {
     } else {
       try {
         allowance = await contract.allowance(msgSender, contractAddress).call();
-        console.log("allowance", allowance.toString());
+        console.log("allowance", allowance);
       } catch (e) {
         seterror(e.message);
       }
-      if (tronWeb.fromSun(allowance.toString()) < amount) {
+      if (amount/(10 ** 18) > tronWeb.fromSun(allowance.toString()) ) {
         try {
           const approve = await contract
             .approve(contractAddress, amount)
             .send();
-          approve.wait();
+            // await approve()
+
+            let txId = await tronWeb.trx.getTransaction(approve);
+            settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
           sendTrc20();
         } catch (e) {
           seterror(e.message);
@@ -335,7 +337,7 @@ const Send = () => {
 
   setTimeout(() => {
     settrxid(" ");
-  }, 3000);
+  }, 6000);
 
   return (
     <div className=" mt-4 flex flex-col items-center space-y-6 ">

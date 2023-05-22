@@ -64,7 +64,7 @@ const CloakId = () => {
         <div className="flex w-full flex-col items-center space-y-4 border-b border-gray-200 pb-6">
           <h2
             className="montserrat-subheading mx-auto w-[100%] text-2xl font-extrabold 
-      text-gray-500 md:w-[65%] md:text-3xl "
+      text-gray-500 md:w-[80%] md:text-3xl "
           >
             {" "}
             Experience ultimate privacy with us responsibly pushing boundaries{" "}

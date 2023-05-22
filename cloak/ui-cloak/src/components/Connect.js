@@ -17,7 +17,7 @@ const Connect = () => {
   const data = useContext(CloakContext);
 
   return (
-    <div className="mx-auto max-w-[1190px] pb-12 pt-4 sm:pt-8 ">
+    <div className="mx-auto max-w-[1200px] pb-12 pt-4 sm:pt-8 ">
       <div className="flex justify-between px-4 sm:px-7">
         {/* leftside logo */}
         <div

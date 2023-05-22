@@ -51,14 +51,14 @@ const Demo = ({show ,totalTrx,totalFunds}) => {
             </h1>
             <div className="py-4 montserrat-heading text-[#4e6777] font-medium flex flex-col gap-4 items-center">
               <div className="flex space-x-2">
-                <MdVerifiedUser color="#FF5757" size={32} />
+                <MdVerifiedUser color="#FF5757" size={29} />
                 <p className="flex 1">
                   Click on the "kangaroo" button or optionally paste your "DRM
                   key"
                 </p>
               </div>
               <div className="flex space-x-2">
-                <MdVerifiedUser color="#FF5757" size={32} />
+                <MdVerifiedUser color="#FF5757" size={29} />
                 <p className="flex 1">
                   Gain access to the specific address where funds have been
                   sent.
