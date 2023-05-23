@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Send from "./Send";
+import Send from "./SendFunds";
 import Receive from "./Receive";
 
 const Transaction = ({ setShow }) => {

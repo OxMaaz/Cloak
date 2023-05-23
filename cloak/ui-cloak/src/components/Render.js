@@ -1,6 +1,6 @@
 import React from 'react'
 import Transaction from './Transaction'
-import Demo from './Demo';
+import Guide from './Guide';
 import {contractAddress}  from './Wrapper';
 import { useState ,useEffect } from 'react';
 
@@ -18,7 +18,7 @@ const Render = () => {
             const limit = await contract.getLimit().call();
             const funds = await contract.getTotalFunds().call();
             setTotalTrx(limit.toString())
-            setTotalFunds(tronWeb.fromSun(funds.toString()))
+            setTotalFunds(tronWeb.fromSun(funds.toNumber()))
         }
 
         catch (e) {
@@ -29,14 +29,13 @@ const Render = () => {
     useEffect(() => {
         if (tronWeb) {
             fetchdata()
-        }
-     
+        }    
 
     }, [show])
 
     return (
         <div className="flex flex-col-reverse space-y-4 sm:flex-row justify-center p-3 py-1">
-            <Demo totalTrx={totalTrx}  show={show} totalFunds={totalFunds}  />
+            <Guide totalTrx={totalTrx}  show={show} totalFunds={totalFunds}  />
             <Transaction setShow={setShow} />
         </div>
     )

@@ -10,17 +10,12 @@ import loading2 from "../assets/loading2.gif";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { contractAddress } from "./Wrapper";
+import { db } from "../config/firebase.js"
+import { collection, addDoc } from "firebase/firestore";
 const ec = new EllipticCurve.ec("secp256k1");
 
 const Send = () => {
-  // const TRCABI = [
-  //   "function balanceOf(address) view returns (uint)",
-  //   "function transfer(address to, uint amount) returns (bool)",
-  //   "function symbol() external view returns (string memory)",
-  //   "function name() external view returns (string memory)",
-  //   "function approve(address owner, uint256 amount) external returns (bool)",
-  //   "function allowance(address owner, address spender) view returns (uint)",
-  // ];
+ 
 
   const [token, settoken] = useState("");
   const [StealthmetaAddress, setStealthmetaAddress] = useState("");
@@ -32,6 +27,7 @@ const Send = () => {
   const [trxid, settrxid] = useState("");
   const [running, setrunning] = useState(false);
   const [toggleInput, settoggleInput] = useState(false);
+  const [buttonInput, setButtonInput] = useState('Transfer');
 
   //helpers
 
@@ -88,7 +84,7 @@ const Send = () => {
   };
 
   const validation = () => {
-    if (StealthmetaAddress === "" || amount === "") {
+    if (StealthmetaAddress === "" && amount === "") {
       seterror("Please enter the address and amount");
       setTimeout(() => {
         seterror("");
@@ -107,10 +103,10 @@ const Send = () => {
     //BigInt(value) / BigInt(10 ** 18)
     const instance = await tronWeb.contract().at(token);
     const result = await instance.balanceOf(msgSender).call();
-    console.log("balance", tronWeb.fromSun(result),amount);
-    console.log((result)/(10 ** 18) );
+    console.log("balance", result.toNumber(), amount);
 
-    if (amount>(result)/(10 ** 18) ) {
+
+    if (amount > result.toNumber()) {
       seterror("Not efficient funds for the transaction");
       toast.error("Not effecicient funds for the transaction");
       setTimeout(() => {
@@ -132,11 +128,14 @@ const Send = () => {
     try {
       const instance = await tronWeb.contract().at(token);
       result = await instance.ownerOf(amount).call();
+      console.log('res', tronWeb.address.fromHex(result))
+
     } catch (e) {
       seterror(e.mesage);
     }
 
-    if (result !== msgSender) {
+    if (tronWeb.address.fromHex(result) !== msgSender) {
+      console.log(tronWeb.address.fromHex(result))
       seterror("You are not the owner of this nft");
       toast.error("You are not the owner of this nft");
       setTimeout(() => {
@@ -181,7 +180,7 @@ const Send = () => {
       const _HexString = address.substring(address.length - 40, address.length);
       const _Hex = "41" + _HexString;
       receipent = tronWeb.address.fromHex(_Hex);
-      console.log(receipent);
+      // console.log(receipent);
 
       r = "0x" + ephPublic.getX().toString(16, 64);
       s = "0x" + ephPublic.getY().toString(16, 64);
@@ -196,6 +195,23 @@ const Send = () => {
     return true;
   };
 
+  const pubkeys = collection(db, "pubKeys");
+
+
+  const storing = async () => {
+    const stored = `T${a.replace("0x", "")}04${r.slice(2)}${s.slice(2)}`
+    // console.log(stored)
+    try {
+      await addDoc(pubkeys, {
+        keys: stored,
+
+      });
+    } catch (err) {
+      console.error(err);
+    }
+    console.log('storing...')
+  }
+
   const sendTrx = async () => {
     //checking is tronweb connected
     handletronweb();
@@ -208,21 +224,22 @@ const Send = () => {
     //calculating stealth address
     initializer();
 
-    console.log("tron");
-    console.log(r, s, a, receipent, amount);
+    //putting ephkeys to firebase
+
 
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
       const trx = await contract
         .sendTron(r, s, a, receipent)
         .send({ callValue: tronWeb.toSun(amount) });
-      console.log(r, s, a, receipent);
+      console.log("tron");
       let txId = await tronWeb.trx.getTransaction(trx);
       settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
+      console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID)
     } catch (err) {
       seterror(err);
     }
-
+    storing()
     setrunning(false);
   };
 
@@ -232,46 +249,48 @@ const Send = () => {
     //calculating stealth address
     initializer();
 
-    console.log("trc20");
 
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
       const trx = await contract
         .sendTrc20(r, s, a, token, receipent, amount)
         .send();
+      console.log('trc20')
       let txId = await tronWeb.trx.getTransaction(trx);
+      console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID);
       settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
-      console.log('hey')
+
     } catch (e) {
       seterror(e.message);
     }
-
+    storing()
     setrunning(false);
   };
 
   const sendTrc721 = async () => {
-  
+
 
     setrunning(true);
 
     //calculating stealth address
     initializer();
 
-    console.log("trc721");
 
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
-      const trx = await contract
-        .sendTrc721(r, s, a, token, receipent, amount)
-        .send();
+      const trx = await contract.sendTrc721(r, s, a, token, receipent, amount).send();
+      console.log("trc721");
       let txId = await tronWeb.trx.getTransaction(trx);
+      console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID)
       settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
+
     } catch (e) {
       seterror(e.message);
     }
-
+    storing()
     setrunning(false);
   };
+
 
   async function approve() {
     let contract;
@@ -286,18 +305,24 @@ const Send = () => {
 
     if (toggleInput === true) {
       try {
-        const getapproved = await contract.getapproved(amount).call();
-        if (getapproved !== contractAddress) {
+        const getapproved = await contract.getApproved(amount).call();
+        console.log((getapproved))
+        if (tronWeb.address.fromHex(getapproved) !== contractAddress) {
           try {
             const approve = await contract
               .approve(contractAddress, amount)
               .send();
-            approve.wait();
+            console.log('approve done')
+            setButtonInput('approving...')
+            let txId = await tronWeb.trx.getTransaction(approve);
+            console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID)
+            setButtonInput('Transfer')
             sendTrc721();
           } catch (err) {
             seterror(err.message);
           }
         } else {
+          console.log('else done')
           sendTrc721();
         }
       } catch (e) {
@@ -306,26 +331,34 @@ const Send = () => {
     } else {
       try {
         allowance = await contract.allowance(msgSender, contractAddress).call();
-        console.log("allowance", allowance);
+        console.log("allowance", allowance.toNumber());
       } catch (e) {
         seterror(e.message);
       }
-      if (amount/(10 ** 18) > tronWeb.fromSun(allowance.toString()) ) {
+      if (amount > allowance.toNumber()) {
         try {
           const approve = await contract
             .approve(contractAddress, amount)
             .send();
-            // await approve()
-
-            let txId = await tronWeb.trx.getTransaction(approve);
-            settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
+          console.log('approve done')
+          setButtonInput('approving...')
+          let txId = await tronWeb.trx.getTransaction(approve);
+          console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID)
+          setButtonInput('Transfer')
           sendTrc20();
+
+
         } catch (e) {
           seterror(e.message);
         }
-      } else {
+
+      }
+
+      else {
+        console.log('else done')
         sendTrc20();
       }
+
     }
   }
 
@@ -335,9 +368,9 @@ const Send = () => {
     }
   };
 
-  setTimeout(() => {
-    settrxid(" ");
-  }, 6000);
+  // setTimeout(() => {
+  //   settrxid(" ");
+  // }, 6000);
 
   return (
     <div className=" mt-4 flex flex-col items-center space-y-6 ">
@@ -450,15 +483,15 @@ const Send = () => {
             token === ""
               ? sendTrx
               : toggleInput === true
-              ? checkOwner
-              : fetchContract
+                ? checkOwner
+                : fetchContract
           }
         >
           <h2 className="">
             {running === true ? (
               <img height={30} width={30} src={loading2} alt="" />
             ) : (
-              "Transfer"
+              buttonInput
             )}
           </h2>
         </div>

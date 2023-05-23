@@ -3,113 +3,105 @@ import { keccak256 } from "ethers/lib/utils.js";
 import EllipticCurve from "elliptic";
 import { GiKangaroo } from "react-icons/gi";
 import { AiOutlineArrowsAlt, AiOutlineShrink } from "react-icons/ai";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { contractAddress } from "./Wrapper";
 import copy from "../assets/copykey.jpg";
 import kangaroo from "../assets/kangaroo.png";
+import { downloadFile } from "../helpers/DownloadFile";
+import { db } from "../config/firebase.js"
+import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
+import { toast } from "react-toastify";
 const ec = new EllipticCurve.ec("secp256k1");
 
 const Receive = () => {
-  const { tronWeb } = window;
+
 
   const [rootprivatekey, setrootprivatekey] = useState("");
   const [privatekey, setprivatekey] = useState("");
   const [hide, sethide] = useState(true);
   const [err, seterr] = useState(false);
   const [reveal, setreveal] = useState(false);
-  const [founded, setfounded] = useState("matched");
+  const [founded, setfounded] = useState("");
   const [iscopied, setiscopied] = useState("Copy");
+  const [id, setId] = useState('');
+  var spendingkey;
 
-  let ephPubKeys = [];
 
-  const fetchData = async () => {
+  const pubkeys = collection(db, "pubKeys");
+  const MatchingKey = async () => {
+    let logs;
+
     try {
-      const contract = await tronWeb.contract().at(contractAddress);
-      const limit = await contract.getLimit().call();
-      // console.log(limit.toString())
-
-      for (let i = 0; i < limit.toString(); i++) {
-        await contract.logs(i).call((err, result) => {
-          ephPubKeys.push(
-            `T${result.a.replace("0x", "")}04${result.r.slice(
-              2
-            )}${result.s.slice(2)}`
-          );
-          sessionStorage.setItem("ephkeys", JSON.stringify(ephPubKeys));
-        });
-      }
-    } catch (e) {
-      console.error(e);
-      seterr(e.message);
+      const data = await getDocs(pubkeys);
+      logs = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+    } catch (err) {
+      console.error(err);
+      seterr(err.message)
     }
-  };
+
+
+
+    logs.forEach((e) => {
+      const ephPublicKey = ec.keyFromPublic(e.keys.slice(5), "hex");
+      const Sharedsecret = spendingkey.derive(ephPublicKey.getPublic()); //
+      const Hashedsecret = ec.keyFromPrivate(keccak256(Sharedsecret.toArray()));
+      const ss = "T" + Sharedsecret.toArray()[0].toString(16).padStart(1, "0") + Sharedsecret.toArray()[31].toString(16);
+      console.log(ss.toString().slice(1, 5), e.keys.slice(1, 5).toString())
+
+
+      if (ss.toString().slice(1, 5) === e.keys.slice(1, 5).toString()) {
+        setId(e.id)
+        const _key = spendingkey.getPrivate().add(Hashedsecret.getPrivate());
+        const pk = _key.mod(ec.curve.n);
+        setprivatekey(pk.toString(16, 32));
+        setreveal(true);
+        setrootprivatekey("");
+        setfounded("Matched");
+      }
+      return
+
+    })
+
+
+  }
+
 
   const generaterootprivatekey = async () => {
-    fetchData();
 
-    var privatekey;
+
     if (rootprivatekey === "") {
-      privatekey = ec.keyFromPrivate(sessionStorage.getItem("DRM key"), "hex");
+      spendingkey = ec.keyFromPrivate(sessionStorage.getItem("DRM key"), "hex");
     } else {
-      privatekey = ec.keyFromPrivate(rootprivatekey, "hex");
+      spendingkey = ec.keyFromPrivate(rootprivatekey, "hex");
     }
 
-    var ephPublicKey;
-    var Sharedsecret;
-    var Hashedsecret;
-    var _sharedSecret;
+    MatchingKey()
 
-    const ephkeys = sessionStorage.getItem("ephkeys");
-    const registry = JSON.parse(ephkeys);
-    console.log("registry", ephPubKeys);
 
-    if (registry === null) {
-      toast.error("Problem fetching");
-      return;
+    if (founded === "Matched") {
+      toast.success('Matched')
     }
 
-    registry.forEach((z) => {
-      ephPublicKey = ec.keyFromPublic(z.slice(5), "hex");
-      Sharedsecret = privatekey.derive(ephPublicKey.getPublic()); //
-      Hashedsecret = ec.keyFromPrivate(keccak256(Sharedsecret.toArray()));
-      _sharedSecret =
-        "T" +
-        Sharedsecret.toArray()[0].toString(16).padStart(1, "0") +
-        Sharedsecret.toArray()[31].toString(16);
-      console.log(
-        z.slice(1, 5).toString(),
-        _sharedSecret.toString().slice(1, 5)
-      );
-
-      try {
-        if (_sharedSecret.toString().slice(1, 5) === z.slice(1, 5).toString()) {
-          const _key = privatekey.getPrivate().add(Hashedsecret.getPrivate());
-          const pk = _key.mod(ec.curve.n);
-          console.log("Private key to open wallet", pk.toString(16, 32));
-          setprivatekey(pk.toString(16, 32));
-          setreveal(true);
-          toast.success("matched");
-          setrootprivatekey("");
-          setfounded("");
-        }
-        return;
-      } catch (e) {
-        seterr(e.message);
-      }
-    });
-
-    if (founded === "matched") {
-      seterr(" Oops.. Plz try again");
-      setTimeout(() => {
-        seterr("");
-      }, 3000);
-    }
   };
+
+
+  const removingKey = async () => {
+    console.log(id)
+    const ephDoc = doc(db, "pubKeys", id);
+    await deleteDoc(ephDoc);
+
+  }
 
   const copykey = () => {
     navigator.clipboard.writeText(privatekey);
     setiscopied("Copied");
+    downloadFile(privatekey, "Cloak-privatekey.txt");
+
+    /// remove the key from firebase database
+
+    removingKey()
   };
 
   return (

@@ -50,22 +50,19 @@ const Demo = ({ show, totalTrx, totalFunds }) => {
             <div className="montserrat-heading flex flex-col items-center gap-4 py-4 font-medium text-[#4e6777]">
               <div className="flex space-x-2">
                 <MdVerifiedUser color="#FF5757" size={29} />
-<<<<<<< HEAD
-                <p className="flex 1">
-=======
+
                 <p className="flex-1">
->>>>>>> 549e7ba75858557e8693e0a7d3b3f9f87f06a293
+
                   Click on the "kangaroo" button or optionally paste your "DRM
                   key"
                 </p>
               </div>
               <div className="flex space-x-2">
                 <MdVerifiedUser color="#FF5757" size={29} />
-<<<<<<< HEAD
-                <p className="flex 1">
-=======
+
+
                 <p className="flex-1">
->>>>>>> 549e7ba75858557e8693e0a7d3b3f9f87f06a293
+
                   Gain access to the specific address where funds have been
                   sent.
                 </p>

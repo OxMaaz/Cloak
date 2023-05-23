@@ -50,7 +50,8 @@ const CloakId = () => {
 
   const oncopy = () => {
     navigator.clipboard.writeText(cloakid);
-    downloadFile(sessionStorage.getItem("DRM key"));
+    const drmkey = sessionStorage.getItem("DRM key")
+    downloadFile(drmkey, "DRM key.txt");
     revealnot();
   };
 
