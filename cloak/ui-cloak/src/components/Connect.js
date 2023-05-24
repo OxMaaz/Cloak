@@ -16,7 +16,7 @@ const Connect = () => {
     window.location.reload();
   };
 
-  const data = useContext(CloakContext);
+  const {connectwallet} = useContext(CloakContext);
 
   return (
     <div className="mx-auto max-w-[1300px] pb-12 pt-4 sm:pt-8 ">
@@ -74,17 +74,17 @@ const Connect = () => {
             </p>
           </div>
           <p className="montserrat-small relative left-2 text-[0.7rem] font-semibold text-gray-500 sm:left-0 sm:text-[1rem]">
-            {sessionStorage.getItem("address") === false || sessionStorage.getItem("address") === null
+            { sessionStorage.getItem("address") === "false" || sessionStorage.getItem("address")=== "" || sessionStorage.getItem("address")=== null
               ? ""
               : `${sessionStorage.getItem("address").slice(0, 17)}...`}
           </p>
           <button
-            onClick={data.connectwallet}
+            onClick={connectwallet}
             className="montserrat-subtitle border-1 rounded-md border-white bg-[#f3eded]
                      p-1 px-2
                      text-[0.8rem] font-extrabold text-[#FF5757] shadow-md shadow-gray-100 hover:bg-[#FF5757] hover:text-[white] hover:shadow-lg  sm:px-4 sm:text-[1rem] "
           >
-            {(sessionStorage.getItem("address") === null || sessionStorage.getItem("address") === false) ? "connect wallet": "Connected"}
+            { sessionStorage.getItem("address")=== "false" || sessionStorage.getItem("address")=== null || sessionStorage.getItem("address")=== "" ? "connect wallet" : "Connected"}
           </button>
           <IoMdRefresh
             size={25}

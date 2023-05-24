@@ -7,16 +7,20 @@ import usdt from '../assets/usdt.png'
 import trx from '../assets/trx.png'
 import nft from '../assets/nftOfficial.jpeg'
 import usdd from '../assets/Usdd.png'
+import usdc from "../assets/usdc.png"
+
+//TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8
 
 export const Tokens = [
     { "name": "TRX", "address": '', "symbol": trx },
-    { "name": "WIN", "address": 'TQRkMDMdWj1Crwv4s7XfMi1LCiPkGnajvB', "symbol": wink },
-    { "name": "BTT", "address": 'TNeC4hx8rXo1ZUtERVTj4nMz6o8GpWzmzg', "symbol": bttc },
-    { "name": "JST", "address": 'TBzrkFBjgzowt7nHkaYkbLBfcLTvg2qe6a', "symbol": just },
-    { "name": "USDJ", "address": 'TLxqc8tQpftjyW8n4TpNTEhdzPK8vSgeRA', "symbol": usdj },
-    { "name": "SUN", "address": 'TWkUvS8uP7GiLxqeiUhwC1CLpc8TuVhgcm', "symbol": sun },
-    { "name": "USDT", "address": 'TDZDd58a44n5Bvg7pFpcdWhZpv7XsT9PsU', "symbol": usdt },
-    { "name": "USDD", "address": 'TPnkR78LUP7uWUR8NpTBG9zEaCDqzd2cjM', "symbol": usdd },
+    { "name": "USDT", "address": 'TDZDd58a44n5Bvg7pFpcdWhZpv7XsT9PsU', "symbol": usdt }, 
+    { "name": "BTT", "address": 'TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4', "symbol": bttc },
+    { "name": "JST", "address": 'TCFLL5dx5ZJdKnWuesXxi1VPwjLVmWZZy9', "symbol": just },
+    { "name": "USDJ", "address": 'TMwFHYXLJaRUPeW6421aqXL4ZEzPRFGkGT', "symbol": usdj },
+    { "name": "SUN", "address": 'TSSMHYeV2uE9qYH95DqyoCuNCzEL1NvU3S', "symbol": sun },
+    { "name": "USDD", "address": 'TPnkR78LUP7uWUR8NpTBG9zEaCDqzd2cjM', "symbol": usdd }, //gonna be change
+    { "name": "WIN", "address": 'TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7', "symbol": wink },
+    { "name": "USDC", "address": 'TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8', "symbol": usdc },
     { "name": "NFTS", "address": '', "symbol": nft }
 ]
 

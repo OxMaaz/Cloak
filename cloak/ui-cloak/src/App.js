@@ -10,7 +10,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Container />} />
-          <Route path="/cloak" element={<Wrapper/>}  />
+          <Route path="/cloak" element={<Wrapper />} />
         </Routes>
       </Router>
     </div>
