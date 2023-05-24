@@ -1,23 +1,27 @@
 import Connect from "./Connect";
 import CloakId from "./CloakId";
 import Render from "./Render";
-import { createContext, useEffect } from "react";
+import { createContext, useEffect} from "react";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./Footer";
 
 export const CloakContext = createContext(null);
-export const contractAddress = "TMWNDkEZUZtfhJtBSD1nDw9Xfodv9cLawV";
+export const contractAddress = "TNgXvACsLwyyE9MkMCRYdXhQkn81H6hLfN";
 
 const Wrapper = () => {
     const { tronWeb } = window;
-    const { tronLink } = window;
+    // const { tronLink } = window;
 
     const renderAddress = async () => {
+        if(!tronWeb.defaultAddress.base58) {
+            toast.error('Please connect wallet');
+            return;
+        }
         const address = tronWeb.defaultAddress.base58;
-        window.location.reload();
         sessionStorage.setItem("address", address);
+        window.location.reload();
     };
 
     useEffect(() => {
@@ -25,17 +29,20 @@ const Wrapper = () => {
       
     }, [])
 
+
     if (tronWeb) {
         tronWeb.on("addressChanged", (address) => {
+            window.location.reload();
             sessionStorage.setItem("address", address.base58);
             console.log("address", address.base58);
-            window.location.reload();
+    
         });
     }
 
     async function connectwallet() {
+
         if (!tronWeb.defaultAddress.base58) {
-            toast.error("Open tronlink and connect with shasta network");
+            toast.error("Open tronlink and connect with mainnet");
             return;
         }
         window.tronLink.request({ method: "tron_requestAccounts" });
@@ -46,16 +53,7 @@ const Wrapper = () => {
 
 
 
-    useEffect(() => {
-        function handleTronLink() {
-
-            if (!tronLink) {
-                toast.error('Install tronLink');
-            }
-        }
-
-        handleTronLink()
-    }, [tronLink])
+  
 
 
     const [error, seterror] = useState("");

@@ -18,9 +18,8 @@ const Render = () => {
             const limit = await contract.getLimit().call();
             const funds = await contract.getTotalFunds().call();
             setTotalTrx(limit.toString())
-            setTotalFunds(tronWeb.fromSun(funds.toNumber()))
+            setTotalFunds(((tronWeb.fromSun(funds.toNumber()))))
         }
-
         catch (e) {
             console.error(e);
         }

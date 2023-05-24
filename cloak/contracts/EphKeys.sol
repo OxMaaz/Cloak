@@ -19,12 +19,13 @@ pragma solidity ^0.8.6;
  * It is essential to test and audit the contract thoroughly before deploying it in a production environment.
  */
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 
+
+    import "./IERC20.sol";
+    import "./IERC721.sol";
 
 contract EphKeys {
+
     
     struct PublicKeys {
         bytes32 r;
@@ -103,7 +104,7 @@ contract EphKeys {
 
         publishKeys(r, s, a);
 
-        uint256 updatedTotalFunds = totalFunds + amount;
+        uint256 updatedTotalFunds = totalFunds + amount * 1000000 ;
         uint256 updatedLimit = limit + 1;
 
         IERC20(token).transferFrom(msg.sender, target, amount);
@@ -125,22 +126,17 @@ contract EphKeys {
 
     ) external validAddresses(nft, target) {
         require(
-            IERC721(nft).balanceOf(msg.sender) > 0,
-            "You don't have enough tokens"
-        );
-        require(
             IERC721(nft).ownerOf(tokenId) == msg.sender,
             "You are not the owner"
         );
 
 
-//745
         publishKeys(r, s, a);
 
         uint256 updatedTotalFunds = totalFunds + tokenId;
         uint256 updatedLimit = limit + 1;
 
-        IERC721(nft).safeTransferFrom(msg.sender, target, tokenId);
+        IERC721(nft).transferFrom(msg.sender, target, tokenId);
         totalFunds = updatedTotalFunds;
         limit = updatedLimit;
 

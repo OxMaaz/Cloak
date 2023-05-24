@@ -8,6 +8,8 @@ import { IoMdHome, IoMdRefresh } from "react-icons/io";
 import { HiQuestionMarkCircle } from "react-icons/hi";
 
 const Connect = () => {
+
+
   const navigate = useNavigate();
 
   const refresh = () => {
@@ -17,7 +19,7 @@ const Connect = () => {
   const data = useContext(CloakContext);
 
   return (
-    <div className="mx-auto max-w-[1200px] pb-12 pt-4 sm:pt-8 ">
+    <div className="mx-auto max-w-[1300px] pb-12 pt-4 sm:pt-8 ">
       <div className="flex justify-between px-4 sm:px-7">
         {/* leftside logo */}
         <div
@@ -72,7 +74,7 @@ const Connect = () => {
             </p>
           </div>
           <p className="montserrat-small relative left-2 text-[0.7rem] font-semibold text-gray-500 sm:left-0 sm:text-[1rem]">
-            {sessionStorage.getItem("address") === null || false
+            {sessionStorage.getItem("address") === false || sessionStorage.getItem("address") === null
               ? ""
               : `${sessionStorage.getItem("address").slice(0, 17)}...`}
           </p>
@@ -82,10 +84,7 @@ const Connect = () => {
                      p-1 px-2
                      text-[0.8rem] font-extrabold text-[#FF5757] shadow-md shadow-gray-100 hover:bg-[#FF5757] hover:text-[white] hover:shadow-lg  sm:px-4 sm:text-[1rem] "
           >
-            {(sessionStorage.getItem("address") === null || false) &&
-            sessionStorage.getItem("balance") === null
-              ? "connect wallet"
-              : "Connected"}
+            {(sessionStorage.getItem("address") === null || sessionStorage.getItem("address") === false) ? "connect wallet": "Connected"}
           </button>
           <IoMdRefresh
             size={25}

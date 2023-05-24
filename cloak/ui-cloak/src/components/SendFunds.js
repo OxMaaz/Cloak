@@ -15,7 +15,7 @@ import { collection, addDoc } from "firebase/firestore";
 const ec = new EllipticCurve.ec("secp256k1");
 
 const Send = () => {
- 
+
 
   const [token, settoken] = useState("");
   const [StealthmetaAddress, setStealthmetaAddress] = useState("");
@@ -306,10 +306,10 @@ const Send = () => {
     if (toggleInput === true) {
       try {
         const getapproved = await contract.getApproved(amount).call();
-        console.log((getapproved))
+        console.log(tronWeb.address.fromHex(getapproved))
         if (tronWeb.address.fromHex(getapproved) !== contractAddress) {
           try {
-            const approve = await contract
+            await contract
               .approve(contractAddress, amount)
               .send();
             console.log('approve done')
@@ -368,9 +368,9 @@ const Send = () => {
     }
   };
 
-  // setTimeout(() => {
-  //   settrxid(" ");
-  // }, 6000);
+  setTimeout(() => {
+    seterror(" ");
+  }, 6000);
 
   return (
     <div className=" mt-4 flex flex-col items-center space-y-6 ">
@@ -439,7 +439,7 @@ const Send = () => {
                px-2 font-semibold text-gray-600 outline-none"
                 type="text"
                 onChange={(e) => settoken(e.target.value)}
-                placeholder=" Non fungible address"
+                placeholder=" Nft token address"
               />
             </div>
           ) : (

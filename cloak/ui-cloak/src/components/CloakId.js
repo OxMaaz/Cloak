@@ -1,15 +1,14 @@
 import { Crc } from "../helpers/Crc";
 import base58 from "bs58";
 import React from "react";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import EllipticCurve from "elliptic";
 import { AiOutlineCopy } from "react-icons/ai";
-import { CloakContext } from "./Wrapper";
 import { downloadFile } from "../helpers/DownloadFile";
 const ec = new EllipticCurve.ec("secp256k1");
 
 const CloakId = () => {
-  const data = useContext(CloakContext);
+ 
   const [cloakid, setcloakid] = useState("");
   const [note, setnote] = useState(false);
   let key;
@@ -32,12 +31,12 @@ const CloakId = () => {
       const addr = new Uint8Array(data.length + 2);
       addr.set(data);
       addr.set(crc, data.length);
-      const M = "T" + base58.encode(addr);
-      sessionStorage.setItem("cloak address", M);
-      setcloakid(M);
+      const id = "T" + base58.encode(addr);
+      sessionStorage.setItem("cloak address", id);
+      setcloakid(id);
     } catch (e) {
       console.error(e);
-      data.seterror(e);
+
     }
   };
 
@@ -45,7 +44,7 @@ const CloakId = () => {
     setnote(true);
     setTimeout(() => {
       setnote(false);
-    }, 6000);
+    }, 7000);
   };
 
   const oncopy = () => {
