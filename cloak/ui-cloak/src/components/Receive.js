@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { keccak256 } from "ethers/lib/utils.js";
 import EllipticCurve from "elliptic";
-import { GiKangaroo } from "react-icons/gi";
+// import { GiKangaroo } from "react-icons/gi";
 import { AiOutlineArrowsAlt, AiOutlineShrink } from "react-icons/ai";
 import "react-toastify/dist/ReactToastify.css";
 import copy from "../assets/copykey.jpg";
-import kangaroo from "../assets/kangaroo.png";
+import kangaroo from "../assets/runningKangaroo.png";
 import { downloadFile } from "../helpers/DownloadFile";
 import { db } from "../config/firebase.js"
 import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
@@ -150,10 +150,10 @@ const Receive = () => {
       {/* Match key */}
       <div className="ml-1 flex  items-center justify-center px-2 pt-2 ">
         <div
-          className="flex cursor-pointer items-center justify-center space-x-1 rounded-3xl  border-red-500 bg-[#FF5757] p-1 px-6 text-center font-semibold text-[#fff7f7] hover:border-white hover:shadow-md"
+          className="flex cursor-pointer items-center justify-center p-2  space-x-2 rounded-3xl  border-red-500 bg-[#FF5757] px-6 text-center font-semibold text-[#fff7f7] hover:border-white hover:shadow-md"
           onClick={generaterootprivatekey}
         >
-          <GiKangaroo size={30} />
+          <img src={kangaroo} alt="" height={26} width={28} />
           {/* <h2 className='montserrat-small'>Match</h2> */}
         </div>
       </div>

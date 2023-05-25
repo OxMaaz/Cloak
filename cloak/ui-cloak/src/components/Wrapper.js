@@ -18,12 +18,12 @@ const Wrapper = () => {
     return {};
   }, []);
 
-  const tronLink = useMemo(() => {
-    if (window.tronLink) {
-      return window.tronLink;
-    }
-    return {};
-  }, []);
+  // const tronLink = useMemo(() => {
+  //   if (window.tronLink) {
+  //     return window.tronLink;
+  //   }
+  //   return {};
+  // }, []);
 
   try {
     if (tronWeb) {
@@ -46,7 +46,7 @@ const Wrapper = () => {
       sessionStorage.setItem("address", tronWeb.defaultAddress.base58);
       return;
     } else {
-      window.alert("wallet dissconnect func :] ");
+      window.alert("wallet disconnect func :] ");
     }
   }
 
