@@ -48,7 +48,7 @@ const Receive = () => {
       const Sharedsecret = spendingkey.derive(ephPublicKey.getPublic()); //
       const Hashedsecret = ec.keyFromPrivate(keccak256(Sharedsecret.toArray()));
       const ss = "T" + Sharedsecret.toArray()[0].toString(16).padStart(1, "0") + Sharedsecret.toArray()[31].toString(16);
-      console.log(ss.toString().slice(1, 5), e.keys.slice(1, 5).toString())
+      // console.log(ss.toString().slice(1, 5), e.keys.slice(1, 5).toString())
 
 
       if (ss.toString().slice(1, 5) === e.keys.slice(1, 5).toString()) {
