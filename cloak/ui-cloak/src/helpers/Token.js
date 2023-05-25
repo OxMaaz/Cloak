@@ -18,7 +18,7 @@ export const Tokens = [
     { "name": "JST", "address": 'TCFLL5dx5ZJdKnWuesXxi1VPwjLVmWZZy9', "symbol": just },
     { "name": "USDJ", "address": 'TMwFHYXLJaRUPeW6421aqXL4ZEzPRFGkGT', "symbol": usdj },
     { "name": "SUN", "address": 'TSSMHYeV2uE9qYH95DqyoCuNCzEL1NvU3S', "symbol": sun },
-    { "name": "USDD", "address": 'TPnkR78LUP7uWUR8NpTBG9zEaCDqzd2cjM', "symbol": usdd }, //gonna be change
+    { "name": "USDD", "address": 'TPYmHEhy5n8TCEfYGqW2rPxsghSfzghPDn', "symbol": usdd }, 
     { "name": "WIN", "address": 'TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7', "symbol": wink },
     { "name": "USDC", "address": 'TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8', "symbol": usdc },
     { "name": "NFTS", "address": '', "symbol": nft }
