@@ -1,7 +1,7 @@
 import Connect from "./Connect";
 import CloakId from "./CloakId";
 import Render from "./Render";
-import { createContext, useMemo } from "react";
+import { createContext, useMemo, useEffect } from "react";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -46,9 +46,25 @@ const Wrapper = () => {
       sessionStorage.setItem("address", tronWeb.defaultAddress.base58);
       return;
     } else {
-      toast.error("Open tronlink and connect with mainnet");
+
     }
   }
+
+  useEffect(() => {
+
+    try {
+      if (!tronWeb.defaultAddress.base58) {
+        toast.error("Open tronlink and connect with mainnet");
+        return;
+      }
+    
+    }
+    catch (e) {
+      // toast.error("Install tronLink wallet");
+    }
+
+
+  }, [])
 
   try {
     if (tronWeb) {
