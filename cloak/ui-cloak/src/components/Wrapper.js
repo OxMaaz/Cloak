@@ -46,7 +46,7 @@ const Wrapper = () => {
       sessionStorage.setItem("address", tronWeb.defaultAddress.base58);
       return;
     } else {
-      ///
+      toast.error("Open tronlink and connect with mainnet");
     }
   }
 
