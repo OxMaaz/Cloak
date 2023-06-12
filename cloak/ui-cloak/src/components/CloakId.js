@@ -35,7 +35,7 @@ const CloakId = () => {
       sessionStorage.setItem("cloak address", id);
       setcloakid(id);
     } catch (e) {
-      console.error(e);
+      // console.error(e);
 
     }
   };

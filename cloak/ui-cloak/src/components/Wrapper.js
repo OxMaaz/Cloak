@@ -1,14 +1,14 @@
 import Connect from "./Connect";
 import CloakId from "./CloakId";
 import Render from "./Render";
-import { createContext, useMemo } from "react";
+import { createContext, useMemo, useEffect } from "react";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./Footer";
 
 export const CloakContext = createContext(null);
-export const contractAddress = "TTtdCG6vcLcfy7yDiVaQ8YinukWima443U";
+export const contractAddress = "TMD1Mv1jv4q8b9Y9fhEUfqZ2VESWPDznjj";
 
 const Wrapper = () => {
   const tronWeb = useMemo(() => {
@@ -34,7 +34,7 @@ const Wrapper = () => {
       });
     }
   } catch (e) {
-    console.log(e.message);
+    // console.log(e.message);
   }
 
   console.log("tronWeb : ", tronWeb);
@@ -46,9 +46,25 @@ const Wrapper = () => {
       sessionStorage.setItem("address", tronWeb.defaultAddress.base58);
       return;
     } else {
-      window.alert("wallet disconnect func :] ");
+
     }
   }
+
+  useEffect(() => {
+
+    try {
+      if (!tronWeb.defaultAddress.base58) {
+        toast.error("Open tronlink and connect with mainnet");
+        return;
+      }
+    
+    }
+    catch (e) {
+      // toast.error("Install tronLink wallet");
+    }
+
+
+  }, [])
 
   try {
     if (tronWeb) {
@@ -58,7 +74,7 @@ const Wrapper = () => {
         sessionStorage.setItem("address", tronWeb.defaultAddress.base58);
       }
     }
-  } catch (e) {}
+  } catch (e) { }
 
   const [error, seterror] = useState("");
 

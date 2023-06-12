@@ -1,6 +1,6 @@
 import React from "react";
 import { Tokens } from "../helpers/Token";
-import { useState } from "react";
+import { useState , useMemo } from "react";
 import { base58, keccak256 } from "ethers/lib/utils.js";
 import EllipticCurve from "elliptic";
 import { AiOutlineArrowDown } from "react-icons/ai";
@@ -41,6 +41,13 @@ const Send = () => {
 
   let receipent;
 
+    const tronLink = useMemo(() => {
+    if (window.tronLink) {
+      return window.tronLink;
+    }
+    return {};
+  }, []);
+
   //middleware functions
 
   const handleChange = (e) => {
@@ -65,10 +72,11 @@ const Send = () => {
   };
 
   const handletronweb = () => {
-    if (!tronWeb) {
+    if (tronLink) {
       toast("Please install Tron wallet");
+      return;
     }
-    return;
+
   };
 
   const changedefault = (t) => {
@@ -84,7 +92,7 @@ const Send = () => {
   };
 
   const validation = () => {
-    if (StealthmetaAddress === "" && amount === "") {
+    if (StealthmetaAddress === "" || amount === "") {
       seterror("Please enter the address and amount");
       setTimeout(() => {
         seterror("");
@@ -95,10 +103,18 @@ const Send = () => {
 
   const fetchContract = async () => {
     //checking is tronweb connected
-    handletronweb();
-
+    if (!tronWeb) {
+      toast.error("Please install Tron wallet");
+      return;
+    }
     //validating the inputs
-    validation();
+    if (StealthmetaAddress === "" || amount === "") {
+      seterror("Please enter the address and amount");
+      setTimeout(() => {
+        seterror("");
+      }, 4000);
+      return;
+    }
 
     //BigInt(value) / BigInt(10 ** 18)
     const instance = await tronWeb.contract().at(token);
@@ -119,10 +135,19 @@ const Send = () => {
   };
 
   const checkOwner = async () => {
-    handletronweb();
 
+    if (!tronWeb) {
+      toast.error("Please install Tron wallet");
+      return;
+    }
     //validating the inputs
-    validation();
+    if (StealthmetaAddress === "" || amount === "") {
+      seterror("Please enter the address and amount");
+      setTimeout(() => {
+        seterror("");
+      }, 4000);
+      return;
+    }
 
     let result;
     try {
@@ -214,10 +239,18 @@ const Send = () => {
 
   const sendTrx = async () => {
     //checking is tronweb connected
-    handletronweb();
-
+    if (!tronWeb) {
+      toast.error("Please install Tron wallet");
+      return;
+    }
     //validating the inputs
-    validation();
+    if (StealthmetaAddress === "" || amount === "") {
+      seterror("Please enter the address and amount");
+      setTimeout(() => {
+        seterror("");
+      }, 4000);
+      return;
+    }
 
     setrunning(true);
 
@@ -232,10 +265,10 @@ const Send = () => {
       const trx = await contract
         .sendTron(r, s, a, receipent)
         .send({ callValue: tronWeb.toSun(amount) });
-      console.log("tron");
+      // console.log("tron");
       let txId = await tronWeb.trx.getTransaction(trx);
       settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
-      console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID)
+      // console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID)
     } catch (err) {
       seterror(err);
     }
@@ -255,9 +288,9 @@ const Send = () => {
       const trx = await contract
         .sendTrc20(r, s, a, token, receipent, amount)
         .send();
-      console.log('trc20')
+      // console.log('trc20')
       let txId = await tronWeb.trx.getTransaction(trx);
-      console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID);
+      // console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID);
       settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
 
     } catch (e) {
@@ -279,7 +312,7 @@ const Send = () => {
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
       const trx = await contract.sendTrc721(r, s, a, token, receipent, amount).send();
-      console.log("trc721");
+      // console.log("trc721");
       let txId = await tronWeb.trx.getTransaction(trx);
       console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID)
       settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
@@ -331,7 +364,7 @@ const Send = () => {
     } else {
       try {
         allowance = await contract.allowance(msgSender, contractAddress).call();
-        console.log("allowance", allowance.toNumber());
+        // console.log("allowance", allowance.toNumber());
       } catch (e) {
         seterror(e.message);
       }
