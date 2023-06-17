@@ -7,7 +7,7 @@ const tronWeb = new TronWeb({
 
 
 module.exports = async function (deployer, network) {
-  if (network === 'mainnet') {
+  if (network === 'shasta') {
     console.log("Deploying EphPublicKey contract...");
     try {
       await deployer.deploy(EphKeys);
