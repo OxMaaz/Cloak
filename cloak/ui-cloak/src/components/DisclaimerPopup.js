@@ -18,16 +18,14 @@ const DisclaimerPopup = ({ open, onClose, children }) => {
       >
         <div className="flex flex-col gap-4">
           <h4 className="montserrat-subheading text-xl font-bold text-red-600 lg:text-2xl">
-            We are not responsible for any illigal activites!
+            We are not promoting any illegal activites!
           </h4>
           <p
             className="montserrat-subheading border-t border-gray-200 p-1 
           py-2 pl-4 text-left text-sm text-gray-500"
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus
-            commodi in provident omnis voluptatibus pariatur exercitationem
-            optio nemo, doloribus laborum sint illum repellat illo reprehenderit
-            minima.
+            Tron cloak is design for people who loves privacy in their financial transaction.
+            Its not designed for any type of illegal activities like money launering etc.
           </p>
           <div>
             <button

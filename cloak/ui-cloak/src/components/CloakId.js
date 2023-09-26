@@ -63,11 +63,11 @@ const CloakId = () => {
       <div className="mb-6 flex flex-col items-center rounded-t-md p-6">
         <div className="flex w-full flex-col items-center space-y-4 border-b border-gray-200 pb-6">
           <h2
-            className="montserrat-subheading mx-auto w-[100%] text-2xl font-extrabold 
-      text-gray-500 md:w-[80%] md:text-3xl "
+            className="montserrat-subheading mx-auto w-[100%] text-3xl font-extrabold 
+      text-gray-500 md:w-[80%] md:text-4xl "
           >
             {" "}
-            Experience ultimate privacy with us responsibly pushing boundaries{" "}
+            Receive funds confidentialy in tron chain with cloak{" "}
           </h2>
 
           {note === true && (

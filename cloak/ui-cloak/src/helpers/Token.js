@@ -14,7 +14,7 @@ import updawg from "../assets/updawg.png"
 
 export const Tokens = [
     { "name": "TRX", "address": '', "symbol": trx },
-    { "name": "USDT", "address": 'TDZDd58a44n5Bvg7pFpcdWhZpv7XsT9PsU', "symbol": usdt },
+    { "name": "USDT", "address": 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t', "symbol": usdt },
     { "name": "BTT", "address": 'TAFjULxiVgT4qWk6UZwjqwZXTSaGaqnVp4', "symbol": bttc },
     { "name": "SUN", "address": 'TSSMHYeV2uE9qYH95DqyoCuNCzEL1NvU3S', "symbol": sun },
     { "name": "UPDAWG", "address": 'TFLBD1LgA9aqeJqiiUnHAd9q3CUpqvop3k', "symbol": updawg },
