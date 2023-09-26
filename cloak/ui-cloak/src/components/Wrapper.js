@@ -86,7 +86,7 @@ const Wrapper = () => {
 
   return (
     <CloakContext.Provider value={contextValue}>
-      <div className="max-h-max min-h-[100vh] bg-[#FFF7F7] ">
+      <div className="max-h-max min-h-[100vh] bg-[#FFF7F7] lg:overflow-hidden">
         <ToastContainer
           position="top-center"
           autoClose={5000}

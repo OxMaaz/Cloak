@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import { Tokens } from "../helpers/Token";
-import { useState , useMemo } from "react";
 import { base58, keccak256 } from "ethers/lib/utils.js";
 import EllipticCurve from "elliptic";
 import { AiOutlineArrowDown } from "react-icons/ai";
@@ -10,13 +9,13 @@ import loading2 from "../assets/loading2.gif";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { contractAddress } from "./Wrapper";
-import { db } from "../config/firebase.js"
+import { db } from "../config/firebase.js";
 import { collection, addDoc } from "firebase/firestore";
+import { BiTransfer } from "react-icons/bi";
+import { BsChevronDown } from "react-icons/bs";
 const ec = new EllipticCurve.ec("secp256k1");
 
 const Send = () => {
-
-
   const [token, settoken] = useState("");
   const [StealthmetaAddress, setStealthmetaAddress] = useState("");
   const [error, seterror] = useState("");
@@ -27,8 +26,7 @@ const Send = () => {
   const [trxid, settrxid] = useState("");
   const [running, setrunning] = useState(false);
   const [toggleInput, settoggleInput] = useState(false);
-  const [buttonInput, setButtonInput] = useState('Transfer');
-
+  const [buttonInput, setButtonInput] = useState("Transfer");
   //helpers
 
   const { tronWeb } = window;
@@ -41,7 +39,7 @@ const Send = () => {
 
   let receipent;
 
-    const tronLink = useMemo(() => {
+  const tronLink = useMemo(() => {
     if (window.tronLink) {
       return window.tronLink;
     }
@@ -76,7 +74,6 @@ const Send = () => {
       toast("Please install Tron wallet");
       return;
     }
-
   };
 
   const changedefault = (t) => {
@@ -121,7 +118,6 @@ const Send = () => {
     const result = await instance.balanceOf(msgSender).call();
     console.log("balance", result.toNumber(), amount);
 
-
     if (amount > result.toNumber()) {
       seterror("Not efficient funds for the transaction");
       toast.error("Not effecicient funds for the transaction");
@@ -135,7 +131,6 @@ const Send = () => {
   };
 
   const checkOwner = async () => {
-
     if (!tronWeb) {
       toast.error("Please install Tron wallet");
       return;
@@ -153,14 +148,13 @@ const Send = () => {
     try {
       const instance = await tronWeb.contract().at(token);
       result = await instance.ownerOf(amount).call();
-      console.log('res', tronWeb.address.fromHex(result))
-
+      console.log("res", tronWeb.address.fromHex(result));
     } catch (e) {
       seterror(e.mesage);
     }
 
     if (tronWeb.address.fromHex(result) !== msgSender) {
-      console.log(tronWeb.address.fromHex(result))
+      console.log(tronWeb.address.fromHex(result));
       seterror("You are not the owner of this nft");
       toast.error("You are not the owner of this nft");
       setTimeout(() => {
@@ -222,20 +216,18 @@ const Send = () => {
 
   const pubkeys = collection(db, "pubKeys");
 
-
   const storing = async () => {
-    const stored = `T${a.replace("0x", "")}04${r.slice(2)}${s.slice(2)}`
+    const stored = `T${a.replace("0x", "")}04${r.slice(2)}${s.slice(2)}`;
     // console.log(stored)
     try {
       await addDoc(pubkeys, {
         keys: stored,
-
       });
     } catch (err) {
       console.error(err);
     }
-    console.log('storing...')
-  }
+    console.log("storing...");
+  };
 
   const sendTrx = async () => {
     //checking is tronweb connected
@@ -259,7 +251,6 @@ const Send = () => {
 
     //putting ephkeys to firebase
 
-
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
       const trx = await contract
@@ -272,7 +263,7 @@ const Send = () => {
     } catch (err) {
       seterror(err);
     }
-    storing()
+    storing();
     setrunning(false);
   };
 
@@ -281,7 +272,6 @@ const Send = () => {
 
     //calculating stealth address
     initializer();
-
 
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
@@ -292,38 +282,34 @@ const Send = () => {
       let txId = await tronWeb.trx.getTransaction(trx);
       // console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID);
       settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
-
     } catch (e) {
       seterror(e.message);
     }
-    storing()
+    storing();
     setrunning(false);
   };
 
   const sendTrc721 = async () => {
-
-
     setrunning(true);
 
     //calculating stealth address
     initializer();
 
-
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
-      const trx = await contract.sendTrc721(r, s, a, token, receipent, amount).send();
+      const trx = await contract
+        .sendTrc721(r, s, a, token, receipent, amount)
+        .send();
       // console.log("trc721");
       let txId = await tronWeb.trx.getTransaction(trx);
-      console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID)
+      console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID);
       settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
-
     } catch (e) {
       seterror(e.message);
     }
-    storing()
+    storing();
     setrunning(false);
   };
-
 
   async function approve() {
     let contract;
@@ -339,23 +325,23 @@ const Send = () => {
     if (toggleInput === true) {
       try {
         const getapproved = await contract.getApproved(amount).call();
-        console.log(tronWeb.address.fromHex(getapproved))
+        console.log(tronWeb.address.fromHex(getapproved));
         if (tronWeb.address.fromHex(getapproved) !== contractAddress) {
           try {
-            await contract
-              .approve(contractAddress, amount)
-              .send();
-            console.log('approve done')
-            setButtonInput('approving...')
+            await contract.approve(contractAddress, amount).send();
+            console.log("approve done");
+            setButtonInput("approving...");
             let txId = await tronWeb.trx.getTransaction(approve);
-            console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID)
-            setButtonInput('Transfer')
+            console.log(
+              "https://shasta.tronscan.org/#/transaction/" + txId.txID
+            );
+            setButtonInput("Transfer");
             sendTrc721();
           } catch (err) {
             seterror(err.message);
           }
         } else {
-          console.log('else done')
+          console.log("else done");
           sendTrc721();
         }
       } catch (e) {
@@ -373,25 +359,19 @@ const Send = () => {
           const approve = await contract
             .approve(contractAddress, amount)
             .send();
-          console.log('approve done')
-          setButtonInput('approving...')
+          console.log("approve done");
+          setButtonInput("approving...");
           let txId = await tronWeb.trx.getTransaction(approve);
-          console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID)
-          setButtonInput('Transfer')
+          console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID);
+          setButtonInput("Transfer");
           sendTrc20();
-
-
         } catch (e) {
           seterror(e.message);
         }
-
-      }
-
-      else {
-        console.log('else done')
+      } else {
+        console.log("else done");
         sendTrc20();
       }
-
     }
   }
 
@@ -406,140 +386,138 @@ const Send = () => {
   }, 6000);
 
   return (
-    <div className=" mt-4 flex flex-col items-center space-y-6 ">
-      {/* tokens dropdown */}
-
-      <div className="absolute w-[320px] bg-white">
-        <ul
-          className="rounded-md hover:shadow-md"
-          onClick={() => setshow(!show)}
-        >
-          <li
-            className="text-md flex cursor-pointer items-center justify-between space-x-2 rounded-md border 
-            border-gray-300 p-3  font-semibold text-gray-500
-            transition-all ease-in"
-          >
-            <div className="flex flex-row items-center justify-around">
-              <img src={bydefaultimg} alt="" height={1} width={20} />
-              <p className="ml-1">{bydefault}</p>
-            </div>
-            <AiOutlineArrowDown
-              className="float-right"
-              color="grey"
-              size={18}
-            />
-          </li>
-
-          <div
-            className={
-              show === true &&
-              `max-h-32 cursor-pointer overflow-y-scroll scrollbar
-               scrollbar-track-gray-100 scrollbar-thumb-[#FF5757]
-                scrollbar-thumb-rounded-full scrollbar-w-[7px] scrollbar-h-3 `
-            }
-          >
-            {show &&
-              Tokens.map((t) => (
-                <div className="rounded-md bg-[#ffffff] text-sm hover:shadow-md">
-                  <li
-                    className="montserrat-small flex cursor-pointer justify-between space-x-8 p-3 px-2
-                         font-semibold text-gray-500 transition-all 
-                         ease-in hover:bg-[#FF5757] hover:text-white"
-                    key={t.name}
-                    onClick={() => changedefault(t)}
-                  >
-                    <p>{t.name}</p>
-                    <img src={t.symbol} alt="" height={16} width={20} />
-                  </li>
-                </div>
-              ))}
-          </div>
-        </ul>
+    <div className="flex flex-col items-start justify-center space-y-2">
+      {/* <div className=" mt-4 flex flex-col items-center space-y-6 "> */}
+      {/* cloak key input */}
+      <div
+        className="text-bgGray w-[100%] rounded-md 
+       "
+      >
+        <input
+          className="montserrat-subtitle my-4 h-[100%] w-[100%]  rounded-md
+          border-2 border-gray-500 bg-[#f5f5f5] px-3 py-3 text-[0.9rem]
+           font-semibold text-gray-400 outline-none placeholder:text-gray-500 hover:border-cyan-900"
+          type="text"
+          value={StealthmetaAddress}
+          onChange={handlecloakaddress}
+          placeholder=" Receipent's Cloak address"
+        />
       </div>
-
-      {/* address and amount container */}
-
-      <div className="w-[320px]">
-        <div className="mb-3 mt-12 font-extralight text-gray-100">
-          {toggleInput === true ? (
-            <div
-              className="border-1 mb-3 mt-12 flex w-[100%] items-center
+      {/* Nft Token Container */}
+      {toggleInput && (
+        <div
+          className="border-1 flex w-[100%] items-center
                   space-x-2 rounded-md border border-gray-300 bg-[#ffffff] 
                     px-3 py-2 hover:shadow-sm"
-            >
-              <input
-                className="montserrat-subtitle  border-1 w-[100%] rounded-md
-               px-2 font-semibold text-gray-600 outline-none"
-                type="text"
-                onChange={(e) => settoken(e.target.value)}
-                placeholder=" Nft token address"
-              />
-            </div>
-          ) : (
-            <div></div>
-          )}
-        </div>
-        <div
-          class="border-1 flex w-[100%] items-center
-        space-x-2 rounded-md border border-gray-300 bg-[#ffffff] 
-          px-3 py-2 hover:shadow-sm"
         >
           <input
-            className="montserrat-subtitle border-1 flex-1 rounded-md
-            p-1 px-1 text-[0.9rem] font-semibold
-            text-gray-600 outline-none"
+            className="montserrat-subtitle  border-1 w-[100%] rounded-md
+               px-2 font-semibold text-gray-600 outline-none"
             type="text"
-            value={StealthmetaAddress}
-            onChange={handlecloakaddress}
-            placeholder=" Receipent's Cloak address"
+            onChange={(e) => settoken(e.target.value)}
+            placeholder=" Nft token address"
           />
-
-          {/* Amount*/}
-
+        </div>
+      )}
+      {/* Amount */}
+      <div className="text-bgGray w-[100%] rounded-md pb-4">
+        {/* <h2 className="text-[1.3rem] text-left mb-1">Amount </h2> */}
+        <div
+          className="relative flex w-[100%]  items-center rounded-md py-1 hover:shadow-sm         
+       "
+        >
           <input
-            className="montserrat-subtitle w-[20%] border-l-2 
-            border-gray-300 p-1 px-2 text-center text-[0.9rem] font-semibold
-             text-gray-600 outline-none"
+            className="montserrat-subtitle h-[100%] w-[100%]  rounded-md
+          border-2 border-gray-500 bg-[#f5f5f5] px-3 py-3 text-[0.9rem]
+          font-semibold text-gray-400 outline-none placeholder:text-gray-500 hover:border-cyan-900"
             value={amount}
             type="text"
-            placeholder=" 0 "
+            placeholder="0.1"
             onChange={handleChange}
           />
+          {/* Tokens Dropdown Menu */}
+          <div className="absolute right-1 min-w-[95px] ">
+            <ul onClick={() => setshow(!show)}>
+              <li
+                className="flex cursor-pointer items-center gap-2 rounded-md 
+ border-l border-gray-700 p-2
+            px-3 font-semibold text-orange-500"
+              >
+                <p>{bydefault}</p>
+                <BsChevronDown size={18} />
+              </li>
+              <div
+                className={`
+              ${
+                show &&
+                `scrollbar-thumb-bgGray scrollbar-rounded-full scrollbar-thumb-gray-00 absolute mt-2 flex max-h-28 w-[105%] flex-col overflow-y-scroll rounded-b-md bg-white
+                py-1 shadow-md transition-all ease-in scrollbar-thin
+               scrollbar-track-[#ebe1db] scrollbar-thumb-rounded`
+              }
+            `}
+              >
+                {show &&
+                  Tokens.map((c) => (
+                    <div className="h-40 border-b border-gray-400 ">
+                      <li
+                        className="montserrat-small flex cursor-pointer flex-row-reverse items-center
+                    justify-between gap-2 border-l border-gray-100 
+                    p-1 px-3 text-[0.8rem] font-semibold 
+                    text-gray-900 hover:bg-[#dbe6eb]
+                    hover:text-gray-900"
+                        key={c.name}
+                        onClick={() => changedefault(c)}
+                      >
+                        <img
+                          className=" rounded-lg"
+                          src={c.symbol}
+                          alt=""
+                          height={14}
+                          width={18}
+                        />
+                        <p>{c.name}</p>
+                      </li>
+                    </div>
+                  ))}
+              </div>
+            </ul>
+          </div>
         </div>
       </div>
       {/* send button */}
-
-      <div className="  ml-2 pt-2">
-        <div
-          className=" montserrat-subtitle border-1 flex cursor-pointer  items-center justify-around rounded-md  border border-red-500 bg-[#FF5757] p-1 px-6 text-center  font-semibold  text-white hover:shadow-md"
+      <div className="mr-4 flex w-full justify-center">
+        <button
           onClick={
             token === ""
               ? sendTrx
               : toggleInput === true
-                ? checkOwner
-                : fetchContract
+              ? checkOwner
+              : fetchContract
           }
+          className="montserrat-subtitle border-1 montserrat-subtitle highlight bg-highlight mx-auto my-2
+           mb-4 flex w-[100%] justify-center  
+          space-x-2 rounded-md border border-black px-6 py-2 text-center 
+          font-bold text-white transition-all ease-linear hover:shadow-xl"
         >
-          <h2 className="">
-            {running === true ? (
-              <img height={30} width={30} src={loading2} alt="" />
-            ) : (
-              buttonInput
-            )}
-          </h2>
-        </div>
+          {running === false ? (
+            <>
+              <BiTransfer className="text-[1.3rem] text-inherit" />
+              <span>Transfer</span>
+            </>
+          ) : (
+            <img height={30} width={30} src={loading2} alt="" />
+          )}
+        </button>
       </div>
-      <div className="pb-4 pt-1">
-        <p
-          onClick={opentab}
-          className="montserrat-subtitle  cursor-pointer font-semibold text-gray-500 underline decoration-[#FF5757] underline-offset-8"
-        >
-          {trxid !== "" ? trxid.slice(8, 58) : ""}
-        </p>
-        <p className="montserrat-subtitle  font-semibold text-[#FF5757]">
-          {error}
-        </p>
-      </div>
+      <p
+        onClick={opentab}
+        className="montserrat-subtitle  decoration-bgGray cursor-pointer font-semibold text-gray-900 underline underline-offset-8"
+      >
+        {trxid !== "" ? trxid.slice(8, 58) : ""}
+      </p>
+      <p className="montserrat-subtitle mx-auto flex items-center font-semibold text-gray-900">
+        {error}
+      </p>
     </div>
   );
 };
