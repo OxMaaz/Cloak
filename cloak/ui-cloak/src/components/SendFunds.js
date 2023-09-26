@@ -497,7 +497,7 @@ const Send = () => {
           className="montserrat-subtitle border-1 montserrat-subtitle highlight bg-highlight mx-auto my-2
            mb-4 flex w-[100%] justify-center  
           space-x-2 rounded-md border border-black px-6 py-2 text-center 
-          font-bold text-white transition-all ease-linear hover:shadow-xl"
+          font-bold text-black transition-all ease-linear hover:shadow-xl"
         >
           {running === false ? (
             <>

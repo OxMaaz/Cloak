@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Send from "./SendFunds";
 import Receive from "./Receive";
+import Withdraw from "./Withdraw";
 
 const Transaction = ({ setShow }) => {
   const [showSend, setShowSend] = useState(true);
@@ -87,7 +88,7 @@ const Transaction = ({ setShow }) => {
         ) : buttonStatus.Receive ? (
           <Receive />
         ) : (
-          <withdraw />
+          <Withdraw />
         )}
       </div>
     </div>

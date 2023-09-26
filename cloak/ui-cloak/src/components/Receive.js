@@ -2,19 +2,19 @@ import { useState } from "react";
 import { keccak256 } from "ethers/lib/utils.js";
 import EllipticCurve from "elliptic";
 // import { GiKangaroo } from "react-icons/gi";
-import { AiOutlineArrowsAlt, AiOutlineShrink } from "react-icons/ai";
+import { AiOutlineArrowsAlt, AiOutlineCopy, AiOutlineScan, AiOutlineShrink } from "react-icons/ai";
 import "react-toastify/dist/ReactToastify.css";
 import copy from "../assets/copykey.jpg";
 import kangaroo from "../assets/runningKangaroo.png";
 import { downloadFile } from "../helpers/DownloadFile";
-import { db } from "../config/firebase.js"
+import { db } from "../config/firebase.js";
 import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
+import { MdHistory, MdOutlineDone } from "react-icons/md";
 import { toast } from "react-toastify";
+import ToolTip from "../helpers/ToopTip";
 const ec = new EllipticCurve.ec("secp256k1");
 
 const Receive = () => {
-
-
   const [rootprivatekey, setrootprivatekey] = useState("");
   const [privatekey, setprivatekey] = useState("");
   const [hide, sethide] = useState(true);
@@ -22,9 +22,8 @@ const Receive = () => {
   const [reveal, setreveal] = useState(false);
   const [founded, setfounded] = useState("");
   const [iscopied, setiscopied] = useState("Copy");
-  const [id, setId] = useState('');
+  const [id, setId] = useState("");
   var spendingkey;
-
 
   const pubkeys = collection(db, "pubKeys");
   const MatchingKey = async () => {
@@ -38,21 +37,21 @@ const Receive = () => {
       }));
     } catch (err) {
       console.error(err);
-      seterr(err.message)
+      seterr(err.message);
     }
-
-
 
     logs.forEach((e) => {
       const ephPublicKey = ec.keyFromPublic(e.keys.slice(5), "hex");
       const Sharedsecret = spendingkey.derive(ephPublicKey.getPublic()); //
       const Hashedsecret = ec.keyFromPrivate(keccak256(Sharedsecret.toArray()));
-      const ss = "T" + Sharedsecret.toArray()[0].toString(16).padStart(1, "0") + Sharedsecret.toArray()[31].toString(16);
+      const ss =
+        "T" +
+        Sharedsecret.toArray()[0].toString(16).padStart(1, "0") +
+        Sharedsecret.toArray()[31].toString(16);
       // console.log(ss.toString().slice(1, 5), e.keys.slice(1, 5).toString())
 
-
       if (ss.toString().slice(1, 5) === e.keys.slice(1, 5).toString()) {
-        setId(e.id)
+        setId(e.id);
         const _key = spendingkey.getPrivate().add(Hashedsecret.getPrivate());
         const pk = _key.mod(ec.curve.n);
         setprivatekey(pk.toString(16, 32));
@@ -60,39 +59,29 @@ const Receive = () => {
         setrootprivatekey("");
         setfounded("Matched");
       }
-      return
-
-    })
-
-
-  }
-
+      return;
+    });
+  };
 
   const generaterootprivatekey = async () => {
-
-
     if (rootprivatekey === "") {
       spendingkey = ec.keyFromPrivate(sessionStorage.getItem("DRM key"), "hex");
     } else {
       spendingkey = ec.keyFromPrivate(rootprivatekey, "hex");
     }
 
-    MatchingKey()
-
+    MatchingKey();
 
     if (founded === "Matched") {
-      toast.success('Matched')
+      toast.success("Matched");
     }
-
   };
 
-
   const removingKey = async () => {
-    console.log(id)
+    console.log(id);
     const ephDoc = doc(db, "pubKeys", id);
     await deleteDoc(ephDoc);
-
-  }
+  };
 
   const copykey = () => {
     navigator.clipboard.writeText(privatekey);
@@ -101,86 +90,131 @@ const Receive = () => {
 
     /// remove the key from firebase database
 
-    removingKey()
+    removingKey();
   };
+
+  const [trxList, settrxList] = useState([]); // temp
+  const [transactionTab, setTransactionTab] = useState(false); // temp
 
   return (
     <>
-      <div className="ml-4 flex items-center justify-center space-x-4 py-2 ">
-        {hide !== true && (
-          <div
-            className="border-1 flex w-[100%] items-center
-          space-x-2 rounded-md border border-gray-300 bg-[#ffffff] 
-            px-3 py-2 hover:shadow-sm"
-          >
-            <input
-              type="text"
-              className="montserrat-subtitle w-full rounded-md
-            px-1 text-[0.9rem] font-semibold text-gray-600
-             outline-none"
-              value={rootprivatekey}
-              onChange={(e) => {
-                setrootprivatekey(e.target.value);
-              }}
-              placeholder="DontRevealMe key (optional)"
-            />
+      <div className="mx-auto flex items-center justify-center pt-4">
+        <div className="flex w-full justify-end">
+          <div className="flex w-full items-center justify-between space-x-1 py-2">
+            {trxList && trxList.length > 0 && (
+              <h1 className="animate-pulse-2s montserrat-small text-highlight  text-[1rem]  font-semibold">
+                <span>{trxList.length}</span> Transaction Found !{" "}
+              </h1>
+            )}
+            <div
+              className="flex cursor-pointer items-center space-x-1 
+             border-b border-dashed border-gray-400 text-left text-[1rem] text-gray-500"
+              onClick={() => setTransactionTab(!transactionTab)}
+            >
+              <span>
+                <MdHistory className="text-[1.2rem] text-inherit" />
+              </span>
+              <p className="montserrat-small font-semibold  ">
+                View Transactions{" "}
+              </p>
+            </div>
           </div>
-        )}
-        {hide && (
-          <p className="montserrat-small ml-6 p-1 px-2 font-semibold text-gray-500 ">
-            Expand to enter the saved Key
-          </p>
-        )}
-        {/* expand icon (toggle of input button) */}
-        {hide ? (
-          <AiOutlineArrowsAlt
-            className="cursor-pointer text-gray-500"
-            size={22}
-            onClick={() => sethide(!hide)}
-          />
-        ) : (
-          <AiOutlineShrink
-            className="cursor-pointer text-gray-500"
-            size={22}
-            onClick={() => sethide(!hide)}
-          />
-        )}
-      </div>
-
-      {/* Match key */}
-      <div className="ml-1 flex  items-center justify-center px-2 pt-2 ">
-        <div
-          className="flex cursor-pointer items-center justify-center p-2  space-x-2 rounded-3xl  border-red-500 bg-[#FF5757] px-6 text-center font-semibold text-[#fff7f7] hover:border-white hover:shadow-md"
-          onClick={generaterootprivatekey}
-        >
-          <img src={kangaroo} alt="" height={26} width={28} />
-          {/* <h2 className='montserrat-small'>Match</h2> */}
         </div>
       </div>
-
-      {/* message */}
-      <div className="p-4  font-semibold text-red-400">
-        {reveal === true ? (
-          <div className="montserrat-small ml-60  flex justify-center space-x-3">
-            <p>{iscopied}</p>
-            <img
-              height={20}
-              width={20}
-              src={copy}
-              onClick={copykey}
-              className="cursor-pointer"
-              alt=""
-            />
-          </div>
-        ) : (
-          <>
-            <div className=" flex items-center justify-center font-semibold text-[#FF5757]">
-              {err && <img height={30} width={30} src={kangaroo} alt="" />}{" "}
-              <p className="montserrat-subtitle">{err}</p>
+      {transactionTab ? (
+        trxList && trxList.length > 0 ? (
+          trxList.map((z) => (
+            <div className="text-highlight bg-gray-0 flex justify-between px-6 pt-4">
+              <div className="flex flex-col space-y-2">
+                <h2 className="montserrat-small text-left font-semibold">
+                  Address{" "}
+                </h2>
+                <p className="text-gray-600">{z.address}</p>
+              </div>
+              <div className="flex flex-col space-y-2">
+                <h2 className="montserrat-small text-left font-semibold">
+                  Balance{" "}
+                </h2>
+                <p className="text-gray-600">{z.balance}</p>
+              </div>
+              <div className="montserrat-small flex flex-col items-end justify-center space-y-2 font-semibold">
+                <h2 className="text-left">Private key </h2>
+                {!iscopied ? (
+                  <ToolTip tooltip="Copy Private key">
+                    <AiOutlineCopy
+                      onClick={() => copykey(z.key)}
+                      className={`cursor-pointer text-[1.2rem] font-bold text-gray-600 hover:text-green-400`}
+                    />
+                  </ToolTip>
+                ) : (
+                  <MdOutlineDone
+                    // onClick={() => copykey(z.key)}
+                    className={`text-highlight text-[1.2rem] font-bold text-green-500`}
+                  />
+                )}
+                {/* <img alt="" src={copy} className="h-6 w-6 cursor-pointer" /> */}
+              </div>
             </div>
-          </>
-        )}
-      </div>
+            // <div key={i} className=" text-white ">
+          ))
+        ) : (
+          <h1 className="montserrat-small relative top-5 text-center text-xl font-semibold  text-gray-500">
+            No Transactions Recorded !
+          </h1>
+        )
+      ) : (
+        <div>
+          <div className="flex justify-between space-x-1 py-2">
+            {hide !== true && (
+              <input
+                type="text"
+                className="montserrat-subtitle h-[100%] w-[100%]  rounded-md
+            border-2 border-gray-500 bg-[#f7f7f7] px-3 py-3 text-[0.9rem]
+            font-semibold text-gray-400 outline-none placeholder:text-gray-500 hover:border-cyan-900"
+                // value={savedSignaturekey}
+                onChange={(e) => {
+                  // setsavedSignaturekey(e.target.value);
+                }}
+                placeholder="Signature (optional)"
+              />
+            )}
+            {hide && (
+              <p className="montserrat-small p-1 py-2 font-semibold text-gray-600 ">
+                Expand to enter the signatureKey (optional)
+              </p>
+            )}
+            {/* expand icon (toggle of input button) */}
+            <div className="flex items-center">
+              {hide ? (
+                <AiOutlineArrowsAlt
+                  className=" cursor-pointer  text-[#a7acb3]"
+                  size={25}
+                  onClick={() => sethide(!hide)}
+                />
+              ) : (
+                <AiOutlineShrink
+                  className="cursor-pointer  text-[#a7acb3]"
+                  size={29}
+                  onClick={() => sethide(!hide)}
+                />
+              )}
+            </div>
+          </div>
+
+          {/* Match key */}
+          <div className="mr-4 flex w-full justify-center pt-2">
+            <button
+              // onClick={generateprivatekey}
+              className="montserrat-subtitle border-1 montserrat-subtitle highlight mx-auto my-2 mb-4 flex w-[100%] justify-center space-x-2  
+          rounded-md border border-black px-6 py-2 text-center font-bold 
+          text-black transition-all  ease-linear hover:shadow-xl"
+            >
+              <AiOutlineScan className="text-[1.3rem] text-inherit" />
+              <span>Scan</span>
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
