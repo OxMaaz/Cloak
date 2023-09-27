@@ -55,13 +55,58 @@
 
 .App {
   text-align: center;
-  -webkit-touch-callout: none;
-  -webkit-tap-highlight-color: transparent;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+/* bouncing wolf */
+.logo-div:hover .logo {
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  /* Apply the animation to the element with the [animate-bounce] class */
+  animation: bounce 0.5s infinite;
+  animation-duration: 1500ms;
+}
+
+/* Css for QNA Component */
+.show {
+  max-height: 1000px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.hide {
+  max-height: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Dark theme css */
+.theme-btn:hover .dark {
+  display: inline-block;
+}
+
+.light {
+  display: inline-block;
+}
+
+.theme-btn:hover .light {
+  display: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -92,4 +137,26 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* highlight Color */
+/* .highlight { */
+  /* background-image: linear-gradient(to right top, #073170, #004d7a, #008793, #5AD8CC); */
+  /* background-image: linear-gradient(to right top, #5ad8cc, #6addd2, #78e2d7, #85e6dd, #92ebe2); */
+  /* background: linear-gradient(114deg, rgb(18, 90, 85) 35%, rgb(42, 68, 66) 49%, rgba(90,216,204,1) 71%); */
+  /* background: linear-gradient(114deg, rgb(173, 255, 248) 0%, rgba(90,216,204,1) 90%); */
+  /* background: linear-gradient(90deg, rgba(0,28,26,1) 0%, rgba(90,216,204,1) 57%, rgba(209,217,214,1) 100%); */
+/* } */
+
+.highlight {
+  background: linear-gradient(to right, #eb5e0c, #ff8f63, #ff9a88);
+  /* background: linear-gradient(to right, #C180F7, #CD56BB, #D83084); */
+}
+
+/* .highlight:hover {
+  background: transparent;
+} */
+
+.hightlightText {
+  color: linear-gradient(to right, #eb5e0c, #ff8f63, #ff9a88);
 }
