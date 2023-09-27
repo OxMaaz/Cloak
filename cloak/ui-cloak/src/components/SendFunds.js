@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import { Tokens } from "../helpers/Token";
 import { base58, keccak256 } from "ethers/lib/utils.js";
 import EllipticCurve from "elliptic";
-import { AiOutlineArrowDown } from "react-icons/ai";
+// import { AiOutlineArrowDown } from "react-icons/ai";
 import abi from "../build/contracts/EphKeys.json";
 import Tron from "../assets/trx.png";
 import loading2 from "../assets/loading2.gif";
