@@ -2,7 +2,6 @@ import { useState } from "react";
 import { BsBoxArrowInDown, BsDownload } from "react-icons/bs";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
-import { Signer, ethers } from "ethers";
 import ToolTip from "../helpers/ToopTip";
 import { MdOutlineDone } from "react-icons/md";
 import { TbArrowsExchange2 } from "react-icons/tb";
