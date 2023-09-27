@@ -18,12 +18,7 @@ const Wrapper = () => {
     return {};
   }, []);
 
-  // const tronLink = useMemo(() => {
-  //   if (window.tronLink) {
-  //     return window.tronLink;
-  //   }
-  //   return {};
-  // }, []);
+
 
   try {
     if (tronWeb) {

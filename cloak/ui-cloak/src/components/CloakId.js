@@ -7,8 +7,8 @@ import { AiOutlineCopy } from "react-icons/ai";
 import { downloadFile } from "../helpers/DownloadFile";
 import ToolTip from "../helpers/ToopTip";
 import { FaFileSignature } from "react-icons/fa";
+import {  toast } from "react-toastify";
 const ec = new EllipticCurve.ec("secp256k1");
-// import bg from '../assets/bg.png';
 
 const CloakId = () => {
   const [cloakid, setcloakid] = useState("");
@@ -50,11 +50,19 @@ const CloakId = () => {
 
   const oncopy = () => {
     navigator.clipboard.writeText(cloakid);
+    toast.success('Copied Sussessfully');
+    revealnot();
+  };
+
+
+  const downloadDrm = () => {
+
     const drmkey = sessionStorage.getItem("DRM key");
     // notyf.success("Copied");
     downloadFile(drmkey, "DRM key.txt");
-    revealnot();
+
   };
+
 
   useEffect(() => {
     generateCloakId();
@@ -64,51 +72,53 @@ const CloakId = () => {
     <>
       <div
         // style={{ backgroundImage: `url(${bg})` }}
-        className="border-gray flex flex-col items-center rounded-md rounded-t-md border bg-[#e9e9f3] bg-no-repeat object-scale-down p-8 backdrop-blur-lg"
+        className="border-gray flex flex-col items-center rounded-md rounded-t-md border bg-[#f7ecec] bg-no-repeat object-scale-down p-8 "
       >
-        <div className="flex w-full flex-col items-center space-y-4 border-black  pb-6">
+        <div className="flex w-full flex-col items-center space-y-4   pb-6">
           <h1
             className="montserrat-heading mx-auto bg-clip-text
-             text-3xl font-[1000] text-gray-700 sm:text-[2.0rem]
+             text-3xl font-[1000]   text-gray-500 sm:text-[2.0rem]
               xl:text-[2.5rem]"
           >
             {" "}
-            Attain funds
+            Do Fortify
             <span
-              className="hightlightText
-            from-orange-300 bg-gradient-to-r to-orange-600 bg-clip-text 
-            text-transparent sm:text-[2.1rem] xl:text-[2.6rem]
+              className="text-[#FF5757] bg-clip-text 
+ sm:text-[2.1rem] xl:text-[2.6rem]
             "
             >
               {" "}
-              Covertly & Securely
+              Your Finances
             </span>{" "}
-            With Tron Cloak
+            , Tron Cloak's Way
           </h1>
-          <p className="montserrat-small text-[0.8rem] font-semibold text-gray-400 sm:text-[1.1rem]">
-            Never reveal the signature. Only Share your forus key to receive
-            funds.
-          </p>
+
+          {note === true && (
+            <p className="montserrat-small text-[0.8rem] font-semibold text-gray-400 sm:text-[1.1rem]">
+              Never reveal the ' DRM key ', only
+              share your secure ' Cloak address ' for confidential transactions !!
+            </p>
+          )}
         </div>
         {/* tronCloak */}
 
         <div className="flex space-x-4">
           <div
-            className="mx-3 my-2 flex items-center rounded-md bg-gray-400 bg-opacity-60 p-2 px-2 shadow-gray-300
+            className="mx-3 my-2 flex items-center rounded-md bg-[#f5d8d8] bg-opacity-60 p-2 px-2 shadow-gray-300
            hover:shadow-sm sm:mx-0 sm:gap-4 sm:px-3   "
           >
             <p
-              className="montserrat-small text-[0.8rem] font-extrabold text-gray-700 
+              className="montserrat-heading text-[0.8rem] font-extrabold text-gray-700 
             sm:text-[1rem] "
             >
-              <span className="text-md text-[0.9rem] font-extrabold text-gray-800 sm:text-[1.1rem]">
+              <span className=" montserrat-heading text-md text-[0.9rem] font-extrabold  text-gray-600 sm:text-[1.1rem]">
                 #tronCloak -
               </span>{" "}
-              - {CloakId}
+              {cloakid}
             </p>
           </div>
           <div className="flex items-center space-x-3 text-white">
-            <ToolTip tooltip="Copy Forus Key">
+            <ToolTip tooltip="Copy cloak Address">
               <AiOutlineCopy
                 className="hover:text-highlight cursor-pointer text-2xl font-bold text-gray-700"
                 onClick={oncopy}
@@ -118,49 +128,30 @@ const CloakId = () => {
         </div>
         <div className="flex space-x-4">
           <button
-            className="montserrat-subtitle border-1 montserrat-subtitle hover:text-highlight hover:border-highlight highlight my-2 mb-4
-         rounded-md border border-black p-1 px-6  
-         text-center font-semibold text-black transition-all ease-linear hover:border"
+            className="montserrat-subtitle border-1 montserrat-subtitle bg-[#FF5757] my-2 mb-4
+         rounded-md border  p-1 px-6  
+         text-center font-semibold text-white transition-all ease-linear hover:border"
             onClick={generateCloakId}
           >
             Generate Fk
           </button>
 
           <div
-            // onClick={saveSignature}
-            className="montserrat-subtitle montserrat-subtitle bg-highlight my-2 mb-4 flex cursor-pointer 
-            space-x-2 rounded-md border  border-black p-1  
-           px-6 text-center font-semibold text-black
+            onClick={downloadDrm}
+            className="montserrat-subtitle montserrat-subtitle  my-2 mb-4 flex cursor-pointer 
+            space-x-2 rounded-md border border-gray-600 p-1   text-[#FF5757]
+           px-6 text-center font-semibold  bg-slate-200
       
             "
           >
             <FaFileSignature className="text-2xl font-bold text-[181b1f]" />
-            <ToolTip tooltip="Save Signature Key">
-              <span>Signature</span>
+            <ToolTip tooltip="Save DRM Key">
+              <span>DRM Key</span>
             </ToolTip>
           </div>
         </div>
-        {/* <div className="my-3 mt-6 flex items-center gap-4 rounded-md bg-[#fceeee] p-2  px-2">
-          <p className="montserrat-heading text-[0.8rem] font-semibold  text-gray-500 sm:text-[1rem]">
-            <span className="text-md text-[1rem] font-bold text-[#435864] sm:text-[1.1rem]">
-              #tronCloak-
-            </span>
-            {cloakid}
-          </p>
-          <AiOutlineCopy
-            className="cursor-pointer text-2xl font-bold text-gray-500"
-            onClick={oncopy}
-          />
-        </div>
-
-        <button
-          className="montserrat-subtitle border-1 montserrat-subtitle my-3 rounded-md   bg-[#FF5757] p-1 px-6 text-center font-semibold text-white  hover:border-white hover:shadow-lg "
-          onClick={generateCloakId}
-        >
-          Generate
-        </button> */}
       </div>
-      {/* <div className=" m-auto mb-6 w-[80%] "></div> */}
+
     </>
   );
 };
