@@ -440,8 +440,8 @@ const Send = () => {
             <ul onClick={() => setshow(!show)}>
               <li
                 className="flex cursor-pointer items-center gap-2 rounded-md 
- border-l border-gray-700 p-2
-            px-3 font-semibold text-orange-500"
+                  border-l border-gray-700 p-2
+                  px-3 font-semibold text-orange-500"
               >
                 <p>{bydefault}</p>
                 <BsChevronDown size={18} />
