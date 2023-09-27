@@ -38,6 +38,7 @@ const CloakId = () => {
       setcloakid(id);
     } catch (e) {
       // console.error(e);
+
     }
   };
 
@@ -50,11 +51,17 @@ const CloakId = () => {
 
   const oncopy = () => {
     navigator.clipboard.writeText(cloakid);
+
+    // notyf.success("Copied");
+
+    revealnot();
+  };
+
+  const loadDrmKey=()=>{
     const drmkey = sessionStorage.getItem("DRM key");
     // notyf.success("Copied");
     downloadFile(drmkey, "DRM key.txt");
-    revealnot();
-  };
+  }
 
   useEffect(() => {
     generateCloakId();
@@ -102,9 +109,9 @@ const CloakId = () => {
             sm:text-[1rem] "
             >
               <span className="text-md text-[0.9rem] font-extrabold text-gray-800 sm:text-[1.1rem]">
-                #tronCloak -
+                #tronCloak - 
               </span>{" "}
-              - {CloakId}
+              {cloakid}
             </p>
           </div>
           <div className="flex items-center space-x-3 text-white">
@@ -127,7 +134,7 @@ const CloakId = () => {
           </button>
 
           <div
-            // onClick={saveSignature}
+            onClick={loadDrmKey}
             className="montserrat-subtitle montserrat-subtitle bg-highlight my-2 mb-4 flex cursor-pointer 
             space-x-2 rounded-md border  border-black p-1  
            px-6 text-center font-semibold text-black
