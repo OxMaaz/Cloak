@@ -21,8 +21,8 @@ pragma solidity ^0.8.6;
 
 
 
-    import "./IERC20.sol";
-    import "./IERC721.sol";
+    import "./TRC20.sol";
+    import "./TRC721.sol";
 
 contract EphKeys {
 
@@ -98,7 +98,7 @@ contract EphKeys {
         require(amount > 0, "Amount should be more than 0");
 
         require(
-            IERC20(token).balanceOf(msg.sender) >= amount,
+            TRC20(token).balanceOf(msg.sender) >= amount,
             "Insufficient tokens"
         );
 
@@ -107,7 +107,7 @@ contract EphKeys {
         uint256 updatedTotalFunds = totalFunds + amount * 1000000 ;
         uint256 updatedLimit = limit + 1;
 
-        IERC20(token).transferFrom(msg.sender, target, amount);
+        TRC20(token).transferFrom(msg.sender, target, amount);
 
         // Update storage variables with the updated values
         totalFunds = updatedTotalFunds;
@@ -126,7 +126,7 @@ contract EphKeys {
 
     ) external validAddresses(nft, target) {
         require(
-            IERC721(nft).ownerOf(tokenId) == msg.sender,
+            TRC721(nft).ownerOf(tokenId) == msg.sender,
             "You are not the owner"
         );
 
@@ -136,7 +136,7 @@ contract EphKeys {
         uint256 updatedTotalFunds = totalFunds + tokenId;
         uint256 updatedLimit = limit + 1;
 
-        IERC721(nft).transferFrom(msg.sender, target, tokenId);
+        TRC721(nft).transferFrom(msg.sender, target, tokenId);
         totalFunds = updatedTotalFunds;
         limit = updatedLimit;
 
