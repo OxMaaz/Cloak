@@ -13,7 +13,7 @@ import { TbArrowsExchange2 } from "react-icons/tb";
 const Withdraw = ({
   masterkey,
   setmasterkey,
-  // amountTowithdraw,
+  amountTowithdraw,
 }) => {
 
   const [hideInput, sethideInput] = useState(false);
@@ -30,7 +30,7 @@ const Withdraw = ({
 
 
   const [isSuccessfull, setisSuccessfull] = useState('withdraw');
-  let amountTowithdraw = '0.01';
+  // let amountTowithdraw = '0.01';
 
   // Function to handle file selection and reading its contents
   const handleFileUpload = async () => {
@@ -83,61 +83,72 @@ const Withdraw = ({
   const [rec, setrec] = useState("");
   const [error, seterror] = useState('');
 
-  const { ethereum } = window;
+
 
 
 
   const sendTransaction = async () => {
-
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    const PRIVATE_KEY = 'ad3501a22e77249829096f4ede0285a1a0354ddc80f2d9a6415168ccee336bf6'
-
-    const walletEOA = new ethers.Wallet(PRIVATE_KEY, provider)
     setisSuccessfull('withdrawing!!');
 
-    const session = await session.singleSigner({
-      signer: walletEOA
-    })
+    // Check if TronLink is installed
+    if (window.tronWeb && window.tronWeb.ready) {
+      try {
+        const tronWeb = window.tronWeb;
 
-    // Get the Sequence wallet address
-    console.log(session.account.address)
-
-    // Get a signer for a specific network
-    // - 1:     Ethereum Mainnet
-    // - 137:   Polygon Mainnet
-    // - 42161: Arbitrum One
-    // See https://chainid.network/ for more
-
-    console.log('bal', ethers.utils.parseEther(amountTowithdraw.toString()))
-    const signer = session.account.getSigner(137)
-    console.log('signer', signer)
+        // Replace 'masterkey' with your actual private key
 
 
+        // Create a TronWeb instance with the private key
+        const tronWebWithPrivateKey = tronWeb( masterkey );
 
-    try {
+        // Get the current address from TronLink
+        const address = tronWeb.defaultAddress.base58;
 
-      const tx = {
-        to: hideInput === false ? rec : sessionStorage.getItem("address"),
-        value: ethers.utils.parseEther(amountTowithdraw.toString()),
+        // Get the balance in Sun
+        const balanceInSun = await tronWeb.trx.getBalance(address);
 
+        // Convert from Sun to TRX (1 TRX = 1e6 Sun)
+        const balanceInTrx = tronWeb.fromSun(balanceInSun);
 
-      };
-      console.log(tx)
+        // Get the current gas price (Note: Tron doesn't have a gas price in the same way as Ethereum)
+        const gasPrice = 1;  // Tron doesn't use gas price, set to 1
 
-      const txResponse = await signer.sendTransaction(tx);
-      const trx = await txResponse.wait()
+        // Gas limit is not explicitly set in Tron transactions
+        const gasLimit = 0;  // Set to 0 for Tron transactions
 
-      console.log('Transaction sent:', trx);
+        // Calculate the gas cost (Note: Tron doesn't have gas costs in the same way as Ethereum)
+        const gasCost = 0;  // Set to 0 for Tron transactions
 
+        // Calculate the amount to send
+        const amountToSend = balanceInTrx - gasCost;
 
+        if (amountToSend > 0) {
+          // Replace 'rec' with the recipient's address
+          const to = hideInput === false ? 'rec' : sessionStorage.getItem("address");
 
-    } catch (err) {
+          const tx = {
+            to: to,
+            amount: amountToSend,
+          };
 
-      console.log(err.message);
-      seterror(err.message);
+          // Send TRX transaction
+          const txResponse = await tronWebWithPrivateKey.trx.sendTransaction(tx);
+
+          console.log('Transaction sent:', txResponse);
+        } else {
+          seterror('Insufficient funds to pay gas!!');
+        }
+
+      } catch (err) {
+        console.error(err.message);
+        seterror(err.message);
+      }
+
+      setisSuccessfull('Withdraw');
+    } else {
+      console.error('TronLink not found or not ready. Please make sure TronLink is installed and unlocked.');
     }
 
-    setisSuccessfull('Withdraw');
 
   };
 
@@ -176,13 +187,13 @@ const Withdraw = ({
             <ToolTip tooltip="Get funds in the Connected wallet !">
               <TbArrowsExchange2
                 onClick={toggle}
-                className="text-[1.8rem] text-highlight cursor-pointer"
+                className="text-[1.8rem] text-[#FF5757] cursor-pointer"
               />
             </ToolTip>
 
 
             <div className="pl-2 text-gray-200  flex space-x-1 items-center border-l border-gray-800">
-              <ToolTip tooltip={(masterkey == "") ? "Load Private Key" : "Private Key Loaded !"}>
+              <ToolTip tooltip={(masterkey === "") ? "Load Private Key" : "Private Key Loaded !"}>
                 <button
                   onClick={handleFileUpload}
                   className="text-[0.9rem] text-gray-400 p-1 font-semibold montserrat-small"
@@ -194,7 +205,7 @@ const Withdraw = ({
                     />
                   ) : (
                     <MdOutlineDone
-                      className="cursor-pointer  text-highlight"
+                      className="cursor-pointer text-[#FF5757] "
                       size={28}
                     />
                   )}
@@ -211,7 +222,7 @@ const Withdraw = ({
         <button
           onClick={sendTransaction}
           className="flex space-x-2 justify-center w-[100%] mx-auto mb-4 my-2 montserrat-subtitle border-1 py-2 montserrat-subtitle  
-          hover:shadow-xl px-6 text-center text-black highlight border border-black 
+          hover:shadow-xl px-6 text-center bg-[#FF5757] text-white
           rounded-md font-bold  transition-all ease-linear"
         >
           <BsBoxArrowInDown className="text-[1.3rem] text-inherit" />
@@ -221,7 +232,7 @@ const Withdraw = ({
 
       <p className="text-[0.9rem] font-semibold montserrat-small  text-[#e27e7e]">
         {error}
-      </p>      
+      </p>
     </div>
   );
 };

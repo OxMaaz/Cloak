@@ -32,7 +32,7 @@ const Render = () => {
   return (
     <div
       className="flex flex-col-reverse items-start p-3 pb-6
-      pt-16 lg:flex-row lg:justify-between lg:py-16"
+      pt-16 lg:flex-row-reverse lg:justify-between lg:py-16"
     >
       <Guide totalTrx={totalTrx} show={show} totalFunds={totalFunds} />
       <Transaction setShow={setShow} />

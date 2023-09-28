@@ -440,8 +440,8 @@ const Send = () => {
             <ul onClick={() => setshow(!show)}>
               <li
                 className="flex cursor-pointer items-center gap-2 rounded-md 
-                  border-l border-gray-700 p-2
-                  px-3 font-semibold text-orange-500"
+ border-l border-gray-700 p-2
+            px-3 font-semibold text-[#FF5757]"
               >
                 <p>{bydefault}</p>
                 <BsChevronDown size={18} />
@@ -451,7 +451,7 @@ const Send = () => {
               ${
                 show &&
                 `scrollbar-thumb-bgGray scrollbar-rounded-full scrollbar-thumb-gray-00 absolute mt-2 flex max-h-28 w-[105%] flex-col overflow-y-scroll rounded-b-md bg-white
-                py-1 shadow-md transition-all ease-in scrollbar-thin
+                py-1 shadow-md transition-all ease-in scrollbar-thin scrollbar-thumb-[#FF5757]
                scrollbar-track-[#ebe1db] scrollbar-thumb-rounded`
               }
             `}
@@ -494,10 +494,10 @@ const Send = () => {
               ? checkOwner
               : fetchContract
           }
-          className="montserrat-subtitle border-1 montserrat-subtitle highlight bg-highlight mx-auto my-2
+          className="montserrat-subtitle border-1 montserrat-subtitle  bg-[#FF5757] mx-auto my-2
            mb-4 flex w-[100%] justify-center  
-          space-x-2 rounded-md border border-black px-6 py-2 text-center 
-          font-bold text-black transition-all ease-linear hover:shadow-xl"
+          space-x-2 rounded-md border  px-6 py-2 text-center 
+          font-bold text-white transition-all ease-linear hover:shadow-xl"
         >
           {running === false ? (
             <>
@@ -515,7 +515,7 @@ const Send = () => {
       >
         {trxid !== "" ? trxid.slice(8, 58) : ""}
       </p>
-      <p className="montserrat-subtitle mx-auto flex items-center font-semibold text-gray-900">
+      <p className="montserrat-subtitle mx-auto flex items-center font-semibold text-[#FF5757]">
         {error}
       </p>
     </div>

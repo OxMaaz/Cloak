@@ -4,7 +4,11 @@ import Receive from "./Receive";
 import Withdraw from "./Withdraw";
 
 const Transaction = ({ setShow }) => {
-  const [showSend, setShowSend] = useState(true);
+  // const [showSend, setShowSend] = useState(true);
+
+  const [masterkey, setmasterkey] = useState("");
+  const [amountTowithdraw, setamountTowithdraw] = useState("");
+
   const [buttonStatus, setButtonStatus] = useState({
     transfer: true,
     Receive: false,
@@ -40,8 +44,8 @@ const Transaction = ({ setShow }) => {
 
   return (
     <div
-      className="flex max-w-[500px] flex-col items-start justify-start backdrop-blur-[50px]
-      hover:backdrop-blur-lg sm:px-8"
+      className="flex max-w-[500px] flex-col items-start justify-start
+       backdrop-blur-[50px] hover:backdrop-blur-lg "
     >
       <div
         className="montserrat-subheading border-bgGray mx-auto flex
@@ -50,33 +54,30 @@ const Transaction = ({ setShow }) => {
         <button
           onClick={handleTransferClick}
           className={`border-b-2  border-black px-6 py-1 text-left
-        ${
-          buttonStatus.transfer
-            ? "border-b-2 border-orange-800 bg-[#FFF7F7] text-orange-500 shadow-xl shadow-gray-300"
-            : "text-gray-900"
-        }`}
+        ${buttonStatus.transfer
+              ? "border-b-2   text-[#FF5757] shadow-xl shadow-gray-300"
+              : "text-gray-600"
+            }`}
         >
           Transfer
         </button>
         <button
           onClick={handleReceiveClick}
           className={`border-b-2  border-black px-6 py-1 text-left
-          ${
-            buttonStatus.Receive
-              ? "border-b-2 border-orange-800 bg-[#FFF7F7] text-orange-500 shadow-xl shadow-gray-300"
-              : "text-gray-900"
-          }`}
+          ${buttonStatus.Receive
+              ? "border-b-2 text-[#FF5757] shadow-xl shadow-gray-300"
+              : "text-gray-600"
+            }`}
         >
           Receive
         </button>
         <button
           onClick={handleWithdrawClick}
           className={`border-b-2  border-black px-6 py-1 text-left
-          ${
-            buttonStatus.withdraw
-              ? "border-b-2 border-orange-800 bg-[#FFF7F7] text-orange-500 shadow-xl shadow-gray-300"
-              : "text-gray-900"
-          }`}
+          ${buttonStatus.withdraw
+              ? "border-b-2  text-[#FF5757] shadow-xl shadow-gray-300"
+              : "text-gray-600"
+            }`}
         >
           Withdraw
         </button>
@@ -86,9 +87,17 @@ const Transaction = ({ setShow }) => {
         {buttonStatus.transfer ? (
           <Send />
         ) : buttonStatus.Receive ? (
-          <Receive />
+          <Receive amountTowithdraw={amountTowithdraw}
+            masterkey={masterkey}
+            setmasterkey={setmasterkey}
+            setamountTowithdraw={setamountTowithdraw} />
         ) : (
-          <Withdraw />
+          <Withdraw amountTowithdraw={amountTowithdraw}
+            masterkey={masterkey}
+            setmasterkey={setmasterkey} 
+             withdrawFunction={handleWithdrawClick}
+
+             />
         )}
       </div>
     </div>

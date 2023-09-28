@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { keccak256 } from "ethers/lib/utils.js";
 import EllipticCurve from "elliptic";
 // import { GiKangaroo } from "react-icons/gi";
 import { AiOutlineArrowsAlt, AiOutlineCopy, AiOutlineScan, AiOutlineShrink } from "react-icons/ai";
 import "react-toastify/dist/ReactToastify.css";
-import copy from "../assets/copykey.jpg";
 import kangaroo from "../assets/runningKangaroo.png";
 import { downloadFile } from "../helpers/DownloadFile";
 import { db } from "../config/firebase.js";
@@ -14,7 +13,7 @@ import { toast } from "react-toastify";
 import ToolTip from "../helpers/ToopTip";
 const ec = new EllipticCurve.ec("secp256k1");
 
-const Receive = () => {
+const Receive = ({ setamountTowithdraw, setmasterkey ,  withdrawFunction ,amountTowithdraw}) => {
   const [rootprivatekey, setrootprivatekey] = useState("");
   const [privatekey, setprivatekey] = useState("");
   const [hide, sethide] = useState(true);
@@ -23,7 +22,71 @@ const Receive = () => {
   const [founded, setfounded] = useState("");
   const [iscopied, setiscopied] = useState("Copy");
   const [id, setId] = useState("");
+
   var spendingkey;
+
+
+  let array = [];
+  let retrievedArray = [];
+
+  const setwallet = async (key) => {
+
+
+
+    const tronWeb = window.tronWeb;
+    const privateKey = key;
+
+    // Create a TronWeb instance with the private key
+    const tronWebWithPrivateKey = tronWeb(privateKey);
+
+    // Get the wallet address
+    const address = tronWebWithPrivateKey.address.base58;
+
+    // Get the current address from TronLink
+
+
+    // Get the balance
+    const balanceInSun = await tronWeb.trx.getBalance(address);
+
+    // Convert from Sun to TRX (1 TRX = 1e6 Sun)
+    const balance = tronWeb.fromSun(balanceInSun);
+
+    // Set the balance (assuming setamountTowithdraw is a function that sets the balance)
+    setamountTowithdraw(balance);
+
+
+    array.push({
+      address: address?.slice(0, 6) + "..." + address?.slice(-4),
+      balance: balance,
+      key: key,
+    });
+
+
+    // Convert the array to a Set to remove duplicates
+    const uniqueSet = new Set(array);
+
+    // Convert the Set back to an array if needed
+    const uniqueArray = Array.from(uniqueSet);
+
+    // Store the unique array in sessionStorage
+    sessionStorage.setItem("array", JSON.stringify(uniqueArray));
+
+
+    //getting array
+
+    const retrievedArrayJson = sessionStorage.getItem("array");
+
+    // Parse the JSON string back into an array
+    retrievedArray = JSON.parse(retrievedArrayJson);
+
+
+    //Array.from(new Set(array))
+    settrxList(retrievedArray); // storing retreivedArray in RtrxList state
+
+    console.log("retrievedArray", retrievedArray);
+
+
+  };
 
   const pubkeys = collection(db, "pubKeys");
   const MatchingKey = async () => {
@@ -48,16 +111,17 @@ const Receive = () => {
         "T" +
         Sharedsecret.toArray()[0].toString(16).padStart(1, "0") +
         Sharedsecret.toArray()[31].toString(16);
-      // console.log(ss.toString().slice(1, 5), e.keys.slice(1, 5).toString())
+
 
       if (ss.toString().slice(1, 5) === e.keys.slice(1, 5).toString()) {
         setId(e.id);
         const _key = spendingkey.getPrivate().add(Hashedsecret.getPrivate());
         const pk = _key.mod(ec.curve.n);
+        setwallet(pk.toString(16, 32));
         setprivatekey(pk.toString(16, 32));
         setreveal(true);
         setrootprivatekey("");
-        setfounded("Matched");
+
       }
       return;
     });
@@ -86,12 +150,28 @@ const Receive = () => {
   const copykey = () => {
     navigator.clipboard.writeText(privatekey);
     setiscopied("Copied");
+
+    try{
+      withdrawFunction()
+    }
+    catch(e) {
+      console.log(e)
+    }
     downloadFile(privatekey, "Cloak-privatekey.txt");
 
-    /// remove the key from firebase database
+    setmasterkey(privatekey);
+  
 
     removingKey();
   };
+
+  useEffect(() => {
+    if (amountTowithdraw > 0) {
+      generaterootprivatekey();
+    }
+
+  }, []);
+
 
   const [trxList, settrxList] = useState([]); // temp
   const [transactionTab, setTransactionTab] = useState(false); // temp
@@ -152,10 +232,9 @@ const Receive = () => {
                     className={`text-highlight text-[1.2rem] font-bold text-green-500`}
                   />
                 )}
-                {/* <img alt="" src={copy} className="h-6 w-6 cursor-pointer" /> */}
               </div>
             </div>
-            // <div key={i} className=" text-white ">
+
           ))
         ) : (
           <h1 className="montserrat-small relative top-5 text-center text-xl font-semibold  text-gray-500">
@@ -171,16 +250,16 @@ const Receive = () => {
                 className="montserrat-subtitle h-[100%] w-[100%]  rounded-md
             border-2 border-gray-500 bg-[#f7f7f7] px-3 py-3 text-[0.9rem]
             font-semibold text-gray-400 outline-none placeholder:text-gray-500 hover:border-cyan-900"
-                // value={savedSignaturekey}
+                value={rootprivatekey}
                 onChange={(e) => {
-                  // setsavedSignaturekey(e.target.value);
+                  setrootprivatekey(e.target.value);
                 }}
-                placeholder="Signature (optional)"
+                placeholder="rootprivate (optional)"
               />
             )}
             {hide && (
               <p className="montserrat-small p-1 py-2 font-semibold text-gray-600 ">
-                Expand to enter the signatureKey (optional)
+                Expand to enter the DRMKey (optional)
               </p>
             )}
             {/* expand icon (toggle of input button) */}
@@ -202,12 +281,12 @@ const Receive = () => {
           </div>
 
           {/* Match key */}
-          <div className="mr-4 flex w-full justify-center pt-2">
+          <div className="mr-4 flex w-full justify-center pt-2 ">
             <button
-              // onClick={generateprivatekey}
-              className="montserrat-subtitle border-1 montserrat-subtitle highlight mx-auto my-2 mb-4 flex w-[100%] justify-center space-x-2  
-          rounded-md border border-black px-6 py-2 text-center font-bold 
-          text-black transition-all  ease-linear hover:shadow-xl"
+              onClick={generaterootprivatekey}
+              className="montserrat-subtitle border-1 montserrat-subtitle mx-auto my-2 mb-4 flex w-[100%] justify-center space-x-2  
+          rounded-md border px-6 py-2 text-center font-bold  bg-[#FF5757]
+          text-white transition-all  ease-linear hover:shadow-xl"
             >
               <AiOutlineScan className="text-[1.3rem] text-inherit" />
               <span>Scan</span>
