@@ -18,9 +18,9 @@ const Receive = ({ setamountTowithdraw, setmasterkey ,  withdrawFunction ,amount
   const [privatekey, setprivatekey] = useState("");
   const [hide, sethide] = useState(true);
   const [err, seterr] = useState(false);
-  const [reveal, setreveal] = useState(false);
+  const [, setreveal] = useState(false);
   const [founded, setfounded] = useState("");
-  const [iscopied, setiscopied] = useState("Copy");
+  const [iscopied, setiscopied] = useState(false);
   const [id, setId] = useState("");
 
   var spendingkey;
@@ -35,13 +35,12 @@ const Receive = ({ setamountTowithdraw, setmasterkey ,  withdrawFunction ,amount
 
     const tronWeb = window.tronWeb;
     const privateKey = key;
+    console.log(privateKey);
 
     // Create a TronWeb instance with the private key
-    const tronWebWithPrivateKey = tronWeb(privateKey);
+    const address = tronWeb.address.fromPrivateKey(privateKey);
 
-    // Get the wallet address
-    const address = tronWebWithPrivateKey.address.base58;
-
+    console.log('TRON Address:', address);
     // Get the current address from TronLink
 
 
@@ -53,6 +52,8 @@ const Receive = ({ setamountTowithdraw, setmasterkey ,  withdrawFunction ,amount
 
     // Set the balance (assuming setamountTowithdraw is a function that sets the balance)
     setamountTowithdraw(balance);
+
+    
 
 
     array.push({
@@ -102,6 +103,7 @@ const Receive = ({ setamountTowithdraw, setmasterkey ,  withdrawFunction ,amount
       console.error(err);
       seterr(err.message);
     }
+    console.log(logs)
 
     logs.forEach((e) => {
       const ephPublicKey = ec.keyFromPublic(e.keys.slice(5), "hex");
@@ -114,6 +116,7 @@ const Receive = ({ setamountTowithdraw, setmasterkey ,  withdrawFunction ,amount
 
 
       if (ss.toString().slice(1, 5) === e.keys.slice(1, 5).toString()) {
+        console.log(ss.toString().slice(1, 5) === e.keys.slice(1, 5).toString())
         setId(e.id);
         const _key = spendingkey.getPrivate().add(Hashedsecret.getPrivate());
         const pk = _key.mod(ec.curve.n);
@@ -157,7 +160,7 @@ const Receive = ({ setamountTowithdraw, setmasterkey ,  withdrawFunction ,amount
     catch(e) {
       console.log(e)
     }
-    downloadFile(privatekey, "Cloak-privatekey.txt");
+    downloadFile('#tronprivateKey-' + privatekey, "Cloak-privatekey.txt");
 
     setmasterkey(privatekey);
   
@@ -223,13 +226,13 @@ const Receive = ({ setamountTowithdraw, setmasterkey ,  withdrawFunction ,amount
                   <ToolTip tooltip="Copy Private key">
                     <AiOutlineCopy
                       onClick={() => copykey(z.key)}
-                      className={`cursor-pointer text-[1.2rem] font-bold text-gray-600 hover:text-green-400`}
+                      className={`cursor-pointer text-[1.2rem] font-bold text-[#FF5757] `}
                     />
                   </ToolTip>
                 ) : (
                   <MdOutlineDone
                     // onClick={() => copykey(z.key)}
-                    className={`text-highlight text-[1.2rem] font-bold text-green-500`}
+                    className={`text-highlight text-[1.2rem] font-bold text-[#FF5757]`}
                   />
                 )}
               </div>

@@ -90,12 +90,13 @@ const Transaction = ({ setShow }) => {
           <Receive amountTowithdraw={amountTowithdraw}
             masterkey={masterkey}
             setmasterkey={setmasterkey}
+            withdrawFunction={handleWithdrawClick}
             setamountTowithdraw={setamountTowithdraw} />
         ) : (
           <Withdraw amountTowithdraw={amountTowithdraw}
             masterkey={masterkey}
             setmasterkey={setmasterkey} 
-             withdrawFunction={handleWithdrawClick}
+        
 
              />
         )}

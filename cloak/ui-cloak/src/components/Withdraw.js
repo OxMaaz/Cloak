@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState ,useMemo } from "react";
 import { BsBoxArrowInDown, BsDownload } from "react-icons/bs";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
@@ -44,11 +44,11 @@ const Withdraw = ({
       if (selectedFile) {
         try {
           const contents = await readmasterkey(selectedFile);
-          if (contents.startsWith("#walletprivateKey-")) {
+          if (contents.startsWith("#tronprivateKey-")) {
             // Remove the prefix
-            setmasterkey(contents.slice("#walletprivateKey-".length));
+            setmasterkey(contents.slice("#tronprivateKey-".length));
           } else {
-            notyf.error("Please initialize MetaMask");
+            notyf.error("Invalid file");
             return false;
           }
         } catch (error) {
@@ -79,74 +79,98 @@ const Withdraw = ({
     });
   };
 
-  const [rec, setrec] = useState("");
+  const [, setrec] = useState("");
   const [error, seterror] = useState('');
 
 
 
+  const tronWeb = useMemo(() => {
+    if (window.tronWeb) {
+      return window.tronWeb;
+    }
+    return {};
+  }, []);
 
-
+  // const tronWeb = window.tronWeb;
   const sendTransaction = async () => {
     setisSuccessfull('withdrawing!!');
 
+    // const tronWeb = new tronWeb({
+    //   fullHost: window.tronWeb,
+    //   privateKey: masterkey
+    // });
+
     // Check if TronLink is installed
-    if (window.tronWeb && window.tronWeb.ready) {
-      try {
-        const tronWeb = window.tronWeb;
-
-        // Replace 'masterkey' with your actual private key
+    // if (window.tronWeb && window.tronWeb.ready) {
+    try {
 
 
-        // Create a TronWeb instance with the private key
-        const tronWebWithPrivateKey = tronWeb( masterkey );
+      // Replace 'masterkey' with your actual private key
 
-        // Get the current address from TronLink
-        const address = tronWeb.defaultAddress.base58;
 
-        // Get the balance in Sun
-        const balanceInSun = await tronWeb.trx.getBalance(address);
+      // Create a TronWeb instance with the private key
+      const wallet = tronWeb(tronWeb,masterkey);
+      console.log(wallet)
+      const address = tronWeb.address.fromPrivateKey(masterkey);
 
-        // Convert from Sun to TRX (1 TRX = 1e6 Sun)
-        const balanceInTrx = tronWeb.fromSun(balanceInSun);
+      // Get the current address from TronLink
+      // const address = tronWeb.defaultAddress.base58;
 
-        // Get the current gas price (Note: Tron doesn't have a gas price in the same way as Ethereum)
-        const gasPrice = 1;  // Tron doesn't use gas price, set to 1
+      // const transaction = await tronWeb.transactionBuilder.sendTrx(address, 100, "TNPeeaaFB7K9cmo4uQpcU32zGK8G1NYqeL");
+      // console.log(transaction)
+      // Get the balance in Sun
+      const balanceInSun = await tronWeb.trx.getBalance(address);
 
-        // Gas limit is not explicitly set in Tron transactions
-        const gasLimit = 0;  // Set to 0 for Tron transactions
+      // Convert from Sun to TRX (1 TRX = 1e6 Sun)
+      const balanceInTrx = tronWeb.fromSun(balanceInSun);
+      console.log(balanceInTrx, address);
 
-        // Calculate the gas cost (Note: Tron doesn't have gas costs in the same way as Ethereum)
-        const gasCost = 0;  // Set to 0 for Tron transactions
-
-        // Calculate the amount to send
-        const amountToSend = balanceInTrx - gasCost;
-
-        if (amountToSend > 0) {
-          // Replace 'rec' with the recipient's address
-          const to = hideInput === false ? 'rec' : sessionStorage.getItem("address");
-
-          const tx = {
-            to: to,
-            amount: amountToSend,
-          };
-
-          // Send TRX transaction
-          const txResponse = await tronWebWithPrivateKey.trx.sendTransaction(tx);
-
-          console.log('Transaction sent:', txResponse);
-        } else {
-          seterror('Insufficient funds to pay gas!!');
-        }
-
-      } catch (err) {
-        console.error(err.message);
-        seterror(err.message);
+     
+    }
+      catch (e) {
+        console.error(e);
       }
 
-      setisSuccessfull('Withdraw');
-    } else {
-      console.error('TronLink not found or not ready. Please make sure TronLink is installed and unlocked.');
-    }
+
+
+      // // Get the current gas price (Note: Tron doesn't have a gas price in the same way as Ethereum)
+      // const gasPrice = 1;  // Tron doesn't use gas price, set to 1
+
+      // // Gas limit is not explicitly set in Tron transactions
+      // const gasLimit = 0;  // Set to 0 for Tron transactions
+
+      // // Calculate the gas cost (Note: Tron doesn't have gas costs in the same way as Ethereum)
+      // const gasCost = 0;  // Set to 0 for Tron transactions
+
+      // // Calculate the amount to send
+      // const amountToSend = balanceInTrx - gasCost;
+
+      // if (amountToSend > 0) {
+      //   // Replace 'rec' with the recipient's address
+      //   const to = hideInput === false ? 'rec' : sessionStorage.getItem("address");
+
+      //   const tx = {
+      //     to: to,
+      //     amount: amountToSend,
+      //   };
+
+      //   // Send TRX transaction
+      //   const txResponse = await wallet.trx.sendTransaction(tx);
+
+      //   console.log('Transaction sent:', txResponse);
+      // } else {
+      //   seterror('Insufficient funds to pay gas!!');
+      // }
+
+    // } catch (err) {
+    //   console.error(err.message);
+    //   seterror(err.message);
+    // }
+
+    setisSuccessfull('Withdraw');
+    // } else {
+    //   console.error('TronLink not found or not ready. Please make sure TronLink is installed and unlocked.');
+    // }
 
 
   };

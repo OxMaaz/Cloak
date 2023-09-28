@@ -8,7 +8,9 @@ import "react-toastify/dist/ReactToastify.css";
 import Footer from "./Footer";
 
 export const CloakContext = createContext(null);
-export const contractAddress = "TMD1Mv1jv4q8b9Y9fhEUfqZ2VESWPDznjj";
+export const contractAddress = "TUypbivDGB8vMSeumKk5VzUQGFYS6xynYo";
+//TUypbivDGB8vMSeumKk5VzUQGFYS6xynYo
+//TMD1Mv1jv4q8b9Y9fhEUfqZ2VESWPDznjj
 
 const Wrapper = () => {
   const tronWeb = useMemo(() => {
@@ -32,6 +34,8 @@ const Wrapper = () => {
     // console.log(e.message);
   }
 
+
+
   console.log("tronWeb : ", tronWeb);
 
   async function connectwallet() {
@@ -44,6 +48,8 @@ const Wrapper = () => {
 
     }
   }
+
+
 
   useEffect(() => {
 
