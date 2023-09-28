@@ -5,7 +5,7 @@ import EllipticCurve from "elliptic";
 import { AiOutlineCopy } from "react-icons/ai";
 import { FaFileSignature } from "react-icons/fa";
 import { toast } from "react-toastify";
-import ToolTip from "../helpers/ToolTip";  // Corrected import
+import ToolTip from "../helpers/ToopTip";  // Corrected import
 import { downloadFile } from "../helpers/DownloadFile";
 
 const ec = new EllipticCurve.ec("secp256k1");

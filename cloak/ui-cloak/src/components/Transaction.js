@@ -44,8 +44,8 @@ const Transaction = ({ setShow }) => {
 
   return (
     <div
-      className="flex max-w-[500px] flex-col items-start justify-start backdrop-blur-[50px]
-      hover:backdrop-blur-lg sm:px-8"
+      className="flex max-w-[500px] flex-col items-start justify-start
+       backdrop-blur-[50px] hover:backdrop-blur-lg "
     >
       <div
         className="montserrat-subheading border-bgGray mx-auto flex
@@ -55,7 +55,7 @@ const Transaction = ({ setShow }) => {
           onClick={handleTransferClick}
           className={`border-b-2  border-black px-6 py-1 text-left
         ${buttonStatus.transfer
-              ? "border-b-2  bg-[#FFF7F7] text-[#FF5757] shadow-xl shadow-gray-300"
+              ? "border-b-2   text-[#FF5757] shadow-xl shadow-gray-300"
               : "text-gray-600"
             }`}
         >
@@ -65,7 +65,7 @@ const Transaction = ({ setShow }) => {
           onClick={handleReceiveClick}
           className={`border-b-2  border-black px-6 py-1 text-left
           ${buttonStatus.Receive
-              ? "border-b-2 0 bg-[#FFF7F7] text-[#FF5757] shadow-xl shadow-gray-300"
+              ? "border-b-2 text-[#FF5757] shadow-xl shadow-gray-300"
               : "text-gray-600"
             }`}
         >
@@ -75,7 +75,7 @@ const Transaction = ({ setShow }) => {
           onClick={handleWithdrawClick}
           className={`border-b-2  border-black px-6 py-1 text-left
           ${buttonStatus.withdraw
-              ? "border-b-2  bg-[#FFF7F7] text-[#FF5757] shadow-xl shadow-gray-300"
+              ? "border-b-2  text-[#FF5757] shadow-xl shadow-gray-300"
               : "text-gray-600"
             }`}
         >
