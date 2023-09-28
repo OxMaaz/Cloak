@@ -451,7 +451,7 @@ const Send = () => {
               ${
                 show &&
                 `scrollbar-thumb-bgGray scrollbar-rounded-full scrollbar-thumb-gray-00 absolute mt-2 flex max-h-28 w-[105%] flex-col overflow-y-scroll rounded-b-md bg-white
-                py-1 shadow-md transition-all ease-in scrollbar-thin
+                py-1 shadow-md transition-all ease-in scrollbar-thin scrollbar-thumb-[#FF5757]
                scrollbar-track-[#ebe1db] scrollbar-thumb-rounded`
               }
             `}

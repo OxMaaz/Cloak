@@ -54,6 +54,7 @@
 }
 
 .App {
+  overflow:hidden;
   text-align: center;
 }
 
