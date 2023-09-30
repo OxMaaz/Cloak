@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { Tokens } from "../helpers/Token";
-import { base58, keccak256 } from "ethers/lib/utils.js";
+import { base58, keccak256 } from 'ethers/lib/utils';
 import EllipticCurve from "elliptic";
 // import { AiOutlineArrowDown } from "react-icons/ai";
 import abi from "../build/contracts/EphKeys.json";

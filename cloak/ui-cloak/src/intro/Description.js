@@ -66,7 +66,7 @@ const Description = () => {
 
       {/* Features */}
 
-      <div class="bg-black p-8 relative">
+      <div class=" p-8 relative">
         <div class="mx-auto">
           <h2
             class="montserrat-heading mb-2 mt-4 text-3xl font-semibold 

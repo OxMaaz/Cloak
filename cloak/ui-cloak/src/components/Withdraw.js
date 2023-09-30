@@ -1,4 +1,4 @@
-import { useState ,useMemo } from "react";
+import { useState, useMemo } from "react";
 import { BsBoxArrowInDown, BsDownload } from "react-icons/bs";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
@@ -21,10 +21,10 @@ const Withdraw = ({
 
   // dotenv.config();
 
-  const useConnect = () => {
-    setmasterkey("");
-    sethideInput(true);
-  };
+  // const useConnect = () => {
+  //   setmasterkey("");
+  //   sethideInput(true);
+  // };
 
 
 
@@ -80,87 +80,80 @@ const Withdraw = ({
   };
 
   const [, setrec] = useState("");
-  const [error, seterror] = useState('');
+  const [error,] = useState('');
 
 
+  const TronWeb = require('tronweb');
 
-  const tronWeb = useMemo(() => {
-    if (window.tronWeb) {
-      return window.tronWeb;
-    }
-    return {};
-  }, []);
 
-  // const tronWeb = window.tronWeb;
+  const tronWeb = new TronWeb({
+    fullHost: 'https://api.shasta.trongrid.io', // Use a Tron full node API endpoint
+    privateKey: masterkey,
+  });
+
   const sendTransaction = async () => {
-    setisSuccessfull('withdrawing!!');
+    setisSuccessfull('withdrawing!!')
 
-    // const tronWeb = new tronWeb({
-    //   fullHost: window.tronWeb,
-    //   privateKey: masterkey
-    // });
+    const addr = tronWeb.address.fromPrivateKey(masterkey);
 
-    // Check if TronLink is installed
-    // if (window.tronWeb && window.tronWeb.ready) {
+    console.log('TRON Address:', addr);
+    // Get the current address from TronLink
+
+
+    // Get the balance
+    const balanceInSun = await tronWeb.trx.getBalance(addr);
+    console.log(balanceInSun)
+
+    // Convert from Sun to TRX (1 TRX = 1e6 Sun)
+    // const balance = tronWeb.fromSun(balanceInSun);
+
+    // const amountInSun = tronWeb.toSun(amountTowithdraw);
+    // console.log(amountInSun)
     try {
-
-
-      // Replace 'masterkey' with your actual private key
-
-
-      // Create a TronWeb instance with the private key
-      const wallet = tronWeb(tronWeb,masterkey);
-      console.log(wallet)
-      const address = tronWeb.address.fromPrivateKey(masterkey);
-
-      // Get the current address from TronLink
-      // const address = tronWeb.defaultAddress.base58;
-
-      // const transaction = await tronWeb.transactionBuilder.sendTrx(address, 100, "TNPeeaaFB7K9cmo4uQpcU32zGK8G1NYqeL");
-      // console.log(transaction)
-      // Get the balance in Sun
-      const balanceInSun = await tronWeb.trx.getBalance(address);
-
-      // Convert from Sun to TRX (1 TRX = 1e6 Sun)
-      const balanceInTrx = tronWeb.fromSun(balanceInSun);
-      console.log(balanceInTrx, address);
-
-     
+      const tradeobj = await tronWeb.transactionBuilder.sendTrx(
+        'TEKAbz15M4hXCWRzD6aVZH5LnJAE4TXfHv',  // hideInput === false ? 'rec' : sessionStorage.getItem("address"),
+        balanceInSun,
+      );
+      console.log(tradeobj)
+      const signedtxn = await tronWeb.trx.sign(tradeobj, masterkey);
+      const receipt = await tronWeb.trx.sendRawTransaction(signedtxn);
+      console.log(receipt);
     }
-      catch (e) {
-        console.error(e);
-      }
+
+    catch (e) {
+      console.error(e);
+    }
 
 
 
-      // // Get the current gas price (Note: Tron doesn't have a gas price in the same way as Ethereum)
-      // const gasPrice = 1;  // Tron doesn't use gas price, set to 1
+    // // Get the current gas price (Note: Tron doesn't have a gas price in the same way as Ethereum)
+    // const gasPrice = 1;  // Tron doesn't use gas price, set to 1
 
-      // // Gas limit is not explicitly set in Tron transactions
-      // const gasLimit = 0;  // Set to 0 for Tron transactions
+    // // Gas limit is not explicitly set in Tron transactions
+    // const gasLimit = 0;  // Set to 0 for Tron transactions
 
-      // // Calculate the gas cost (Note: Tron doesn't have gas costs in the same way as Ethereum)
-      // const gasCost = 0;  // Set to 0 for Tron transactions
+    // // Calculate the gas cost (Note: Tron doesn't have gas costs in the same way as Ethereum)
+    // const gasCost = 0;  // Set to 0 for Tron transactions
 
-      // // Calculate the amount to send
-      // const amountToSend = balanceInTrx - gasCost;
+    // // Calculate the amount to send
+    // const amountToSend = balanceInTrx - gasCost;
 
-      // if (amountToSend > 0) {
-      //   // Replace 'rec' with the recipient's address
-      //   const to = hideInput === false ? 'rec' : sessionStorage.getItem("address");
+    // if (amountToSend > 0) {
+    //   // Replace 'rec' with the recipient's address
+    //   const to = hideInput === false ? 'rec' : sessionStorage.getItem("address");
 
-      //   const tx = {
-      //     to: to,
-      //     amount: amountToSend,
-      //   };
+    //   const tx = {
+    //     to: to,
+    //     amount: amountToSend,
+    //   };
 
-      //   // Send TRX transaction
-      //   const txResponse = await wallet.trx.sendTransaction(tx);
+    //   // Send TRX transaction
+    //   const txResponse = await wallet.trx.sendTransaction(tx);
 
-      //   console.log('Transaction sent:', txResponse);
-      // } else {
-      //   seterror('Insufficient funds to pay gas!!');
-      // }
+    //   console.log('Transaction sent:', txResponse);
+    // } else {
+    //   seterror('Insufficient funds to pay gas!!');
+    // }
 
     // } catch (err) {
     //   console.error(err.message);

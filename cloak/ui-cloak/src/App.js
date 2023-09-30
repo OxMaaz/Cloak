@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Container from "./intro/Container";
 import Wrapper from "./components/Wrapper";
-import DisclaimerPopup from "./components/DisclaimerPopup";
+import DisclaimerPopup from "./intro/DisclaimerPopup";
 import { useEffect, useState } from "react";
 
 function App() {

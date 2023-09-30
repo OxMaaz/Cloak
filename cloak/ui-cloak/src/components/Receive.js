@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { keccak256 } from "ethers/lib/utils.js";
+import { keccak256 } from 'ethers/lib/utils';
 import EllipticCurve from "elliptic";
 // import { GiKangaroo } from "react-icons/gi";
 import { AiOutlineArrowsAlt, AiOutlineCopy, AiOutlineScan, AiOutlineShrink } from "react-icons/ai";
 import "react-toastify/dist/ReactToastify.css";
-import kangaroo from "../assets/runningKangaroo.png";
+// import kangaroo from "../assets/runningKangaroo.png";
 import { downloadFile } from "../helpers/DownloadFile";
 import { db } from "../config/firebase.js";
 import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";

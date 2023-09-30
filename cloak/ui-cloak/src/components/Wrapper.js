@@ -3,6 +3,7 @@ import CloakId from "./CloakId";
 import Render from "./Render";
 import { createContext, useMemo, useEffect } from "react";
 import { useState } from "react";
+import TronWeb from 'tronweb';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./Footer";
@@ -19,6 +20,10 @@ const Wrapper = () => {
     }
     return {};
   }, []);
+
+  // const tronWeb = new TronWeb({
+  //   fullHost: 'https://api.trongrid.io',
+  // });
 
 
 
@@ -38,15 +43,24 @@ const Wrapper = () => {
 
   console.log("tronWeb : ", tronWeb);
 
-  async function connectwallet() {
-    if (tronWeb.defaultAddress.base58 === undefined) {
-      toast.error("Open tronlink and connect with mainnet");
-      await window.tronLink.request({ method: "tron_requestAccounts" });
-      sessionStorage.setItem("address", tronWeb.defaultAddress.base58);
-      return;
-    } else {
 
+  async function connectwallet() {
+
+
+    try {
+      if (tronWeb.defaultAddress.base58 === undefined) {
+        toast.error("Open tronlink and connect with mainnet");
+        await window.tronLink.request({ method: "tron_requestAccounts" });
+        sessionStorage.setItem("address", tronWeb.defaultAddress.base58);
+        return;
+      } else {
+
+      }
+    } catch (error) {
+      // TronLink connection failed
+      console.error('Failed to connect to TronLink:', error);
     }
+
   }
 
 
@@ -58,7 +72,7 @@ const Wrapper = () => {
         toast.error("Open tronlink and connect with mainnet");
         return;
       }
-    
+
     }
     catch (e) {
       // toast.error("Install tronLink wallet");
