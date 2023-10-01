@@ -59,7 +59,7 @@ const CloakId = () => {
 
     const drmkey = sessionStorage.getItem("DRM key");
     // notyf.success("Copied");
-    downloadFile(drmkey, "DRM key.txt");
+    downloadFile(`DRM Key : ${drmkey} \nCloak address : ${cloakid}`, "DRM key.txt");
 
   };
 
@@ -93,12 +93,12 @@ const CloakId = () => {
             , Tron Cloak's Way
           </h1>
 
-          {note === true && (
+          {/* {note === true && ( */}
             <p className="montserrat-small text-[0.8rem] font-semibold text-gray-400 sm:text-[1.1rem]">
               Never reveal the ' DRM key ', only
-              share your secure ' Cloak address ' for confidential transactions !!
+              share your secure ' Cloak address '  for confidential transactions !!
             </p>
-          )}
+          {/* )} */}
         </div>
         {/* tronCloak */}
 
@@ -108,10 +108,10 @@ const CloakId = () => {
            hover:shadow-sm sm:mx-0 sm:gap-4 sm:px-3   "
           >
             <p
-              className="montserrat-heading text-[0.8rem] font-extrabold text-gray-700 
+              className="montserrat-heading text-[0.8rem] font-extrabold text-gray-600 
             sm:text-[1rem] "
             >
-              <span className=" montserrat-heading text-md text-[0.9rem] font-extrabold  text-gray-600 sm:text-[1.1rem]">
+              <span className=" montserrat-heading text-md text-[0.9rem] font-extrabold  text-gray-500 sm:text-[1.1rem]">
                 #tronCloak -
               </span>{" "}
               {cloakid}

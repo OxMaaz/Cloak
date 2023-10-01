@@ -39,8 +39,7 @@ const Header = () => {
           Stay Anonymous & secure.
         </h2>
         <p className="montserrat-small max-w-[400px] break-words text-left  text-[#FDF0EF]">
-          Exchange TRX and tokens with utmost privacy, your address remains a
-          secret!.
+          Receive TRX and tokens with utmost privacy, your wallet address remains hidden !
         </p>
         <div className="pt-1">
           <button
