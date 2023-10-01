@@ -29,6 +29,15 @@ const Receive = ({ setamountTowithdraw, setmasterkey ,  withdrawFunction ,amount
   let array = [];
   let retrievedArray = [];
 
+  const checkDrm = async (key) => {
+
+    if(key.startsWith('DRM Key : ')){
+      setrootprivatekey(key.replace('DRM Key : ', '').slice(0,65))
+
+    }
+    
+  }
+
   const setwallet = async (key) => {
 
 
@@ -256,8 +265,9 @@ const Receive = ({ setamountTowithdraw, setmasterkey ,  withdrawFunction ,amount
                 value={rootprivatekey}
                 onChange={(e) => {
                   setrootprivatekey(e.target.value);
+                  checkDrm(e.target.value)
                 }}
-                placeholder="rootprivate (optional)"
+                placeholder="Enter your DRMKey"
               />
             )}
             {hide && (

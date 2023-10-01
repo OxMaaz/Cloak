@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, } from "react";
 import { BsBoxArrowInDown, BsDownload } from "react-icons/bs";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
@@ -12,24 +12,16 @@ import { TbArrowsExchange2 } from "react-icons/tb";
 const Withdraw = ({
   masterkey,
   setmasterkey,
-  amountTowithdraw,
+  // amountTowithdraw,
 }) => {
 
   const [hideInput, sethideInput] = useState(false);
   const notyf = new Notyf();
 
 
-  // dotenv.config();
-
-  // const useConnect = () => {
-  //   setmasterkey("");
-  //   sethideInput(true);
-  // };
-
-
 
   const [isSuccessfull, setisSuccessfull] = useState('withdraw');
-  // let amountTowithdraw = '0.01';
+
 
   // Function to handle file selection and reading its contents
   const handleFileUpload = async () => {
@@ -49,6 +41,7 @@ const Withdraw = ({
             setmasterkey(contents.slice("#tronprivateKey-".length));
           } else {
             notyf.error("Invalid file");
+            seterror("Invalid file");
             return false;
           }
         } catch (error) {
@@ -80,7 +73,7 @@ const Withdraw = ({
   };
 
   const [, setrec] = useState("");
-  const [error,] = useState('');
+  const [error,seterror] = useState('');
 
 
   const TronWeb = require('tronweb');
@@ -107,63 +100,26 @@ const Withdraw = ({
     // Convert from Sun to TRX (1 TRX = 1e6 Sun)
     // const balance = tronWeb.fromSun(balanceInSun);
 
-    // const amountInSun = tronWeb.toSun(amountTowithdraw);
-    // console.log(amountInSun)
     try {
       const tradeobj = await tronWeb.transactionBuilder.sendTrx(
-        'TEKAbz15M4hXCWRzD6aVZH5LnJAE4TXfHv',  // hideInput === false ? 'rec' : sessionStorage.getItem("address"),
+        hideInput === false ? addr : sessionStorage.getItem("address"),
         balanceInSun,
       );
       console.log(tradeobj)
       const signedtxn = await tronWeb.trx.sign(tradeobj, masterkey);
       const receipt = await tronWeb.trx.sendRawTransaction(signedtxn);
       console.log(receipt);
+      seterror('SuccessFully Withdrawn')
     }
 
     catch (e) {
       console.error(e);
+      seterror(e.message);
     }
 
 
 
-    // // Get the current gas price (Note: Tron doesn't have a gas price in the same way as Ethereum)
-    // const gasPrice = 1;  // Tron doesn't use gas price, set to 1
-
-    // // Gas limit is not explicitly set in Tron transactions
-    // const gasLimit = 0;  // Set to 0 for Tron transactions
-
-    // // Calculate the gas cost (Note: Tron doesn't have gas costs in the same way as Ethereum)
-    // const gasCost = 0;  // Set to 0 for Tron transactions
-
-    // // Calculate the amount to send
-    // const amountToSend = balanceInTrx - gasCost;
-
-    // if (amountToSend > 0) {
-    //   // Replace 'rec' with the recipient's address
-    //   const to = hideInput === false ? 'rec' : sessionStorage.getItem("address");
-
-    //   const tx = {
-    //     to: to,
-    //     amount: amountToSend,
-    //   };
-
-    //   // Send TRX transaction
-    //   const txResponse = await wallet.trx.sendTransaction(tx);
-
-    //   console.log('Transaction sent:', txResponse);
-    // } else {
-    //   seterror('Insufficient funds to pay gas!!');
-    // }
-
-    // } catch (err) {
-    //   console.error(err.message);
-    //   seterror(err.message);
-    // }
-
     setisSuccessfull('Withdraw');
-    // } else {
-    //   console.error('TronLink not found or not ready. Please make sure TronLink is installed and unlocked.');
-    // }
 
 
   };
@@ -246,7 +202,7 @@ const Withdraw = ({
         </button>
       </div>
 
-      <p className="text-[0.9rem] font-semibold montserrat-small  text-[#e27e7e]">
+      <p className="text-[1.1rem] font-semibold montserrat-small  text-[#444444]">
         {error}
       </p>
     </div>

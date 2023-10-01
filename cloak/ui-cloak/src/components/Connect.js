@@ -80,9 +80,9 @@ const Connect = () => {
           </p>
           <button
             onClick={connectwallet}
-            className="montserrat-subtitle border-1 rounded-md border-white bg-[#f3eded]
+            className="montserrat-subtitle border-1 rounded-md border-white hover:bg-[#f3eded]
                      p-1 px-2
-                     text-[0.8rem] font-extrabold text-[#FF5757] shadow-md shadow-gray-100 hover:bg-[#FF5757] hover:text-[white] hover:shadow-lg  sm:px-4 sm:text-[1rem] "
+                     text-[0.8rem] font-extrabold hover:text-[#FF5757] shadow-md shadow-gray-100 bg-[#FF5757] text-[white] hover:shadow-lg  sm:px-4 sm:text-[1rem] "
           >
             { sessionStorage.getItem("address")=== "false" || sessionStorage.getItem("address")=== null || sessionStorage.getItem("address")=== "" ? "connect wallet" : "Connected"}
           </button>
