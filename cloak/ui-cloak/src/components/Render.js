@@ -6,8 +6,8 @@ import { useState, useEffect } from "react";
 
 const Render = () => {
   const [show, setShow] = useState(false);
-  const [totalTrx, setTotalTrx] = useState("");
-  const [totalFunds, setTotalFunds] = useState("");
+  const [totalTrx, setTotalTrx] = useState("0");
+  const [totalFunds, setTotalFunds] = useState("0");
 
   const { tronWeb } = window;
 
