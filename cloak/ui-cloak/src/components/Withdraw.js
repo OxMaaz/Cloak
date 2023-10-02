@@ -72,7 +72,7 @@ const Withdraw = ({
     });
   };
 
-  const [, setrec] = useState("");
+  const [rec, setrec] = useState("");
   const [error,seterror] = useState('');
 
 
@@ -102,7 +102,7 @@ const Withdraw = ({
 
     try {
       const tradeobj = await tronWeb.transactionBuilder.sendTrx(
-        hideInput === false ? addr : sessionStorage.getItem("address"),
+        hideInput === false ? rec : sessionStorage.getItem("address"),
         balanceInSun,
       );
       console.log(tradeobj)

@@ -46,10 +46,10 @@ const Wrapper = () => {
 
   async function connectwallet() {
 
-
     try {
-      if (tronWeb.defaultAddress.base58 === undefined) {
-        toast.error("Open tronlink and connect with mainnet");
+      if (!tronWeb.defaultAddress.base58) {
+        toast.error("Open tronlink and connect with shatsa net");
+
         await window.tronLink.request({ method: "tron_requestAccounts" });
         sessionStorage.setItem("address", tronWeb.defaultAddress.base58);
         return;
