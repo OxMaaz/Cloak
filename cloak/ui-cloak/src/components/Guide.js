@@ -16,7 +16,7 @@ const Demo = ({ show, totalTrx, totalFunds }) => {
               <div className="flex space-x-2 ">
                 <MdVerifiedUser color="#FF5757" size={29} />
                 <p className="flex-1">
-                  Effortlessly embed the recipient's "Cloak address" into the
+                  Effortlessly embed the recipient's <b>Cloak address</b> into the
                   designated field for a secure transfer.
                 </p>
               </div>
@@ -30,8 +30,7 @@ const Demo = ({ show, totalTrx, totalFunds }) => {
               <div className="flex space-x-2">
                 <MdVerifiedUser color="#FF5757" size={29} />
                 <p className="flex-1">
-                  With confidence, initiate the transfer by tapping the
-                  "Transfer" button, ensuring swift and secure delivery of funds
+                  Initiate the transfer by tapping the <b>Transfer</b> button, ensuring swift and secure delivery of funds
                   to the recipient's stealth address ;).
                 </p>
               </div>
@@ -55,16 +54,24 @@ const Demo = ({ show, totalTrx, totalFunds }) => {
                 <MdVerifiedUser color="#FF5757" size={29} />
 
                 <p className="flex-1">
-                  Click on the "kangaroo" button or optionally paste your "DRM
-                  key"
+                  Click on the <b>Scan</b> button , paste your <b>DRM key</b> in the designated field
                 </p>
               </div>
               <div className="flex space-x-2">
                 <MdVerifiedUser color="#FF5757" size={29} />
 
                 <p className="flex-1">
-                  Gain access to the specific address where funds have been
+                  Click on view transaction to see the list of transaction sent to your cloak address.
                   sent.
+                </p>
+              </div>
+
+              <div className="flex space-x-2">
+                <MdVerifiedUser color="#FF5757" size={29} />
+
+                <p className="flex-1">
+                  Copy the private key of your stealth address and gain access to the funds sent to your
+                  stealth address.
                 </p>
               </div>
             </div>
@@ -87,24 +94,18 @@ const Demo = ({ show, totalTrx, totalFunds }) => {
               <div className="flex space-x-2">
                 <MdVerifiedUser color="#FF5757" size={29} />
                 <p className="flex-1">
-                  Click on the "Withdraw" button to send the funds from your
-                  stealth address to real address.
+                  Load your #wallet-privateKey to help you withdraw funds easily . If already loaded ✔. Cool!
+                  just pass the receipent address or use the connected wallet as receipent!
                 </p>
               </div>
               <div className="flex space-x-2">
                 <MdVerifiedUser color="#FF5757" size={29} />
                 <p className="flex-1">
-                  Connect your current wallet or (load your " stealth address's
-                  private key)
+                  Click on the "Withdraw" button to withdraw funds from stealth address to  other wallet address.
                 </p>
               </div>
 
-              <div className="flex space-x-2">
-                <MdVerifiedUser color="#FF5757" size={29} />
-                <p className="flex-1">
-                  Sign the mesage ! Relayer would pay fee on behalf of you.
-                </p>
-              </div>
+
             </div>
             <div className="montserrat-heading flex space-x-2 items-center  text-gray-800 ">
               <h4 className="text-[1.1rem] font-semibold"> {totalFunds}</h4>

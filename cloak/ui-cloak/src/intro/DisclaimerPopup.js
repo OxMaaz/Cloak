@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const DisclaimerPopup = ({ open, onClose, children }) => {
   return (
     <div
-      onClick={onClose}
+      // onClick={onClose}
       className={`fixed inset-0 flex items-center
       justify-center transition-colors ${
         open ? "visible bg-black/50" : "hidden"

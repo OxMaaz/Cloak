@@ -46,14 +46,14 @@ const Description = () => {
               </li>
               <li class="mb-2 text-left text-gray-600">
                 <span class="font-semibold text-gray-600">Step 4 : </span> After
-                the funds have been sent, click on "match" or paste your (DRM)
-                key (optional) to retrieve your private key and access the
+                the funds have been sent, click on scan by pasting your (DRM)
+                key in the designated input  to retrieve your private key and access the
                 specific address on which the funds have been sent.
               </li>
               <li class="mb-2 text-left text-gray-600">
                 <span class="font-semibold text-gray-600">Summary : </span> By
-                following these steps, you can easily and securely transfer
-                funds using our app. Should you have any queries or concerns,
+                following these steps, you can easily and securely transfer and receive
+                funds using cloak. Should you have any queries or concerns,
                 please do not hesitate to contact us by our discord for
                 assistance..
               </li>
@@ -92,13 +92,11 @@ const Description = () => {
                 </div>
                 <p class=" montserrat-heading font-semibold text-gray-500">
                   Cloak app prioritizes user privacy by generating a unique
-                  cloak address for every transaction, thereby making it
+                  address for every transaction, thereby making it
                   difficult to track or trace the transaction history of a
                   particular user. Since the cloak address is not linked to any
                   personal information, it allows users to maintain anonymity
-                  while transacting on the app. Moreover, users can choose to
-                  keep their secret key private, which adds an extra layer of
-                  privacy to their transactions. .
+                  while transacting on the app. .
                 </p>
               </div>
             </div>
@@ -112,15 +110,12 @@ const Description = () => {
                   </h3>
                 </div>
                 <p class=" montserrat-heading font-semibold text-gray-500">
-                  Cloak app employs robust security measures to ensure that
-                  users' funds and information are safe. The random number
-                  generated during the cloak address creation serves as a secret
-                  key, which only the user has access to. This secret key is
+                  Cloak app employs  security measures to ensure that
+                  users' funds and information are safe. The Drm key
+                  generated during the cloak address  serves as a private
+                  key of cloak address, which only the user has access to. This DRM is
                   needed to access the private key associated with a particular
-                  transaction, making it nearly impossible for anyone else to
-                  access it. Additionally, the app uses encryption to protect
-                  the user's data and funds from hackers or unauthorized
-                  access..
+                  stealth address.
                 </p>
               </div>
             </div>
@@ -139,8 +134,8 @@ const Description = () => {
                 </div>
                 <p class="montserrat-heading font-semibold text-gray-500">
                   Cloak app is designed to be user-friendly, with a simple and
-                  intuitive interface that allows users to generate, send, and
-                  match cloak addresses in one click. The app's step-by-step
+                  intuitive interface that allows users to send and receive in one click.
+                  The app's step-by-step
                   guide makes it easy for users to navigate and transact on the
                   platform. Moreover, the app provides real-time updates on the
                   status of a transaction, allowing users to track the progress
@@ -148,6 +143,7 @@ const Description = () => {
                 </p>
               </div>
             </div>
+            
             <div class="col-span-2 md:col-span-1">
               <div class="h-full space-y-4 rounded-lg bg-[#fdf4f4] p-10 shadow-md hover:shadow-lg">
                 <div className="flex items-center justify-center space-x-2">

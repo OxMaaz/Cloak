@@ -12,7 +12,7 @@ const ec = new EllipticCurve.ec("secp256k1");
 
 const CloakId = () => {
   const [cloakid, setcloakid] = useState("");
-  const [note, setnote] = useState(false);
+  const [, setnote] = useState(false);
   let key;
 
   const generateCloakId = () => {
@@ -20,20 +20,27 @@ const CloakId = () => {
       key = ec.genKeyPair();
 
       sessionStorage.setItem("DRM key", key.getPrivate().toString(16));
+
       const spendingkey = ec.keyFromPrivate(
         key.getPrivate().toString(16),
         "hex"
       );
 
+
       const data = Uint8Array.from(
         spendingkey.getPublic().encodeCompressed("array")
       );
+      console.log(key.getPrivate().toString(16))
+
+      console.log(spendingkey)
+      console.log(data)
 
       const crc = Crc(data);
       const addr = new Uint8Array(data.length + 2);
       addr.set(data);
       addr.set(crc, data.length);
       const id = "T" + base58.encode(addr);
+      console.log(base58.encode(addr),id)
       sessionStorage.setItem("cloak address", id);
       setcloakid(id);
     } catch (e) {
@@ -133,7 +140,7 @@ const CloakId = () => {
          text-center font-semibold text-white transition-all ease-linear hover:border"
             onClick={generateCloakId}
           >
-            Generate Fk
+            Generate 
           </button>
 
           <div

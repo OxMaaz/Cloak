@@ -171,6 +171,44 @@ const Qna = () => {
             intuitive experience for all users.
           </p>
         )}
+
+        {showAnswers[3] && (
+          <p className="montserrat-subheading w-[90%]  px-4  pb-5 text-left text-gray-400">
+            Yes, you can retrieve your private key by clicking on the "match"
+            button or by pasting your DontRevealMe key (optional) into our app.
+            This will allow you to access the specific address where the funds
+            have been sent.
+          </p>
+        )}
+
+        <h4
+          onClick={() => toggleAnswer(4)}
+          className="montserrat-subheading flex w-full cursor-pointer items-center justify-between gap-16 py-4
+          text-left text-gray-500 hover:text-gray-600 lg:text-lg"
+        >
+          6: What if i lost my DRM key?
+          <span>
+            {showAnswers[4] ? (
+              <IoAddSharp
+                color="#FF5757"
+                className="rotate-45 text-3xl transition-all duration-100 lg:text-4xl"
+              />
+            ) : (
+              <IoAddSharp
+                color="#FF5757"
+                className="text-3xl duration-100 lg:text-4xl"
+              />
+            )}
+          </span>
+        </h4>
+        {showAnswers[4] && (
+          <p className="montserrat-subheading w-[90%]  px-4  pb-5 text-left text-gray-400">
+            DRM key works like private key of cloak address if u lost it you could never retreive the funds sent
+            from your cloak address . Well ! its crutial to always save the DRM key of your cloak address if u have
+            lost the DRM key you are done .One thing you can generate a new cloak address and save corresponding DRM and
+            ask the sender to use that cloak address to send funds to get save from stolen funds in future.
+          </p>
+        )}
       </div>
     </div>
   );

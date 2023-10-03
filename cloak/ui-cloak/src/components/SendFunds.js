@@ -208,8 +208,10 @@ const Send = () => {
         sharedsecret.toArray()[0].toString(16).padStart(2, "0") +
         sharedsecret.toArray()[31].toString(16);
     } catch (e) {
+      seterror(e.message);
       console.log("error", e);
     }
+    console.log(r,s,a)
 
     return true;
   };
