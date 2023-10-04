@@ -42,18 +42,18 @@ const Description = () => {
               <li class="mb-2 text-left text-gray-600">
                 <span class="font-semibold text-gray-600">Step 3 : </span> The
                 sender will create an address from your cloak address and send
-                funds to it using the "send" button.
+                funds to it using the <b>Transfer</b> button.
               </li>
               <li class="mb-2 text-left text-gray-600">
                 <span class="font-semibold text-gray-600">Step 4 : </span> After
-                the funds have been sent, click on scan by pasting your (DRM)
-                key in the designated input  to retrieve your private key and access the
+                the funds have been sent, click on <b>Scan</b> or paste your <b>DRM Key</b> 
+                to retrieve your private key and access the
                 specific address on which the funds have been sent.
               </li>
               <li class="mb-2 text-left text-gray-600">
                 <span class="font-semibold text-gray-600">Summary : </span> By
                 following these steps, you can easily and securely transfer and receive
-                funds using cloak. Should you have any queries or concerns,
+                funds using our app. Should you have any queries or concerns,
                 please do not hesitate to contact us by our discord for
                 assistance..
               </li>
@@ -66,7 +66,7 @@ const Description = () => {
 
       {/* Features */}
 
-      <div class=" p-8 relative">
+      <div class="relative bg-[#FF5757] p-8">
         <div class="mx-auto">
           <h2
             class="montserrat-heading mb-2 mt-4 text-3xl font-semibold 
@@ -74,10 +74,10 @@ const Description = () => {
           >
             Features
           </h2>
-          <div className="z-10 mx-auto mb-4 border-b border-[#ff8080] pb-2 sm:min-w-[550px] "></div>
+          <div className="z-10 mx-auto mb-4 border-b border-[#ffdcdc] pb-2 sm:min-w-[550px] "></div>
           <div
             class="px-15 mx-auto grid max-w-[1700px] cursor-default 
-            xl:grid-cols-4 md:grid-cols-2 gap-8 p-6 sm:p-6"
+            gap-8 p-6 sm:p-6 md:grid-cols-2 xl:grid-cols-4"
           >
             <div class="col-span-2 md:col-span-1">
               <div
@@ -91,18 +91,17 @@ const Description = () => {
                   </h3>
                 </div>
                 <p class=" montserrat-heading font-semibold text-gray-500">
-                  Cloak app prioritizes user privacy by generating a unique
-                  address for every transaction, thereby making it
-                  difficult to track or trace the transaction history of a
-                  particular user. Since the cloak address is not linked to any
-                  personal information, it allows users to maintain anonymity
-                  while transacting on the app. .
+                Cloak app prioritizes user privacy by generating a unique address for every transaction, thereby making it difficult to track or trace the transaction history of a particular user. Since the cloak address is not linked to any personal information, it allows users to maintain anonymity while transacting on the app. .
+
+
                 </p>
               </div>
             </div>
             <div class="col-span-2 md:col-span-1">
-              <div class="h-full space-y-4 rounded-lg 
-              bg-[#fdf4f4] p-10 shadow-md hover:shadow-lg">
+              <div
+                class="h-full space-y-4 rounded-lg 
+              bg-[#fdf4f4] p-10 shadow-md hover:shadow-lg"
+              >
                 <div className="flex items-center justify-center space-x-2">
                   <MdOutlineSecurity color="#ff8080" className="mb-2 text-xl" />
                   <h3 class="montserrat-subheading mb-2 text-xl font-semibold">
@@ -110,18 +109,17 @@ const Description = () => {
                   </h3>
                 </div>
                 <p class=" montserrat-heading font-semibold text-gray-500">
-                  Cloak app employs  security measures to ensure that
-                  users' funds and information are safe. The Drm key
-                  generated during the cloak address  serves as a private
-                  key of cloak address, which only the user has access to. This DRM is
-                  needed to access the private key associated with a particular
-                  stealth address.
+                Cloak app employs security measures to ensure that users' funds and information are safe. The Drm key generated during the cloak address serves as a private key of cloak address, which only the user has access to. This DRM is needed to access the private key associated with a particular stealth address.
+
+
                 </p>
               </div>
             </div>
             <div class="col-span-2 md:col-span-1">
-              <div class="h-full space-y-4 rounded-lg 
-              bg-[#fdf4f4] p-10 shadow-md hover:shadow-lg">
+              <div
+                class="h-full space-y-4 rounded-lg 
+              bg-[#fdf4f4] p-10 shadow-md hover:shadow-lg"
+              >
                 <div className="flex items-center justify-center space-x-2">
                   <AiOutlineTransaction
                     color="#ff8080"
@@ -133,17 +131,12 @@ const Description = () => {
                   </h3>
                 </div>
                 <p class="montserrat-heading font-semibold text-gray-500">
-                  Cloak app is designed to be user-friendly, with a simple and
-                  intuitive interface that allows users to send and receive in one click.
-                  The app's step-by-step
-                  guide makes it easy for users to navigate and transact on the
-                  platform. Moreover, the app provides real-time updates on the
-                  status of a transaction, allowing users to track the progress
-                  of their transactions in real-time..
+                Cloak app is designed to be user-friendly, with a simple and intuitive interface that allows users to send and receive in one click. The app's step-by-step guide makes it easy for users to navigate and transact on the platform. Moreover, the app provides real-time updates on the status of a transaction, allowing users to track the progress of their transactions in real-time..
+
+
                 </p>
               </div>
             </div>
-            
             <div class="col-span-2 md:col-span-1">
               <div class="h-full space-y-4 rounded-lg bg-[#fdf4f4] p-10 shadow-md hover:shadow-lg">
                 <div className="flex items-center justify-center space-x-2">
@@ -157,12 +150,9 @@ const Description = () => {
                   </h3>
                 </div>
                 <p class=" montserrat-heading font-semibold text-gray-500">
-                  Cloak app allows for fast and seamless transactions, with
-                  funds being sent and received almost instantly. This means
-                  that users do not have to wait for an extended period to
-                  access their funds or complete a transaction, making it an
-                  ideal option for those who require quick and efficient
-                  transactions..
+                Cloak app allows for fast and seamless transactions, with funds being sent and received almost instantly. This means that users do not have to wait for an extended period to access their funds or complete a transaction, making it an ideal option for those who require quick and efficient transactions..
+
+
                 </p>
               </div>
             </div>

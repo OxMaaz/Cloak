@@ -21,7 +21,7 @@ const Tutorial = () => {
             width="90%"
             height="95%"
             controls={true}
-            url="https://youtu.be/MlRNRg_JSkc"
+            url="https://youtu.be/lkixpdqmk5Y"
           />
         </div>
       </div>

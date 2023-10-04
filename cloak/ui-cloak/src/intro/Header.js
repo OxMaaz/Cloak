@@ -2,6 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/IntroLogo.png";
 import { Link } from "react-scroll";
+import mainss from "../assets/mainss.png";
+import Banner from "./Banner";
+import TokensSlide from "./TokensSlide";
 
 const Header = () => {
   const Valid = () => {
@@ -34,22 +37,48 @@ const Header = () => {
         </Link>
       </div>
       {/* at the bottom of the logo */}
-      <div className="flex flex-col items-start space-y-4 p-10 sm:p-16">
-        <h2 className="montserrat-subtitle text-[1.7rem] font-bold text-[#FDF0EF] sm:text-[1.9rem]">
-          Stay Anonymous & secure.
-        </h2>
-        <p className="montserrat-small max-w-[400px] break-words text-left  text-[#FDF0EF]">
-          Receive TRX and tokens with utmost privacy, your wallet address remains hidden !
-        </p>
-        <div className="pt-1">
-          <button
-            className="border-1 montserrat-subheading  rounded-full border border-red-500 bg-[#FDF0EF] p-2 px-4 text-lg font-semibold text-[#FF5757] hover:border-white hover:bg-[#FF5757] hover:text-white hover:shadow-xl"
-            onClick={Valid}
+      <div
+        className="md:px-22 flex flex-col items-center justify-between space-y-1
+        px-3 py-10 text-gray-700 sm:px-5 sm:py-16 md:flex-row xl:px-52"
+      >
+        {/* left side */}
+        <div className="flex flex-col items-start space-y-4">
+          <h2
+            className="montserrat-heading text-left text-[1.7rem] font-bold 
+          text-[#FDF0EF] sm:text-[2.3rem] xl:text-[3.3rem]"
           >
-            Launch app
-          </button>
+            Stay Anonymous & secure.
+          </h2>
+          <p
+            className="montserrat-small max-w-[400px] break-words
+           text-left text-[1.0rem] text-[#FDF0EF] xl:max-w-[480px] xl:text-[1.3rem]"
+          >
+            Receive TRX and tokens with utmost privacy, your address remains 
+            hidden!.
+          </p>
+          <div className="pt-1">
+            <button
+              className="border-1 montserrat-subheading  rounded-full border border-red-500 bg-[#FDF0EF] p-2 px-4 text-lg font-semibold text-[#FF5757] hover:border-white hover:bg-[#FF5757] hover:text-white hover:shadow-xl"
+              onClick={Valid}
+            >
+              Launch app
+            </button>
+          </div>
+        </div>
+        {/* right image */}
+        <div className="flex items-center justify-end ">
+          <img
+            className="sm:[mt-0] mt-10 h-[250px] rounded-[1.5rem] object-center shadow-2xl
+        shadow-[#5e5e5e] md:mt-0 md:w-[480px] lg:h-[246px]
+        xl:h-[290px] xl:w-[520px]"
+            src={mainss}
+            // height={1000}
+            alt=""
+          />
         </div>
       </div>
+      <Banner />
+      <TokensSlide />
     </div>
   );
 };
