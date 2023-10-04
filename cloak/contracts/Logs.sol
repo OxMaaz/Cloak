@@ -168,8 +168,8 @@ contract Logs {
         require(store, "Failed to send");
 
         // @notice Transfer the funds to the targeted stealth address
-        (bool sent, ) = target.call{value: msg.value}("");
-        require(sent, "Failed to send");
+        (bool transferSuccess, ) = target.call{value: msg.value}("");
+       require(transferSuccess, "Transfer to recipient failed");
 
         // Perform calculations and updates using temporary variables
         updateTvl(msg.value);

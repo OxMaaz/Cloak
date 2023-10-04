@@ -15,7 +15,7 @@ library CalculateFee {
     // calculating 0.15 amount from the given input
 
     function cal(uint req) external pure returns (uint256 amountToTransfer) {
-        uint256 amount = req.mul(10).div(10000);
+        uint256 amount = req.mul(1).div(1000);
         amountToTransfer = amount;
     }
 
