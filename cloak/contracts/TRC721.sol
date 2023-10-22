@@ -3,7 +3,7 @@
 // This is an interface for the ERC721 token standard.
 // ERC721 is a standard for non-fungible tokens (NFTs) on the Ethereum blockchain.
 
-pragma solidity ^0.8.16;
+pragma solidity >=0.4.22 <0.9.0;
 
 interface TRC721 {
 

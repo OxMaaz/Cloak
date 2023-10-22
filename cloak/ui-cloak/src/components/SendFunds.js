@@ -3,7 +3,7 @@ import { Tokens } from "../helpers/Token";
 import { base58, keccak256 } from 'ethers/lib/utils';
 import EllipticCurve from "elliptic";
 // import { AiOutlineArrowDown } from "react-icons/ai";
-import abi from "../build/contracts/EphKeys.json";
+import abi from "../build/contracts/Logs.json";
 import Tron from "../assets/trx.png";
 import loading2 from "../assets/loading2.gif";
 import { toast } from "react-toastify";
@@ -256,7 +256,7 @@ const Send = () => {
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
       const trx = await contract
-        .sendTron(r, s, a, receipent)
+        .TransferTrx(r, s, a, receipent)
         .send({ callValue: tronWeb.toSun(amount) });
       // console.log("tron");
       let txId = await tronWeb.trx.getTransaction(trx);
@@ -278,8 +278,8 @@ const Send = () => {
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
       const trx = await contract
-        .sendTrc20(r, s, a, token, receipent, amount)
-        .send();
+        .TransferTRC20(r, s, a, token, receipent, amount)
+        .send();  
       // console.log('trc20')
       let txId = await tronWeb.trx.getTransaction(trx);
       // console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID);
@@ -300,7 +300,7 @@ const Send = () => {
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
       const trx = await contract
-        .sendTrc721(r, s, a, token, receipent, amount)
+        .TransferNft(r, s, a, token, receipent, amount)
         .send();
       // console.log("trc721");
       let txId = await tronWeb.trx.getTransaction(trx);

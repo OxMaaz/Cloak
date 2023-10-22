@@ -3,15 +3,12 @@ import CloakId from "./CloakId";
 import Render from "./Render";
 import { createContext, useMemo, useEffect } from "react";
 import { useState } from "react";
-import TronWeb from 'tronweb';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./Footer";
 
 export const CloakContext = createContext(null);
-export const contractAddress = "TUypbivDGB8vMSeumKk5VzUQGFYS6xynYo";
-//TUypbivDGB8vMSeumKk5VzUQGFYS6xynYo
-//TMD1Mv1jv4q8b9Y9fhEUfqZ2VESWPDznjj
+export const contractAddress = "TMErpKVAG1PT6mZkrqqUkrqujhSbAQhb6b";
 
 const Wrapper = () => {
   const tronWeb = useMemo(() => {

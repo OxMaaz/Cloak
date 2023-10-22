@@ -7,7 +7,7 @@ import { contractAddress } from "./Wrapper";
 import { useState, useEffect } from "react";
 
 const Render = () => {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState('transfer');
   const [totalTrx, setTotalTrx] = useState("0");
   const [totalFunds, setTotalFunds] = useState("0");
 
@@ -16,8 +16,8 @@ const Render = () => {
   const fetchdata = async () => {
     try {
       const contract = await tronWeb.contract().at(contractAddress);
-      const limit = await contract.getLimit().call();
-      const funds = await contract.getTotalFunds().call();
+      const limit = await contract.getTotalAddresses().call();
+      const funds = await contract.getTotalVolume().call();
       setTotalTrx(limit.toString());
       setTotalFunds(tronWeb.fromSun(funds.toNumber()));
     } catch (e) {

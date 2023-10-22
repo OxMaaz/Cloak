@@ -3,7 +3,7 @@
 // This is an interface for the ERC20 token standard.
 // ERC20 is a widely adopted standard for fungible tokens on the Ethereum blockchain.
 
-pragma solidity ^0.8.16;
+pragma solidity >=0.4.22 <0.9.0;
 
 interface TRC20 {
     

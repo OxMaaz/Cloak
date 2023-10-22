@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.16;
+pragma solidity >=0.4.22 <0.9.0;
 
 /**
  * @title SafeMath
@@ -44,6 +44,10 @@ library SafeMath {
         uint256 c = a + b;
         assert(c >= a);
         return c;
+    }
+
+      function min(uint256 x, uint256 y) external pure returns (uint256) {
+        return x < y ? x : y;
     }
 
    

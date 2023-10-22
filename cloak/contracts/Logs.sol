@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.16;
+pragma solidity >=0.4.22 <0.9.0;
 
 // Import the interfaces for ERC20 and ERC721 tokens
 import "./TRC20.sol";
 import "./TRC721.sol";
 import "./SafeMath.sol";
-import "./CalculateFee.sol";
+
 
 /**
  * @title Logs
@@ -106,20 +106,7 @@ contract Logs {
         }
     }
 
-    receive() external payable {}
 
-    // @notice Function to withdraw the balance of the contract
-    // @param _dest: The destination address
-
-    function withdraw(address _dest) public onlyOwner {
-        uint256 contractBalance = address(this).balance;
-        (bool sent, ) = _dest.call{value: contractBalance}("");
-        require(sent, "Failed to send Trx");
-    }
-
-    function getBalance() public view onlyOwner returns (uint256) {
-        return address(this).balance;
-    }
 
     // @notice Function to publish public keys
     // @param r: 32-byte ephemeral key
@@ -147,25 +134,14 @@ contract Logs {
         bytes32 s,
         bytes2 v,
         address payable target
-    ) public payable returns (uint256, uint256) {
+    ) public payable returns (uint256) {
         // Check that the value being transferred is greater than 0.
         require(msg.value > 0, "Amount should be more than 0");
 
-        uint256 amountTrx = msg.value;
-
-        // Calculate and transfer the required 0.1% fee
-        uint256 fee = CalculateFee.cal(amountTrx);
-
-        if (msg.sender.balance < amountTrx.add(fee)) {
-            revert("Not enough trx to cover transaction");
-        }
 
         // Publishing public keys on chain
         publishPubkeys(r, s, v);
 
-        // @notice Store the 0.1 % trx to the contract
-        (bool store, ) = address(this).call{value: fee}("");
-        require(store, "Failed to send");
 
         // @notice Transfer the funds to the targeted stealth address
         (bool transferSuccess, ) = target.call{value: msg.value}("");
@@ -178,7 +154,7 @@ contract Logs {
 
         emit publicKeys(r, s, v, block.timestamp);
 
-        return (amountTrx, fee);
+        return (msg.value );
     }
 
     // @notice Function to transfer TRC20 tokens to a target stealth address
@@ -197,9 +173,7 @@ contract Logs {
         address target,
         uint256 amount
 
-    ) external payable validateTokenAddr(token) {
-
-        uint256 amountTrx = msg.value;
+    ) external  validateTokenAddr(token) {
 
         // Check that the amount being transferred is greater than 0
 
@@ -214,17 +188,6 @@ contract Logs {
             revert("Not enough allowance");
         }
 
-
-        // Calculate and transfer the required 0.1% fee
-        uint256 fee = CalculateFee.cal(amount);
-
-        if (amountTrx < fee && msg.sender.balance < fee) {
-            revert("Not enough trx to cover fee");
-        }
-
-        // @notice Store the 0.1 % trx to the contract
-        (bool store, ) = address(this).call{value: fee}("");
-        require(store, "Failed to send");
 
         // Publish the public keys.
         publishPubkeys(r, s, v);
@@ -285,10 +248,10 @@ contract Logs {
 
         uint256 len = pubKeysLen();
         uint256 end = initVal.add(10);
-        uint256 finalVal = CalculateFee.min(len, end);
+        uint256 finalVal = len.min(end);
 
         for (uint256 i = initVal; i < finalVal; i++) {
-            Keys[i - initVal] = logs[i]; // Assuming logs is an array of structs
+            Keys[i - initVal] = logs[i]; 
         }
 
         return Keys;

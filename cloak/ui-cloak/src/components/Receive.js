@@ -9,17 +9,20 @@ import { downloadFile } from "../helpers/DownloadFile";
 import { db } from "../config/firebase.js";
 import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
 import { MdHistory, MdOutlineDone } from "react-icons/md";
-import { toast } from "react-toastify";
 import ToolTip from "../helpers/ToopTip";
+import abi from "../build/contracts/Logs.json"
+import { contractAddress } from "./Wrapper";
+import BigNumber from "bignumber.js";
+import tronWeb from "tronweb";
 const ec = new EllipticCurve.ec("secp256k1");
 
-const Receive = ({ setamountTowithdraw, setmasterkey ,  withdrawFunction ,amountTowithdraw}) => {
+const Receive = ({ setamountTowithdraw, setmasterkey, handleWithdrawClick, amountTowithdraw }) => {
   const [rootprivatekey, setrootprivatekey] = useState("");
   const [privatekey, setprivatekey] = useState("");
   const [hide, sethide] = useState(true);
   const [err, seterr] = useState(false);
   const [, setreveal] = useState(false);
-  const [founded, setfounded] = useState("");
+  const [founded,] = useState("");
   const [iscopied, setiscopied] = useState(false);
   const [id, setId] = useState("");
 
@@ -31,13 +34,55 @@ const Receive = ({ setamountTowithdraw, setmasterkey ,  withdrawFunction ,amount
 
   const checkDrm = async (key) => {
 
-    if(key.startsWith('DRM Key : ')){
-      setrootprivatekey(key.replace('DRM Key : ', '').slice(0,65))
+    if (key.startsWith('DRM Key : ')) {
+      setrootprivatekey(key.replace('DRM Key : ', '').slice(0, 65))
+      console.log(rootprivatekey)
 
     }
-    
+
   }
 
+  const [init, setInit] = useState(0)
+  const [txlist, settxlist] = useState([])
+  const [totalLength, setTotalLength] = useState(0)
+
+  const retreivedArray = async () => {
+    const contract = await tronWeb.contract(abi.abi, contractAddress);
+    const trx = await contract.retrievePubKeys(BigNumber.from(init)).call()
+    console.log(trx)
+    setTotalLength(await contract.logs().call())
+    settxlist(trx)
+  }
+
+
+  useEffect(() => {
+
+    if (totalLength > init) {
+      setTimeout(() => {
+
+        setInit(Math.min(totalLength, init + 10));
+
+
+      }, 750);
+      retreivedArray()
+
+    }
+    else {
+      setInit(0)
+    }
+
+  }, [init])
+
+  // useEffect(() => {
+  //   retreivedArray()
+  // }, [init])
+
+  useEffect(() => {
+    retreivedArray()
+  }, [])
+
+
+  console.log(txlist)
   const setwallet = async (key) => {
 
 
@@ -62,7 +107,7 @@ const Receive = ({ setamountTowithdraw, setmasterkey ,  withdrawFunction ,amount
     // Set the balance (assuming setamountTowithdraw is a function that sets the balance)
     setamountTowithdraw(balance);
 
-    
+
 
 
     array.push({
@@ -93,7 +138,7 @@ const Receive = ({ setamountTowithdraw, setmasterkey ,  withdrawFunction ,amount
     //Array.from(new Set(array))
     settrxList(retrievedArray); // storing retreivedArray in RtrxList state
 
-    console.log("retrievedArray", retrievedArray);
+    // console.log("retrievedArray", retrievedArray);
 
 
   };
@@ -148,9 +193,7 @@ const Receive = ({ setamountTowithdraw, setmasterkey ,  withdrawFunction ,amount
 
     MatchingKey();
 
-    if (founded === "Matched") {
-      toast.success("Matched");
-    }
+
   };
 
   const removingKey = async () => {
@@ -161,18 +204,16 @@ const Receive = ({ setamountTowithdraw, setmasterkey ,  withdrawFunction ,amount
 
   const copykey = () => {
     navigator.clipboard.writeText(privatekey);
+
     setiscopied("Copied");
 
-    try{
-      withdrawFunction()
-    }
-    catch(e) {
-      console.log(e)
-    }
+    handleWithdrawClick()
+     
+
     downloadFile('#tronprivateKey-' + privatekey, "Cloak-privatekey.txt");
 
     setmasterkey(privatekey);
-  
+
 
     removingKey();
   };
