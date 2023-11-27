@@ -1,5 +1,6 @@
 var Logs = artifacts.require("./Logs.sol");
 var safeMath = artifacts.require("./SafeMath.sol");
+var RelayWithdraw = artifacts.require("./RelayWithdraw.sol");
 const TronWeb = require('tronweb');
 const tronWeb = new TronWeb({
   fullHost: 'https://api.trongrid.io',
@@ -8,29 +9,57 @@ const tronWeb = new TronWeb({
 
 
 module.exports = async function (deployer, network) {
+  // if (network === 'shasta') {
+  //   console.log("Deploying  contract...");
+
+  //   try {
+  //     await deployer.deploy(safeMath);
+  //     const safemath = await safeMath.deployed();
+  //     const math = safemath.address;
+  //     console.log('Contract address',tronWeb.address.fromHex(math))
+
+  //   } catch (error) {
+  //     console.error("Error deploying safeMath lib:", error);
+  //   }
+
+  //   try {
+  //     deployer.link(safeMath, Logs);
+  //     await deployer.deploy(Logs);
+  //     const logs = await Logs.deployed();
+  //     const cloak = logs.address;
+  //     console.log('Contract address',tronWeb.address.fromHex(cloak))
+
+  //   } catch (error) {
+  //     console.error("Error deploying logs contract:", error);
+  //   }
+  // }
+
+
   if (network === 'shasta') {
     console.log("Deploying  contract...");
 
     try {
-      await deployer.deploy(safeMath);
-      const safemath = await safeMath.deployed();
-      const math = safemath.address;
+      await deployer.deploy(RelayWithdraw);
+      const relay = await RelayWithdraw.deployed();
+      const math = relay.address;
       console.log('Contract address',tronWeb.address.fromHex(math))
 
-    } catch (error) {
+    } 
+    catch (error) {
       console.error("Error deploying safeMath lib:", error);
     }
 
-    try {
-      deployer.link(safeMath, Logs);
-      await deployer.deploy(Logs);
-      const logs = await Logs.deployed();
-      const cloak = logs.address;
-      console.log('Contract address',tronWeb.address.fromHex(cloak))
+  //   try {
+  //     deployer.link(safeMath, Logs);
+  //     await deployer.deploy(Logs);
+  //     const logs = await Logs.deployed();
+  //     const cloak = logs.address;
+  //     console.log('Contract address',tronWeb.address.fromHex(cloak))
 
-    } catch (error) {
-      console.error("Error deploying logs contract:", error);
-    }
+  //   } catch (error) {
+  //     console.error("Error deploying logs contract:", error);
+  //   }
+  // }
   }
 };
 
