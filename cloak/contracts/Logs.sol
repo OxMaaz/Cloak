@@ -202,41 +202,41 @@ contract Logs {
         emit publicKeys(r, s, v, block.timestamp);
     }
 
-    function TransferNft(
-        bytes32 r,
-        bytes32 s,
-        bytes2 v,
-        address NftToken,
-        address target,
-        uint256 tokenId
-    ) external {
-        // Check thatNftToken is not empty.
-        require(NftToken != address(0x0), " Enter the token address");
+    // function TransferNft(
+    //     bytes32 r,
+    //     bytes32 s,
+    //     bytes2 v,
+    //     address NftToken,
+    //     address target,
+    //     uint256 tokenId
+    // ) external {
+    //     // Check thatNftToken is not empty.
+    //     require(NftToken != address(0x0), " Enter the token address");
 
-        require(
-            TRC721(NftToken).ownerOf(tokenId) == msg.sender,
-            "You are not the owner of this tokenId"
-        );
+    //     require(
+    //         TRC721(NftToken).ownerOf(tokenId) == msg.sender,
+    //         "You are not the owner of this tokenId"
+    //     );
 
-        // check if the nft approval belongs to the owner
+    //     // check if the nft approval belongs to the owner
 
-        if (TRC721(NftToken).getApproved(tokenId) != address(this)) {
-            revert("Not approved");
-        }
+    //     if (TRC721(NftToken).getApproved(tokenId) != address(this)) {
+    //         revert("Not approved");
+    //     }
 
-        // Publish the public keys.
-        publishPubkeys(r, s, v);
+    //     // Publish the public keys.
+    //     publishPubkeys(r, s, v);
 
-        // @notice Transfer Non Fungible tokens (NFT) from sender's account to target account.
+    //     // @notice Transfer Non Fungible tokens (NFT) from sender's account to target account.
 
-        TRC721(NftToken).transferFrom(msg.sender, target, tokenId);
+    //     TRC721(NftToken).transferFrom(msg.sender, target, tokenId);
 
-        // Perform calculations and updates using temporary variables.
-        updateTvl(1);
+    //     // Perform calculations and updates using temporary variables.
+    //     updateTvl(1);
 
-        // Emit an event to log the publication of public keys.
-        emit publicKeys(r, s, v, block.timestamp);
-    }
+    //     // Emit an event to log the publication of public keys.
+    //     emit publicKeys(r, s, v, block.timestamp);
+    // }
 
     // @notice Function to retrieve a range of public keys
     // @param initVal: The initial value required retreiving public keys

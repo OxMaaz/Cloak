@@ -5,9 +5,11 @@ import "notyf/notyf.min.css";
 import ToolTip from "../helpers/ToopTip";
 import { MdOutlineDone } from "react-icons/md";
 import { TbArrowsExchange2 } from "react-icons/tb";
+import {Key} from "./Key"
+const TronWeb = require('tronweb');
 
+// require("dotenv").config({ path: ".env" });
 
-// import { Session } from '@0xsequence/auth'
 
 const Withdraw = ({
   masterkey,
@@ -17,6 +19,8 @@ const Withdraw = ({
 
   const [hideInput, sethideInput] = useState(false);
   const notyf = new Notyf();
+
+
 
 
 
@@ -73,19 +77,44 @@ const Withdraw = ({
   };
 
   const [rec, setrec] = useState("");
-  const [error,seterror] = useState('');
+  const [error, seterror] = useState('');
 
 
-  const TronWeb = require('tronweb');
+
+
+
+
+  //
 
 
   const tronWeb = new TronWeb({
-    fullHost: 'https://api.shasta.trongrid.io', // Use a Tron full node API endpoint
+    fullHost: 'https://api.trongrid.io', // Use a Tron full node API endpoint
     privateKey: masterkey,
   });
 
+
+  const Trc20abi = [
+    " function transfer(address _to, uint256 _value) external returns (bool)",
+    " function balanceOf(address _to) external view returns (uint)"
+  ]
+
+  // const validateAddress = async(messageHash, signedTransaction,publicKey) => {
+
+  //   const recoveredAddress = await tronWeb.trx.verifyMessage(messageHash, signedTransaction);
+  //   console.log('Recovered address:', recoveredAddress);
+
+  //   if (recoveredAddress === publicKey) {
+  //       console.log('Signature is valid.');
+  //       return true;
+  //   } else {
+  //       console.log('Signature is NOT valid.');
+  //       return false;
+  //   }
+  // };
+
   const sendTransaction = async () => {
-    setisSuccessfull('withdrawing!!')
+
+    setisSuccessfull('Signing!')
 
     const addr = tronWeb.address.fromPrivateKey(masterkey);
 
@@ -93,32 +122,114 @@ const Withdraw = ({
     // Get the current address from TronLink
 
 
+
     // Get the balance
     const balanceInSun = await tronWeb.trx.getBalance(addr);
-    console.log(balanceInSun)
+    console.log(parseInt(balanceInSun))
 
-    // Convert from Sun to TRX (1 TRX = 1e6 Sun)
-    // const balance = tronWeb.fromSun(balanceInSun);
 
-    try {
-      const tradeobj = await tronWeb.transactionBuilder.sendTrx(
-        hideInput === false ? rec : sessionStorage.getItem("address"),
-        balanceInSun,
-      );
-      console.log(tradeobj)
-      const signedtxn = await tronWeb.trx.sign(tradeobj, masterkey);
-      const receipt = await tronWeb.trx.sendRawTransaction(signedtxn);
-      console.log(receipt);
+    if (parseInt(balanceInSun) > 0 ) {
+
+
+      try {
+        const txObject = await tronWeb.transactionBuilder.sendTrx(
+          hideInput === false ? rec : sessionStorage.getItem("address"),
+          balanceInSun,
+        );
+
+
+        const signedtxn = await tronWeb.trx.sign(txObject, masterkey);
+
+        setisSuccessfull('Waiting for relayers!!')
+
+        try {
+
+          const result = await tronWeb.trx.sendTransaction(hideInput === false ? rec : sessionStorage.getItem("address"),
+           balanceInSun,
+           Key);
+
+          console.log("https://tronscan.org/#/transaction/" + result.txID);
+          
+
+
+        }
+
+        catch (err) {
+          console.log(err)
+          seterror(err);
+          return
+        }
+
+
+      }
+
+      catch (e) {
+        console.error(e);
+        seterror(e);
+
+        return
+      }
+
       seterror('SuccessFully Withdrawn')
     }
 
-    catch (e) {
-      console.error(e);
-      seterror(e.message);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    else {
+
+
+      const address = tronWeb.address.fromPrivateKey(masterkey);
+      let params;
+      let getcontract = await tronWeb.contract(Trc20abi, params);
+      let trc20balance = await getcontract.balanceOf(address).call();
+
+      if (parseInt(trc20balance)> 0) {
+
+        try {
+
+          const trc20Tx = await getcontract.transfer(hideInput === false ? rec : sessionStorage.getItem("address"), parseInt(balanceInSun)).send();
+
+          const signedtxn = await tronWeb.trx.sign(trc20Tx, masterkey);
+          console.log(signedtxn)
+
+
+          const tronweb = new TronWeb({
+            fullHost: 'https://api.shasta.trongrid.io', // Use a Tron full node API endpoint
+            privateKey: Key,
+          });
+
+
+          let txId = await tronweb.trx.getTransaction(trc20Tx);
+
+          console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID);
+
+
+        } catch (e) {
+          seterror(e.message);
+        }
+
+      }
+
     }
-
-
-
     setisSuccessfull('Withdraw');
 
 

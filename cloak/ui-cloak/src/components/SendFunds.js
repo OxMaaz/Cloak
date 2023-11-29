@@ -211,7 +211,7 @@ const Send = () => {
       seterror(e.message);
       console.log("error", e);
     }
-    console.log(r,s,a)
+    console.log(r, s, a)
 
     return true;
   };
@@ -253,17 +253,21 @@ const Send = () => {
 
     //putting ephkeys to firebase
 
+
+
     try {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
       const trx = await contract
         .TransferTrx(r, s, a, receipent)
         .send({ callValue: tronWeb.toSun(amount) });
-      // console.log("tron");
+      console.log("tron" ,trx);
       let txId = await tronWeb.trx.getTransaction(trx);
-      settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
+      settrxid("https://tronscan.org/#/transaction/" + txId.txID);
+      console.log("https://tronscan.org/#/transaction/" + txId.txID)
       // console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID)
     } catch (err) {
       seterror(err);
+      console.log(err.message);
     }
     storing();
     setrunning(false);
@@ -279,11 +283,11 @@ const Send = () => {
       const contract = await tronWeb.contract(abi.abi, contractAddress);
       const trx = await contract
         .TransferTRC20(r, s, a, token, receipent, amount)
-        .send();  
+        .send();
       // console.log('trc20')
       let txId = await tronWeb.trx.getTransaction(trx);
       // console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID);
-      settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
+      settrxid("https://tronscan.org/#/transaction/" + txId.txID);
     } catch (e) {
       seterror(e.message);
     }
@@ -304,8 +308,8 @@ const Send = () => {
         .send();
       // console.log("trc721");
       let txId = await tronWeb.trx.getTransaction(trx);
-      console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID);
-      settrxid("https://shasta.tronscan.org/#/transaction/" + txId.txID);
+      console.log("https://tronscan.org/#/transaction/" + txId.txID);
+      settrxid("https://tronscan.org/#/transaction/" + txId.txID);
     } catch (e) {
       seterror(e.message);
     }
@@ -335,7 +339,7 @@ const Send = () => {
             setButtonInput("approving...");
             let txId = await tronWeb.trx.getTransaction(approve);
             console.log(
-              "https://shasta.tronscan.org/#/transaction/" + txId.txID
+              "https://tronscan.org/#/transaction/" + txId.txID
             );
             setButtonInput("Transfer");
             sendTrc721();
@@ -364,7 +368,7 @@ const Send = () => {
           console.log("approve done");
           setButtonInput("approving...");
           let txId = await tronWeb.trx.getTransaction(approve);
-          console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID);
+          console.log("https://tronscan.org/#/transaction/" + txId.txID);
           setButtonInput("Transfer");
           sendTrc20();
         } catch (e) {
@@ -450,12 +454,11 @@ const Send = () => {
               </li>
               <div
                 className={`
-              ${
-                show &&
-                `scrollbar-thumb-bgGray scrollbar-rounded-full scrollbar-thumb-gray-00 absolute mt-2 flex max-h-28 w-[105%] flex-col overflow-y-scroll rounded-b-md bg-white
+              ${show &&
+                  `scrollbar-thumb-bgGray scrollbar-rounded-full scrollbar-thumb-gray-00 absolute mt-2 flex max-h-28 w-[105%] flex-col overflow-y-scroll rounded-b-md bg-white
                 py-1 shadow-md transition-all ease-in scrollbar-thin scrollbar-thumb-[#FF5757]
                scrollbar-track-[#ebe1db] scrollbar-thumb-rounded`
-              }
+                  }
             `}
               >
                 {show &&
@@ -493,8 +496,8 @@ const Send = () => {
             token === ""
               ? sendTrx
               : toggleInput === true
-              ? checkOwner
-              : fetchContract
+                ? checkOwner
+                : fetchContract
           }
           className="montserrat-subtitle border-1 montserrat-subtitle  bg-[#FF5757] mx-auto my-2
            mb-4 flex w-[100%] justify-center  

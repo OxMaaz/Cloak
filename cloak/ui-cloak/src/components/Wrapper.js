@@ -8,7 +8,9 @@ import "react-toastify/dist/ReactToastify.css";
 import Footer from "./Footer";
 
 export const CloakContext = createContext(null);
-export const contractAddress = "TMErpKVAG1PT6mZkrqqUkrqujhSbAQhb6b";
+//TV2FftnJS83Prrpa1kYWpaJjSzeLqksFjX
+//TFTJSiZh16mQiHzo41Ckpb3NhVBj4YpDPZ
+export const contractAddress = "TV2FftnJS83Prrpa1kYWpaJjSzeLqksFjX";
 
 const Wrapper = () => {
   const tronWeb = useMemo(() => {

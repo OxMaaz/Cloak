@@ -1,69 +1,60 @@
 var Logs = artifacts.require("./Logs.sol");
 var safeMath = artifacts.require("./SafeMath.sol");
-var RelayWithdraw = artifacts.require("./RelayWithdraw.sol");
+// var RelayWithdraw = artifacts.require("./RelayWithdraw.sol");
 const TronWeb = require('tronweb');
 const tronWeb = new TronWeb({
   fullHost: 'https://api.trongrid.io',
-  solidityNode: 'https://api.trongrid.io'
+
 });
 
 
 module.exports = async function (deployer, network) {
-  // if (network === 'shasta') {
-  //   console.log("Deploying  contract...");
-
-  //   try {
-  //     await deployer.deploy(safeMath);
-  //     const safemath = await safeMath.deployed();
-  //     const math = safemath.address;
-  //     console.log('Contract address',tronWeb.address.fromHex(math))
-
-  //   } catch (error) {
-  //     console.error("Error deploying safeMath lib:", error);
-  //   }
-
-  //   try {
-  //     deployer.link(safeMath, Logs);
-  //     await deployer.deploy(Logs);
-  //     const logs = await Logs.deployed();
-  //     const cloak = logs.address;
-  //     console.log('Contract address',tronWeb.address.fromHex(cloak))
-
-  //   } catch (error) {
-  //     console.error("Error deploying logs contract:", error);
-  //   }
-  // }
-
-
-  if (network === 'shasta') {
+  if (network === 'mainnet') {
     console.log("Deploying  contract...");
 
     try {
-      await deployer.deploy(RelayWithdraw);
-      const relay = await RelayWithdraw.deployed();
-      const math = relay.address;
-      console.log('Contract address',tronWeb.address.fromHex(math))
+      await deployer.deploy(safeMath);
+      const safemath = await safeMath.deployed();
+      const math = safemath.address;
+      console.log('Contract address', tronWeb.address.fromHex(math))
 
-    } 
-    catch (error) {
+    } catch (error) {
       console.error("Error deploying safeMath lib:", error);
     }
 
-  //   try {
-  //     deployer.link(safeMath, Logs);
-  //     await deployer.deploy(Logs);
-  //     const logs = await Logs.deployed();
-  //     const cloak = logs.address;
-  //     console.log('Contract address',tronWeb.address.fromHex(cloak))
+    try {
+      deployer.link(safeMath, Logs);
+      await deployer.deploy(Logs);
+      const logs = await Logs.deployed();
+      const cloak = logs.address;
+      console.log('Contract address', tronWeb.address.fromHex(cloak))
 
-  //   } catch (error) {
-  //     console.error("Error deploying logs contract:", error);
-  //   }
-  // }
+    } catch (error) {
+      console.error("Error deploying logs contract:", error);
+    }
   }
+
+
+
+  // console.log("Deploying  contract 2...");
+
+  // try {
+  //   await deployer.deploy(RelayWithdraw);
+  //   const relay = await RelayWithdraw.deployed();
+  //   const math = relay.address;
+  //   console.log('Contract address', tronWeb.address.fromHex(math))
+
+  // }
+  // catch (error) {
+  //   console.error("Error deploying safeMath lib:", error);
+  // }
+
+
 };
 
-//TMErpKVAG1PT6mZkrqqUkrqujhSbAQhb6b
 
+// Contract address TFTJSiZh16mQiHzo41Ckpb3NhVBj4YpDPZ
+// Relay address THBHwaBXnJgcg6fboHnTZe3BA5MMew3Pa3
 
-//TMD1Mv1jv4q8b9Y9fhEUfqZ2VESWPDznjj
+//Mainnet
+//TV2FftnJS83Prrpa1kYWpaJjSzeLqksFjX

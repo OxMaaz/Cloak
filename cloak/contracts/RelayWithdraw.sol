@@ -1,11 +1,11 @@
-// // SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 
-// pragma solidity 0.8.20;
+pragma solidity 0.8.6;
 
-// import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-// import "./TRC20.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import "./TRC20.sol";
 
-// contract RelayWithdraw {
+contract RelayWithdraw {
 //     using ECDSA for bytes32;
 
 //     function withrawtrx(
@@ -73,15 +73,15 @@
 //         return keccak256(abi.encodePacked(sender, amount, recipient));
 //     }
 
-//     function getTokenHash(
-//         address sender,
-//         uint256 amount,
-//         address recipient,
-//         address tokenContract
-//     ) public pure returns (bytes32) {
-//         return
-//             keccak256(
-//                 abi.encodePacked(sender, amount, recipient, tokenContract)
-//             );
-//     }
-// }
+    function getTokenHash(
+        address sender,
+        uint256 amount,
+        address recipient,
+        address tokenContract
+    ) public pure returns (bytes32) {
+        return
+            keccak256(
+                abi.encodePacked(sender, amount, recipient, tokenContract)
+            );
+    }
+}
