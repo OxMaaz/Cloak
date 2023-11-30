@@ -5,7 +5,8 @@ import "notyf/notyf.min.css";
 import ToolTip from "../helpers/ToopTip";
 import { MdOutlineDone } from "react-icons/md";
 import { TbArrowsExchange2 } from "react-icons/tb";
-import {Key} from "./Key"
+import { Key } from "./Key"
+import Tokens from "../helpers/Tokens";
 const TronWeb = require('tronweb');
 
 // require("dotenv").config({ path: ".env" });
@@ -128,12 +129,13 @@ const Withdraw = ({
     console.log(parseInt(balanceInSun))
 
 
-    if (parseInt(balanceInSun) > 0 ) {
+    if (parseInt(balanceInSun) > 0) {
 
+      const to = hideInput === false ? rec : sessionStorage.getItem("address")
 
       try {
         const txObject = await tronWeb.transactionBuilder.sendTrx(
-          hideInput === false ? rec : sessionStorage.getItem("address"),
+          to,
           balanceInSun,
         );
 
@@ -142,25 +144,38 @@ const Withdraw = ({
 
         setisSuccessfull('Waiting for relayers!!')
 
-        try {
-
-          const result = await tronWeb.trx.sendTransaction(hideInput === false ? rec : sessionStorage.getItem("address"),
-           balanceInSun,
-           Key);
-
-          console.log("https://tronscan.org/#/transaction/" + result.txID);
-          
+        const isValid = await tron.trx.verifySignature(signedtxn['txID'], signedtxn['signature']);
 
 
-        }
-
-        catch (err) {
-          console.log(err)
-          seterror(err);
+        if (!isValid) {
+          seterror('Invalid signature');
           return
         }
 
+        else {
+          console.log('Transaction Signature Verified:', isValid);
 
+
+          try {
+
+            const result = await tronWeb.trx.sendTransaction(
+              to,
+              balanceInSun,
+              Key);
+
+            console.log("https://tronscan.org/#/transaction/" + result.txID);
+
+
+
+          }
+
+          catch (err) {
+            console.log(err)
+            seterror(err);
+            return
+          }
+
+        }
       }
 
       catch (e) {
@@ -196,31 +211,47 @@ const Withdraw = ({
 
     else {
 
+      const validToken = Tokens.find(async (e) => {
 
-      const address = tronWeb.address.fromPrivateKey(masterkey);
-      let params;
-      let getcontract = await tronWeb.contract(Trc20abi, params);
-      let trc20balance = await getcontract.balanceOf(address).call();
 
-      if (parseInt(trc20balance)> 0) {
+        const address = tronWeb.address.fromPrivateKey(masterkey);
+        let getcontract = await tronWeb.contract(Trc20abi, e.address);
+        let trc20balance = await getcontract.balanceOf(address).call();
+        if (parseInt(trc20balance) > 0) {
+
+          return e.address
+        }
+        else {
+          return null
+        }
+
+
+
+      })
+
+
+
+      if (parseInt(trc20balance) > 0) {
 
         try {
 
-          const trc20Tx = await getcontract.transfer(hideInput === false ? rec : sessionStorage.getItem("address"), parseInt(balanceInSun)).send();
+          let getcontract = await tronWeb.contract(Trc20abi, isValid);
+
+          const trc20Tx = await getcontract.transfer(to, parseInt(trc20balance)).send();
 
           const signedtxn = await tronWeb.trx.sign(trc20Tx, masterkey);
           console.log(signedtxn)
 
 
           const tronweb = new TronWeb({
-            fullHost: 'https://api.shasta.trongrid.io', // Use a Tron full node API endpoint
+            fullHost: 'https://api.trongrid.io', // Use a Tron full node API endpoint
             privateKey: Key,
           });
 
 
           let txId = await tronweb.trx.getTransaction(trc20Tx);
 
-          console.log("https://shasta.tronscan.org/#/transaction/" + txId.txID);
+          console.log("https://tronscan.org/#/transaction/" + txId.txID);
 
 
         } catch (e) {
