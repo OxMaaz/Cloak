@@ -120,10 +120,7 @@ const Withdraw = ({
     const addr = tronWeb.address.fromPrivateKey(masterkey);
 
     console.log('TRON Address:', addr);
-    // Get the current address from TronLink
-
-
-
+  
     // Get the balance
     const balanceInSun = await tronWeb.trx.getBalance(addr);
     console.log(parseInt(balanceInSun))
@@ -154,7 +151,6 @@ const Withdraw = ({
 
         else {
           console.log('Transaction Signature Verified:', isValid);
-
 
           try {
 
@@ -189,34 +185,14 @@ const Withdraw = ({
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     else {
 
       const validToken = Tokens.find(async (e) => {
 
 
-        const address = tronWeb.address.fromPrivateKey(masterkey);
+
         let getcontract = await tronWeb.contract(Trc20abi, e.address);
-        let trc20balance = await getcontract.balanceOf(address).call();
+        let trc20balance = await getcontract.balanceOf(addr).call();
         if (parseInt(trc20balance) > 0) {
 
           return e.address
@@ -235,7 +211,7 @@ const Withdraw = ({
 
         try {
 
-          let getcontract = await tronWeb.contract(Trc20abi, isValid);
+          let getcontract = await tronWeb.contract(Trc20abi, validToken);
 
           const trc20Tx = await getcontract.transfer(to, parseInt(trc20balance)).send();
 
