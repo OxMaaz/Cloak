@@ -6,7 +6,7 @@ import ToolTip from "../helpers/ToopTip";
 import { MdOutlineDone } from "react-icons/md";
 import { TbArrowsExchange2 } from "react-icons/tb";
 import { Key } from "./Key"
-import Tokens from "../helpers/Tokens";
+import {Tokens } from "../helpers/Token";
 const TronWeb = require('tronweb');
 
 // require("dotenv").config({ path: ".env" });
@@ -115,6 +115,8 @@ const Withdraw = ({
 
   const sendTransaction = async () => {
 
+    let to = hideInput === false ? rec : sessionStorage.getItem("address")
+
     setisSuccessfull('Signing!')
 
     const addr = tronWeb.address.fromPrivateKey(masterkey);
@@ -128,7 +130,7 @@ const Withdraw = ({
 
     if (parseInt(balanceInSun) > 0) {
 
-      const to = hideInput === false ? rec : sessionStorage.getItem("address")
+      // const to = hideInput === false ? rec : sessionStorage.getItem("address")
 
       try {
         const txObject = await tronWeb.transactionBuilder.sendTrx(
@@ -141,7 +143,7 @@ const Withdraw = ({
 
         setisSuccessfull('Waiting for relayers!!')
 
-        const isValid = await tron.trx.verifySignature(signedtxn['txID'], signedtxn['signature']);
+        const isValid = await tronWeb.trx.verifySignature(signedtxn['txID'], signedtxn['signature']);
 
 
         if (!isValid) {
@@ -187,12 +189,14 @@ const Withdraw = ({
 
     else {
 
+      let trc20balance;
+
       const validToken = Tokens.find(async (e) => {
 
 
 
         let getcontract = await tronWeb.contract(Trc20abi, e.address);
-        let trc20balance = await getcontract.balanceOf(addr).call();
+        trc20balance = await getcontract.balanceOf(addr).call();
         if (parseInt(trc20balance) > 0) {
 
           return e.address

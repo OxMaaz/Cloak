@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Tokens } from "../helpers/Token";
+import { Tokens } from "../helpers/Token.js";
 import { base58, keccak256 } from 'ethers/lib/utils';
 import EllipticCurve from "elliptic";
 // import { AiOutlineArrowDown } from "react-icons/ai";
